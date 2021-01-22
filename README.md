@@ -4,7 +4,7 @@ A multiplayer, realtime application based on the rules of the board game Codenam
 
 ## Contributing
 
-This project is a way for me to experiment, evaluate and demo new technologies, so some design decisions may be over engineered, inefficient, etc.
+If you find a bug please open an issue or pull request. This project is a way for me to experiment, evaluate and demo new technologies, so some design decisions may be over engineered, inefficient, etc. If you spot an optimization or something unidiomatic, please start an issue to discuss.
 
 ### Required tools
 
@@ -62,7 +62,10 @@ nats-sub <subject>
 
 ## Potential improvements / technologies to evaluate
 
-1. Remove the async call from Lobby -> Player service, potentially with a [jwt](https://jwt.io/)
-2. Use Java for a microservice, possibly with [Quarkus](https://quarkus.io/) on [GraalVM](https://www.graalvm.org/)
-3. AuthZ with [OPA](https://www.openpolicyagent.org/)
-4. Evaluate other options for state management beyond Redis
+1. Add CI/CD, evaluate [ArgoCD](https://argoproj.github.io/argo-cd/)
+2. Determine Unit Testing and code coverage strategy
+3. Add formatting/linting configurations and static analysis with quality gates
+4. Remove the sync dependency for Lobby to Player service, potentially with a [jwt](https://jwt.io/)
+5. Use Java for a microservice, possibly with [Quarkus](https://quarkus.io/) on [GraalVM](https://www.graalvm.org/)
+6. Evaluate other options for state management beyond Redis
+7. Leverage microfrontend patterns
