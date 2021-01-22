@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: games
+spec:
+  selector:
+    matchLabels:
+      app: games
+  template:
+    metadata:
+      labels:
+        app: games
+    spec:
+      containers:
+        - name: server
+          image: games
+          ports:
+            - containerPort: 50051
+          readinessProbe:
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:50051"]
+            initialDelaySeconds: 5
+          livenessProbe:
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:50051"]
+            initialDelaySeconds: 10
+          env:
+            - name: NATS_HOST
+              value: "my-nats"
+            - name: REDIS_HOST
+              value: "games-redis-master"
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: games-redis
+                  key: redis-password
+            - name: WORDS_ADDRESS
+              value: "words:50051"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 50Mi
+            limits:
+              cpu: 200m
+              memory: 100Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: games
+spec:
+  type: ClusterIP
+  selector:
+    app: games
+  ports:
+    - name: grpc
+      port: 50051
+      targetPort: 50051

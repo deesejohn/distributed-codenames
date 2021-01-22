@@ -1,0 +1,45 @@
+apiVersion: skaffold/v2beta10
+kind: Config
+metadata:
+  name: distributed-codenames
+build:
+  artifacts:
+  - image: games
+    context: src\games
+  - image: games-bff
+    context: src\games-bff
+  - image: games-spa
+    context: src\games-spa
+  - image: players
+    context: src\players
+  - image: players-spa
+    context: src\players-spa
+  - image: lobbies
+    context: src\lobbies
+  - image: lobbies-spa
+    context: src\lobbies-spa
+  - image: words
+    context: src\words
+  local:
+    useBuildkit: true
+deploy:
+  kubectl:
+    manifests:
+    - k8s/*.yaml
+portForward:
+  - resourceType: service
+    resourceName: games
+    port: 50051
+    localPort: 4000
+  - resourceType: service
+    resourceName: players
+    port: 80
+    localPort: 8000
+  - resourceType: service
+    resourceName: players-spa
+    port: 80
+    localPort: 3060
+  - resourceType: service
+    resourceName: words
+    port: 50051
+    localPort: 3000

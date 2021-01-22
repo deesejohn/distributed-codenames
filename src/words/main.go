@@ -1,0 +1,60 @@
+package main
+
+import (
+	"context"
+	"log"
+	"net"
+	"strings"
+
+	pb "github.com/deesejohn/distributed-codenames/src/words/genproto"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/codes"
+	healthpb "google.golang.org/grpc/health/grpc_health_v1"
+	"google.golang.org/grpc/status"
+)
+
+type server struct {
+	pb.UnimplementedWordsServiceServer
+	healthpb.UnimplementedHealthServer
+}
+
+func main() {
+	lis, err := net.Listen("tcp", ":50051")
+	if err != nil {
+		log.Fatal(err)
+	}
+	srv := grpc.NewServer()
+	svc := &server{}
+	pb.RegisterWordsServiceServer(srv, svc)
+	healthpb.RegisterHealthServer(srv, svc)
+	if err = srv.Serve(lis); err != nil {
+		log.Fatal(err)
+	}
+}
+
+func (s *server) GetWords(ctx context.Context, in *pb.WordsRequest) (
+	*pb.WordsResponse, error) {
+	var filename string
+	switch in.Category {
+	case pb.Category_NORMAL:
+		filename = "normal.csv"
+	case pb.Category_ADULT:
+		filename = "adult.csv"
+	}
+	if filename == "" {
+		return nil, status.Error(codes.InvalidArgument, "Unknown category")
+	}
+	data, err := Asset("../../assets/words/" + filename)
+	if err != nil {
+		return nil, err
+	}
+	words := strings.Split(string(data[:]), "\n")
+	return &pb.WordsResponse{
+		Category: pb.Category_NORMAL,
+		Words:    words,
+	}, nil
+}
+
+func (s *server) Check(ctx context.Context, req *healthpb.HealthCheckRequest) (*healthpb.HealthCheckResponse, error) {
+	return &healthpb.HealthCheckResponse{Status: healthpb.HealthCheckResponse_SERVING}, nil
+}

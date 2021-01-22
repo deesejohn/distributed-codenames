@@ -1,0 +1,14 @@
+<mat-drawer-container>
+  <mat-drawer #drawer mode="over">
+    <mat-nav-list>
+      <a mat-list-item href="/players">Change name</a>
+    </mat-nav-list>
+  </mat-drawer>
+
+  <mat-drawer-content style="min-height: 100vh;" fxLayout="row" fxLayoutAlign="center center">
+    <button type="button" mat-button (click)="drawer.toggle()">
+      Menu
+    </button>
+    <router-outlet></router-outlet>
+  </mat-drawer-content>
+</mat-drawer-container>

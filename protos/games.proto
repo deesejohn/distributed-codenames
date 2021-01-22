@@ -1,0 +1,86 @@
+syntax = "proto3";
+
+package distributed_codenames;
+
+option csharp_namespace = "protos";
+option go_package = "github.com/deesejohn/distributed-codenames/protos";
+
+enum Color {
+    UNKNOWN_COLOR = 0;
+    BLUE = 1;
+    RED = 2;
+    BEIGE = 3;
+    BLACK = 4;
+}
+
+message Card {
+    string card_id = 1;
+    string label = 2;
+    Color color = 3;
+    bool revealed = 4;
+}
+
+message Clue {
+    string word = 1;
+    int32 number = 2;
+}
+
+message Game {
+    string game_id = 1;
+    string host_id = 2;
+    repeated Player blue_team = 3;
+    string blue_team_spymaster = 4;
+    repeated Player red_team = 5;
+    string red_team_spymaster = 6;
+    repeated Card board = 7;
+    repeated Card key = 8;
+    string guessing = 9;
+    Clue clue = 10;
+}
+
+message Player {
+    string player_id = 1;
+    string nickname = 2;
+}
+
+message CreateGameRequest {
+    string host_id = 1;
+    repeated Player blue_team = 2;
+    repeated Player red_team = 3;
+    string vocabulary_id = 4;
+}
+
+message CreateGameResponse {
+    string game_id = 1;
+}
+
+message GetGameRequest {
+    string game_id = 1;
+}
+
+message GetGameResponse {
+    Game game = 1;
+}
+
+message HintRequest {
+    string game_id = 1;
+    string player_id = 2;
+    Clue clue = 3;
+}
+
+message HintResponse {}
+
+message GuessRequest {
+    string game_id = 1;
+    string player_id = 2;
+    string card_id = 3;
+}
+
+message GuessResponse {}
+
+service GamesService {
+    rpc CreateGame (CreateGameRequest) returns (CreateGameResponse);
+    rpc GetGame (GetGameRequest) returns (GetGameResponse);
+    rpc Hint (HintRequest) returns (HintResponse);
+    rpc Guess (GuessRequest) returns (GuessResponse);
+}

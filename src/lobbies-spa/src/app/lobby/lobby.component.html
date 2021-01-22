@@ -1,0 +1,24 @@
+<div *ngIf="lobby$ | async as lobby" fxLayout="row" fxLayoutAlign="space-around start">
+  <mat-card>
+    <mat-list role="list">
+      <div mat-subheader>Blue Team</div>
+      <mat-list-item role="listitem" *ngFor="let player of lobby?.blue_team">
+        {{ player.nickname }}
+      </mat-list-item>
+    </mat-list>
+  </mat-card>
+  <mat-card>
+    <mat-list role="list">
+      <div mat-subheader>Red Team</div>
+      <mat-list-item role="listitem" *ngFor="let player of lobby?.red_team">
+        {{ player.nickname }}
+      </mat-list-item>
+    </mat-list>
+  </mat-card>
+</div>
+<button type="button" mat-button (click)="changeTeam()">
+  Change Team
+</button>
+<button type="button" mat-button (click)="startGame()">
+  Start Game
+</button>

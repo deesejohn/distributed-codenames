@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: players
+spec:
+  selector:
+    matchLabels:
+      app: players
+  template:
+    metadata:
+      labels:
+        app: players
+    spec:
+      containers:
+        - name: server
+          image: players
+          ports:
+            - containerPort: 80
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: 80
+            initialDelaySeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: 80
+            initialDelaySeconds: 10
+          env:
+            - name: HOST_PREFIX
+              value: "/api/players"
+            - name: REDIS_HOST
+              value: "players-redis-master"
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: players-redis
+                  key: redis-password
+          resources:
+            requests:
+              cpu: 100m
+              memory: 50Mi
+            limits:
+              cpu: 200m
+              memory: 100Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: players
+spec:
+  selector:
+    app: players
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: players-ingress
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /api/players(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: players
+                port:
+                  number: 80

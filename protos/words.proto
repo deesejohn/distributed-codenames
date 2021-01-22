@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package distributed_codenames;
+
+option go_package = "github.com/deesejohn/distributed-codenames/protos";
+
+enum Category {
+    UNKNOWN_CATEGORY = 0;
+    NORMAL = 1;
+    ADULT = 2;
+}
+
+message WordsRequest {
+    Category category = 1;
+}
+
+message WordsResponse {
+    Category category = 1;
+    repeated string words = 2;
+}
+
+service WordsService {
+    rpc GetWords (WordsRequest) returns (WordsResponse);
+}

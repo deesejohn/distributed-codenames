@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: words
+spec:
+  selector:
+    matchLabels:
+      app: words
+  template:
+    metadata:
+      labels:
+        app: words
+    spec:
+      containers:
+        - name: server
+          image: words
+          ports:
+            - containerPort: 50051
+          readinessProbe:
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:50051"]
+            initialDelaySeconds: 5
+          livenessProbe:
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:50051"]
+            initialDelaySeconds: 10
+          resources:
+            requests:
+              cpu: 100m
+              memory: 50Mi
+            limits:
+              cpu: 200m
+              memory: 100Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: words
+spec:
+  type: ClusterIP
+  selector:
+    app: words
+  ports:
+    - name: grpc
+      port: 50051
+      targetPort: 50051

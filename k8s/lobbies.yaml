@@ -1,0 +1,83 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lobbies
+spec:
+  selector:
+    matchLabels:
+      app: lobbies
+  template:
+    metadata:
+      labels:
+        app: lobbies
+    spec:
+      containers:
+        - name: server
+          image: lobbies
+          ports:
+            - containerPort: 80
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: 80
+            initialDelaySeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: 80
+            initialDelaySeconds: 10
+          env:
+            - name: ASPNETCORE_FORWARDEDHEADERS_ENABLED
+              value: "true"
+            - name: GAMES_HOST
+              value: "http://games:50051"
+            - name: HOST_PREFIX
+              value: "/api/lobbies"
+            - name: REDIS_HOST
+              value: "lobbies-redis-master"
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: lobbies-redis
+                  key: redis-password
+          resources:
+            requests:
+              cpu: 100m
+              memory: 50Mi
+            limits:
+              cpu: 200m
+              memory: 100Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: lobbies
+spec:
+  selector:
+    app: lobbies
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: lobbies-ingress
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /api/lobbies(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: lobbies
+                port:
+                  number: 80
