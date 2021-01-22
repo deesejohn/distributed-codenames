@@ -1,6 +1,6 @@
 # Distributed Codenames
 
-A multiplayer, realtime application based on the rules of the board game Codenames. The project aims follow a microservice based architecture and make use of cloud native technologies (see [CNCF Landscape](https://landscape.cncf.io/)).
+A multiplayer, realtime application based on the rules of the board game Codenames. The project aims to follow a microservice based architecture and make use of cloud native technologies (see [CNCF Landscape](https://landscape.cncf.io/)).
 
 ## Contributing
 
