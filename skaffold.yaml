@@ -5,21 +5,21 @@ metadata:
 build:
   artifacts:
   - image: games
-    context: src\games
+    context: src/games
   - image: games-bff
-    context: src\games-bff
+    context: src/games-bff
   - image: games-spa
-    context: src\games-spa
+    context: src/games-spa
   - image: players
-    context: src\players
+    context: src/players
   - image: players-spa
-    context: src\players-spa
+    context: src/players-spa
   - image: lobbies
-    context: src\lobbies
+    context: src/lobbies
   - image: lobbies-spa
-    context: src\lobbies-spa
+    context: src/lobbies-spa
   - image: words
-    context: src\words
+    context: src/words
   local:
     useBuildkit: true
 deploy:
