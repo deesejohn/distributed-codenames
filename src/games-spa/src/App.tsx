@@ -33,11 +33,10 @@ export default function App() {
 	}, [route]);
 
 	const player_id = useMemo(() => {
-		const key = 'player_id';
-		const id = document.cookie.match(
-			'(^|;)\\s*' + key + '\\s*=\\s*([^;]+)'
-		);
-		return id ? id.pop() : '';
+		return document.cookie
+			?.split('; ')
+			?.find((row) => row.startsWith('player_id'))
+			?.split('=')[1];
 	}, [document.cookie]);
 
 	//Callbacks
