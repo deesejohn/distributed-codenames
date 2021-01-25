@@ -13,4 +13,4 @@ export interface Game {
   key: Card[];
   guessing: string;
   clue: Clue;
-};
+}
