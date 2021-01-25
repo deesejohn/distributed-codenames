@@ -1,0 +1,16 @@
+apiVersion: skaffold/v2beta11
+kind: Config
+metadata:
+  name: players
+build:
+  artifacts:
+  - image: players
+deploy:
+  kubectl:
+    manifests:
+    - k8s/players.yaml
+portForward:
+  - resourceType: service
+    resourceName: players
+    port: 80
+    localPort: 8000
