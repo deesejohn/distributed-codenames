@@ -37,7 +37,7 @@ export default function App() {
       ?.split('; ')
       ?.find((row) => row.startsWith('player_id'))
       ?.split('=')[1];
-  }, [document.cookie]);
+  }, []);
 
   //Callbacks
   const handleOnClickGuess = useCallback(
