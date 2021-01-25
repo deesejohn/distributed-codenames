@@ -1,4 +1,4 @@
-import { Card } from './components/card/Card';
+import { Card } from './Card';
 import { Clue } from './Clue';
 import { Player } from './Player';
 

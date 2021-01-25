@@ -1,25 +1,73 @@
-import React, { useEffect, useCallback, useRef, useState } from 'react';
+import React, {
+	useEffect,
+	useCallback,
+	useMemo,
+	useRef,
+	useState,
+} from 'react';
 import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import './App.css';
-import { Game } from './Game';
-import Board from './Board';
-import { Card } from './components/card/Card';
 
 //API
-import gameApi from './axios/games.api';
+import gameApi from './api/games.api';
+
+//Components
+import Board from './components/Board';
+
+//Types
+import { Game, Card } from './types';
+
+//Styles
+import './App.css';
 
 export default function App() {
 	const [game, setGame] = useState<Game | null>(null);
 	const reconnect = useRef(100);
 	const ws = useRef<WebSocket>();
 	const route = window.location.pathname.split('/');
-	const game_id = route[route.length - 1];
-	const player_id = document.cookie
-		?.split('; ')
-		?.find((row) => row.startsWith('player_id'))
-		?.split('=')[1];
+
+	//Memos
+	const game_id = useMemo(() => {
+		return route[route.length - 1];
+	}, [route]);
+
+	const player_id = useMemo(() => {
+		const key = 'player_id';
+		const id = document.cookie.match(
+			'(^|;)\\s*' + key + '\\s*=\\s*([^;]+)'
+		);
+		return id ? id.pop() : '';
+	}, [document.cookie]);
+
+	//Callbacks
+	const handleOnClickGuess = useCallback(
+		async (card: Card) => {
+			const data = {
+				player_id: player_id,
+				card_id: card.card_id,
+			};
+			console.log(data, 'guess');
+			try {
+				const response = await gameApi.post(game_id, data);
+				return response.status;
+			} catch (error) {
+				console.warn(error);
+			}
+		},
+		[game_id, player_id]
+	);
+
+	const getGameSession = useCallback(async () => {
+		try {
+			const response = await gameApi.get(game_id);
+			setGame(response.data);
+		} catch (error) {
+			console.warn(error);
+		}
+	}, [game_id, setGame]);
+
+	//Effects
 	useEffect(() => {
 		function subscribeToGameSession() {
 			const url = new URL(
@@ -41,32 +89,12 @@ export default function App() {
 				setGame(JSON.parse(message.data));
 			};
 		}
-		(async () => {
-			const response = await gameApi.get(game_id);
-			const data = await response.data;
-			setGame(data);
-		})().then(() => subscribeToGameSession());
+		getGameSession();
+		subscribeToGameSession();
 		return () => {
 			ws.current?.close();
 		};
 	}, [game_id]);
-
-	const handleOnClickGuess = useCallback(
-		async (card: Card) => {
-			const data = {
-				player_id: player_id,
-				card_id: card.card_id,
-			};
-			console.log(data, 'guess');
-			try {
-				const response = await gameApi.post(game_id, data);
-				return response.status;
-			} catch (error) {
-				console.warn(error);
-			}
-		},
-		[game_id, player_id]
-	);
 
 	useEffect(() => {
 		if (!game) {
