@@ -1,0 +1,16 @@
+apiVersion: skaffold/v2beta11
+kind: Config
+metadata:
+  name: players-spa
+build:
+  artifacts:
+  - image: players-spa
+deploy:
+  kubectl:
+    manifests:
+    - k8s/players-spa.yaml
+portForward:
+  - resourceType: service
+    resourceName: players-spa
+    port: 80
+    localPort: 3060
