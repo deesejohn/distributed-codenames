@@ -2,23 +2,13 @@ import axios from 'axios';
 
 const apiClient = axios.create({ baseURL: '/api/games/' });
 
-const get = (game_id) => {
-  return apiClient.get(game_id).catch((error) => {
-    console.warn(error);
-    throw error;
-  });
-};
+const get = (game_id) => apiClient.get(game_id);
 
-const post = (game_id, data) => {
-  return apiClient.post(`${game_id}/guess`, data).catch((error) => {
-    console.warn(error);
-    throw error;
-  });
-};
+const guess = (game_id, data) => apiClient.post(`${game_id}/guess`, data);
 
 const methods = {
   get,
-  post,
+  guess,
 };
 
 export default methods;

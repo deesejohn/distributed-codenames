@@ -9,6 +9,7 @@ import (
 	"os"
 	"time"
 
+	game "github.com/deesejohn/distributed-codenames/src/games/game"
 	pb "github.com/deesejohn/distributed-codenames/src/games/genproto"
 	"github.com/go-redis/redis/v8"
 	"github.com/google/uuid"
@@ -127,7 +128,7 @@ func (s *server) CreateGame(ctx context.Context, in *pb.CreateGameRequest) (
 			CardId:   cardID,
 			Color:    colors[i],
 			Label:    cr.Words[i],
-			Revealed: true,
+			Revealed: false,
 		})
 	}
 	clue := &pb.Clue{
@@ -145,6 +146,7 @@ func (s *server) CreateGame(ctx context.Context, in *pb.CreateGameRequest) (
 		Key:               key,
 		Guessing:          guessing,
 		Clue:              clue,
+		Winner:            "",
 	}
 	if err := set(ctx, gameID, game); err != nil {
 		log.Fatal(err)
@@ -157,19 +159,16 @@ func (s *server) CreateGame(ctx context.Context, in *pb.CreateGameRequest) (
 
 func (s *server) Guess(ctx context.Context, in *pb.GuessRequest) (
 	*pb.GuessResponse, error) {
-	game, err := get(ctx, in.GameId)
+	state, err := get(ctx, in.GameId)
 	if err != nil {
 		log.Fatal(err)
 	}
-	for i, card := range game.Board {
-		if card.CardId == in.CardId {
-			card.Color = game.Key[i].Color
-			card.Revealed = true
-			set(ctx, game.GameId, game)
-			go publish(game)
-			break
-		}
+	err = game.Guess(state, in.CardId)
+	if err != nil {
+		log.Fatal(err)
 	}
+	set(ctx, state.GameId, state)
+	go publish(state)
 	return &pb.GuessResponse{}, nil
 }
 

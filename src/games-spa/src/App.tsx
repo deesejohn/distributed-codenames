@@ -46,9 +46,8 @@ export default function App() {
         player_id: player_id,
         card_id: card.card_id,
       };
-      console.log(data, 'guess');
       try {
-        const response = await gameApi.post(game_id, data);
+        const response = await gameApi.guess(game_id, data);
         return response.status;
       } catch (error) {
         console.warn(error);
@@ -93,7 +92,7 @@ export default function App() {
     return () => {
       ws.current?.close();
     };
-  }, [game_id]);
+  }, [game_id, getGameSession]);
 
   useEffect(() => {
     if (!game) {

@@ -25,7 +25,7 @@ const Word = (props: { card: Card; guess: (card: Card) => void }) => {
           return 'default';
       }
     },
-    [card]
+    []
   );
 
   return (

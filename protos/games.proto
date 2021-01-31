@@ -36,6 +36,7 @@ message Game {
     repeated Card key = 8;
     string guessing = 9;
     Clue clue = 10;
+    string winner = 11;
 }
 
 message Player {

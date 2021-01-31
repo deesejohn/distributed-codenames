@@ -7,7 +7,6 @@ import { Server } from 'ws';
 import { GamesServiceClient } from './genproto/games_grpc_pb';
 import {
   Card as GrpcCard,
-  Clue as GrpcClue,
   Game as GrpcGame,
   GetGameRequest,
   GuessRequest,
@@ -53,7 +52,8 @@ function mapGame(dto: GrpcGame.AsObject): Game {
     clue: {
       word: dto.clue.word,
       number: dto.clue.number,
-    }
+    },
+    winner: dto.winner
   };
 }
 

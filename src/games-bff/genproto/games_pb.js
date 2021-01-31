@@ -711,7 +711,8 @@ proto.distributed_codenames.Game.toObject = function(includeInstance, msg) {
     keyList: jspb.Message.toObjectList(msg.getKeyList(),
     proto.distributed_codenames.Card.toObject, includeInstance),
     guessing: jspb.Message.getFieldWithDefault(msg, 9, ""),
-    clue: (f = msg.getClue()) && proto.distributed_codenames.Clue.toObject(includeInstance, f)
+    clue: (f = msg.getClue()) && proto.distributed_codenames.Clue.toObject(includeInstance, f),
+    winner: jspb.Message.getFieldWithDefault(msg, 11, "")
   };
 
   if (includeInstance) {
@@ -792,6 +793,10 @@ proto.distributed_codenames.Game.deserializeBinaryFromReader = function(msg, rea
       var value = new proto.distributed_codenames.Clue;
       reader.readMessage(value,proto.distributed_codenames.Clue.deserializeBinaryFromReader);
       msg.setClue(value);
+      break;
+    case 11:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setWinner(value);
       break;
     default:
       reader.skipField();
@@ -895,6 +900,13 @@ proto.distributed_codenames.Game.serializeBinaryToWriter = function(message, wri
       10,
       f,
       proto.distributed_codenames.Clue.serializeBinaryToWriter
+    );
+  }
+  f = message.getWinner();
+  if (f.length > 0) {
+    writer.writeString(
+      11,
+      f
     );
   }
 };
@@ -1176,6 +1188,24 @@ proto.distributed_codenames.Game.prototype.clearClue = function() {
  */
 proto.distributed_codenames.Game.prototype.hasClue = function() {
   return jspb.Message.getField(this, 10) != null;
+};
+
+
+/**
+ * optional string winner = 11;
+ * @return {string}
+ */
+proto.distributed_codenames.Game.prototype.getWinner = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 11, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.distributed_codenames.Game} returns this
+ */
+proto.distributed_codenames.Game.prototype.setWinner = function(value) {
+  return jspb.Message.setProto3StringField(this, 11, value);
 };
 
 
