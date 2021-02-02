@@ -14,6 +14,7 @@ import gameApi from './api/games.api';
 
 //Components
 import Board from './components/Board';
+import GameOver from './components/GameOver';
 
 //Types
 import { Game, Card } from './types';
@@ -114,8 +115,10 @@ export default function App() {
           <div>
             <CircularProgress /> Loading...
           </div>
-        ) : (
+        ) : !game.winner ? (
           <Board board={game.board} guess={handleOnClickGuess} />
+        ) : (
+          <GameOver winner={game.winner} />
         )}
       </Box>
     </Container>
