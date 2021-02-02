@@ -163,9 +163,9 @@ func (s *server) Guess(ctx context.Context, in *pb.GuessRequest) (
 	if err != nil {
 		log.Fatal(err)
 	}
-	err = game.Guess(state, in.CardId)
+	err = game.Guess(state, in.PlayerId, in.CardId)
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
 	set(ctx, state.GameId, state)
 	go publish(state)

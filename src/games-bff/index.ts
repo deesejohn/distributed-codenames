@@ -82,7 +82,10 @@ app.post('/:game_id/guess', (req, res) => {
   request.setPlayerId(req.body.player_id);
   request.setCardId(req.body.card_id);
   gameClient.guess(request, (err, data) => {
-    if (err) throw err;
+    if (err) {
+      res.status(400).send();
+      return;
+    };
     res.status(204).send();
   });
 });
