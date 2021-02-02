@@ -100,6 +100,9 @@ export class Game extends jspb.Message {
   getClue(): Clue | undefined;
   setClue(value?: Clue): void;
 
+  getWinner(): string;
+  setWinner(value: string): void;
+
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): Game.AsObject;
   static toObject(includeInstance: boolean, msg: Game): Game.AsObject;
@@ -122,6 +125,7 @@ export namespace Game {
     keyList: Array<Card.AsObject>,
     guessing: string,
     clue?: Clue.AsObject,
+    winner: string,
   }
 }
 

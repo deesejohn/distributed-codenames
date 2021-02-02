@@ -27,7 +27,7 @@ namespace protos {
             "CgtnYW1lcy5wcm90bxIVZGlzdHJpYnV0ZWRfY29kZW5hbWVzImUKBENhcmQS",
             "DwoHY2FyZF9pZBgBIAEoCRINCgVsYWJlbBgCIAEoCRIrCgVjb2xvchgDIAEo",
             "DjIcLmRpc3RyaWJ1dGVkX2NvZGVuYW1lcy5Db2xvchIQCghyZXZlYWxlZBgE",
-            "IAEoCCIkCgRDbHVlEgwKBHdvcmQYASABKAkSDgoGbnVtYmVyGAIgASgFItcC",
+            "IAEoCCIkCgRDbHVlEgwKBHdvcmQYASABKAkSDgoGbnVtYmVyGAIgASgFIucC",
             "CgRHYW1lEg8KB2dhbWVfaWQYASABKAkSDwoHaG9zdF9pZBgCIAEoCRIwCgli",
             "bHVlX3RlYW0YAyADKAsyHS5kaXN0cmlidXRlZF9jb2RlbmFtZXMuUGxheWVy",
             "EhsKE2JsdWVfdGVhbV9zcHltYXN0ZXIYBCABKAkSLwoIcmVkX3RlYW0YBSAD",
@@ -35,36 +35,37 @@ namespace protos {
             "X3NweW1hc3RlchgGIAEoCRIqCgVib2FyZBgHIAMoCzIbLmRpc3RyaWJ1dGVk",
             "X2NvZGVuYW1lcy5DYXJkEigKA2tleRgIIAMoCzIbLmRpc3RyaWJ1dGVkX2Nv",
             "ZGVuYW1lcy5DYXJkEhAKCGd1ZXNzaW5nGAkgASgJEikKBGNsdWUYCiABKAsy",
-            "Gy5kaXN0cmlidXRlZF9jb2RlbmFtZXMuQ2x1ZSItCgZQbGF5ZXISEQoJcGxh",
-            "eWVyX2lkGAEgASgJEhAKCG5pY2tuYW1lGAIgASgJIp4BChFDcmVhdGVHYW1l",
-            "UmVxdWVzdBIPCgdob3N0X2lkGAEgASgJEjAKCWJsdWVfdGVhbRgCIAMoCzId",
-            "LmRpc3RyaWJ1dGVkX2NvZGVuYW1lcy5QbGF5ZXISLwoIcmVkX3RlYW0YAyAD",
-            "KAsyHS5kaXN0cmlidXRlZF9jb2RlbmFtZXMuUGxheWVyEhUKDXZvY2FidWxh",
-            "cnlfaWQYBCABKAkiJQoSQ3JlYXRlR2FtZVJlc3BvbnNlEg8KB2dhbWVfaWQY",
-            "ASABKAkiIQoOR2V0R2FtZVJlcXVlc3QSDwoHZ2FtZV9pZBgBIAEoCSI8Cg9H",
-            "ZXRHYW1lUmVzcG9uc2USKQoEZ2FtZRgBIAEoCzIbLmRpc3RyaWJ1dGVkX2Nv",
-            "ZGVuYW1lcy5HYW1lIlwKC0hpbnRSZXF1ZXN0Eg8KB2dhbWVfaWQYASABKAkS",
-            "EQoJcGxheWVyX2lkGAIgASgJEikKBGNsdWUYAyABKAsyGy5kaXN0cmlidXRl",
-            "ZF9jb2RlbmFtZXMuQ2x1ZSIOCgxIaW50UmVzcG9uc2UiQwoMR3Vlc3NSZXF1",
-            "ZXN0Eg8KB2dhbWVfaWQYASABKAkSEQoJcGxheWVyX2lkGAIgASgJEg8KB2Nh",
-            "cmRfaWQYAyABKAkiDwoNR3Vlc3NSZXNwb25zZSpDCgVDb2xvchIRCg1VTktO",
-            "T1dOX0NPTE9SEAASCAoEQkxVRRABEgcKA1JFRBACEgkKBUJFSUdFEAMSCQoF",
-            "QkxBQ0sQBDLwAgoMR2FtZXNTZXJ2aWNlEmEKCkNyZWF0ZUdhbWUSKC5kaXN0",
-            "cmlidXRlZF9jb2RlbmFtZXMuQ3JlYXRlR2FtZVJlcXVlc3QaKS5kaXN0cmli",
-            "dXRlZF9jb2RlbmFtZXMuQ3JlYXRlR2FtZVJlc3BvbnNlElgKB0dldEdhbWUS",
-            "JS5kaXN0cmlidXRlZF9jb2RlbmFtZXMuR2V0R2FtZVJlcXVlc3QaJi5kaXN0",
-            "cmlidXRlZF9jb2RlbmFtZXMuR2V0R2FtZVJlc3BvbnNlEk8KBEhpbnQSIi5k",
-            "aXN0cmlidXRlZF9jb2RlbmFtZXMuSGludFJlcXVlc3QaIy5kaXN0cmlidXRl",
-            "ZF9jb2RlbmFtZXMuSGludFJlc3BvbnNlElIKBUd1ZXNzEiMuZGlzdHJpYnV0",
-            "ZWRfY29kZW5hbWVzLkd1ZXNzUmVxdWVzdBokLmRpc3RyaWJ1dGVkX2NvZGVu",
-            "YW1lcy5HdWVzc1Jlc3BvbnNlQjxaMWdpdGh1Yi5jb20vZGVlc2Vqb2huL2Rp",
-            "c3RyaWJ1dGVkLWNvZGVuYW1lcy9wcm90b3OqAgZwcm90b3NiBnByb3RvMw=="));
+            "Gy5kaXN0cmlidXRlZF9jb2RlbmFtZXMuQ2x1ZRIOCgZ3aW5uZXIYCyABKAki",
+            "LQoGUGxheWVyEhEKCXBsYXllcl9pZBgBIAEoCRIQCghuaWNrbmFtZRgCIAEo",
+            "CSKeAQoRQ3JlYXRlR2FtZVJlcXVlc3QSDwoHaG9zdF9pZBgBIAEoCRIwCgli",
+            "bHVlX3RlYW0YAiADKAsyHS5kaXN0cmlidXRlZF9jb2RlbmFtZXMuUGxheWVy",
+            "Ei8KCHJlZF90ZWFtGAMgAygLMh0uZGlzdHJpYnV0ZWRfY29kZW5hbWVzLlBs",
+            "YXllchIVCg12b2NhYnVsYXJ5X2lkGAQgASgJIiUKEkNyZWF0ZUdhbWVSZXNw",
+            "b25zZRIPCgdnYW1lX2lkGAEgASgJIiEKDkdldEdhbWVSZXF1ZXN0Eg8KB2dh",
+            "bWVfaWQYASABKAkiPAoPR2V0R2FtZVJlc3BvbnNlEikKBGdhbWUYASABKAsy",
+            "Gy5kaXN0cmlidXRlZF9jb2RlbmFtZXMuR2FtZSJcCgtIaW50UmVxdWVzdBIP",
+            "CgdnYW1lX2lkGAEgASgJEhEKCXBsYXllcl9pZBgCIAEoCRIpCgRjbHVlGAMg",
+            "ASgLMhsuZGlzdHJpYnV0ZWRfY29kZW5hbWVzLkNsdWUiDgoMSGludFJlc3Bv",
+            "bnNlIkMKDEd1ZXNzUmVxdWVzdBIPCgdnYW1lX2lkGAEgASgJEhEKCXBsYXll",
+            "cl9pZBgCIAEoCRIPCgdjYXJkX2lkGAMgASgJIg8KDUd1ZXNzUmVzcG9uc2Uq",
+            "QwoFQ29sb3ISEQoNVU5LTk9XTl9DT0xPUhAAEggKBEJMVUUQARIHCgNSRUQQ",
+            "AhIJCgVCRUlHRRADEgkKBUJMQUNLEAQy8AIKDEdhbWVzU2VydmljZRJhCgpD",
+            "cmVhdGVHYW1lEiguZGlzdHJpYnV0ZWRfY29kZW5hbWVzLkNyZWF0ZUdhbWVS",
+            "ZXF1ZXN0GikuZGlzdHJpYnV0ZWRfY29kZW5hbWVzLkNyZWF0ZUdhbWVSZXNw",
+            "b25zZRJYCgdHZXRHYW1lEiUuZGlzdHJpYnV0ZWRfY29kZW5hbWVzLkdldEdh",
+            "bWVSZXF1ZXN0GiYuZGlzdHJpYnV0ZWRfY29kZW5hbWVzLkdldEdhbWVSZXNw",
+            "b25zZRJPCgRIaW50EiIuZGlzdHJpYnV0ZWRfY29kZW5hbWVzLkhpbnRSZXF1",
+            "ZXN0GiMuZGlzdHJpYnV0ZWRfY29kZW5hbWVzLkhpbnRSZXNwb25zZRJSCgVH",
+            "dWVzcxIjLmRpc3RyaWJ1dGVkX2NvZGVuYW1lcy5HdWVzc1JlcXVlc3QaJC5k",
+            "aXN0cmlidXRlZF9jb2RlbmFtZXMuR3Vlc3NSZXNwb25zZUI8WjFnaXRodWIu",
+            "Y29tL2RlZXNlam9obi9kaXN0cmlidXRlZC1jb2RlbmFtZXMvcHJvdG9zqgIG",
+            "cHJvdG9zYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::protos.Color), }, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::protos.Card), global::protos.Card.Parser, new[]{ "CardId", "Label", "Color", "Revealed" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::protos.Clue), global::protos.Clue.Parser, new[]{ "Word", "Number" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::protos.Game), global::protos.Game.Parser, new[]{ "GameId", "HostId", "BlueTeam", "BlueTeamSpymaster", "RedTeam", "RedTeamSpymaster", "Board", "Key", "Guessing", "Clue" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::protos.Game), global::protos.Game.Parser, new[]{ "GameId", "HostId", "BlueTeam", "BlueTeamSpymaster", "RedTeam", "RedTeamSpymaster", "Board", "Key", "Guessing", "Clue", "Winner" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::protos.Player), global::protos.Player.Parser, new[]{ "PlayerId", "Nickname" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::protos.CreateGameRequest), global::protos.CreateGameRequest.Parser, new[]{ "HostId", "BlueTeam", "RedTeam", "VocabularyId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::protos.CreateGameResponse), global::protos.CreateGameResponse.Parser, new[]{ "GameId" }, null, null, null, null),
@@ -618,6 +619,7 @@ namespace protos {
       key_ = other.key_.Clone();
       guessing_ = other.guessing_;
       clue_ = other.clue_ != null ? other.clue_.Clone() : null;
+      winner_ = other.winner_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -732,6 +734,17 @@ namespace protos {
       }
     }
 
+    /// <summary>Field number for the "winner" field.</summary>
+    public const int WinnerFieldNumber = 11;
+    private string winner_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Winner {
+      get { return winner_; }
+      set {
+        winner_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as Game);
@@ -755,6 +768,7 @@ namespace protos {
       if(!key_.Equals(other.key_)) return false;
       if (Guessing != other.Guessing) return false;
       if (!object.Equals(Clue, other.Clue)) return false;
+      if (Winner != other.Winner) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -771,6 +785,7 @@ namespace protos {
       hash ^= key_.GetHashCode();
       if (Guessing.Length != 0) hash ^= Guessing.GetHashCode();
       if (clue_ != null) hash ^= Clue.GetHashCode();
+      if (Winner.Length != 0) hash ^= Winner.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -815,6 +830,10 @@ namespace protos {
         output.WriteRawTag(82);
         output.WriteMessage(Clue);
       }
+      if (Winner.Length != 0) {
+        output.WriteRawTag(90);
+        output.WriteString(Winner);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -852,6 +871,10 @@ namespace protos {
         output.WriteRawTag(82);
         output.WriteMessage(Clue);
       }
+      if (Winner.Length != 0) {
+        output.WriteRawTag(90);
+        output.WriteString(Winner);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -882,6 +905,9 @@ namespace protos {
       }
       if (clue_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(Clue);
+      }
+      if (Winner.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Winner);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -918,6 +944,9 @@ namespace protos {
           Clue = new global::protos.Clue();
         }
         Clue.MergeFrom(other.Clue);
+      }
+      if (other.Winner.Length != 0) {
+        Winner = other.Winner;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -976,6 +1005,10 @@ namespace protos {
             input.ReadMessage(Clue);
             break;
           }
+          case 90: {
+            Winner = input.ReadString();
+            break;
+          }
         }
       }
     #endif
@@ -1031,6 +1064,10 @@ namespace protos {
               Clue = new global::protos.Clue();
             }
             input.ReadMessage(Clue);
+            break;
+          }
+          case 90: {
+            Winner = input.ReadString();
             break;
           }
         }

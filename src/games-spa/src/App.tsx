@@ -14,6 +14,7 @@ import gameApi from './api/games.api';
 
 //Components
 import Board from './components/Board';
+import GameOver from './components/GameOver';
 
 //Types
 import { Game, Card } from './types';
@@ -46,9 +47,8 @@ export default function App() {
         player_id: player_id,
         card_id: card.card_id,
       };
-      console.log(data, 'guess');
       try {
-        const response = await gameApi.post(game_id, data);
+        const response = await gameApi.guess(game_id, data);
         return response.status;
       } catch (error) {
         console.warn(error);
@@ -93,7 +93,7 @@ export default function App() {
     return () => {
       ws.current?.close();
     };
-  }, [game_id]);
+  }, [game_id, getGameSession]);
 
   useEffect(() => {
     if (!game) {
@@ -115,8 +115,10 @@ export default function App() {
           <div>
             <CircularProgress /> Loading...
           </div>
-        ) : (
+        ) : !game.winner ? (
           <Board board={game.board} guess={handleOnClickGuess} />
+        ) : (
+          <GameOver winner={game.winner} />
         )}
       </Box>
     </Container>
