@@ -7,9 +7,11 @@ import { Server } from 'ws';
 import { GamesServiceClient } from './genproto/games_grpc_pb';
 import {
   Card as GrpcCard,
+  Clue as GrpcClue,
   Game as GrpcGame,
   GetGameRequest,
   GuessRequest,
+  HintRequest,
   Player as GrpcPlayer
 } from './genproto/games_pb';
 import { Card } from './Card';
@@ -82,6 +84,23 @@ app.post('/:game_id/guess', (req, res) => {
   request.setPlayerId(req.body.player_id);
   request.setCardId(req.body.card_id);
   gameClient.guess(request, (err, data) => {
+    if (err) {
+      res.status(400).send();
+      return;
+    };
+    res.status(204).send();
+  });
+});
+
+app.post('/:game_id/hint', (req, res) => {
+  let request = new HintRequest();
+  request.setGameId(req.params.game_id);
+  request.setPlayerId(req.body.player_id);
+  let clue = new GrpcClue();
+  clue.setNumber(req.body.number);
+  clue.setWord(req.body.word);
+  request.setClue(clue);
+  gameClient.hint(request, (err, data) => {
     if (err) {
       res.status(400).send();
       return;
