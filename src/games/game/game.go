@@ -80,6 +80,8 @@ func oppositeTeam(team string) string {
 }
 
 func nextTurn(game *pb.Game) {
+	game.Clue.Number = 0
+	game.Clue.Word = ""
 	game.Guessing = oppositeTeam(game.Guessing)
 }
 
