@@ -7,9 +7,6 @@ import Word from '../Word';
 //Types
 import { Card } from '../../types';
 
-//Styles
-import './styles.css';
-
 const Board = (props: { board: Card[]; guess: (card: Card) => void }) => {
   return (
     <Box display="flex" flexWrap="wrap" p={1} m={1}>
