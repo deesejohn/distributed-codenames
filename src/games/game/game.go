@@ -7,8 +7,8 @@ import (
 )
 
 const (
-	blueTeam = "blue_team"
-	redTeam  = "red_team"
+	BlueTeam = "blue_team"
+	RedTeam  = "red_team"
 )
 
 // Guess a card
@@ -17,7 +17,7 @@ func Guess(game *pb.Game, playerID string, cardID string) error {
 		return errors.New("Cannot guess after the game is over")
 	}
 	var team []*pb.Player
-	if game.Guessing == blueTeam {
+	if game.Guessing == BlueTeam {
 		team = game.BlueTeam
 	} else {
 		team = game.RedTeam
@@ -42,8 +42,8 @@ func Guess(game *pb.Game, playerID string, cardID string) error {
 			if card.Color == pb.Color_BLACK {
 				game.Winner = oppositeTeam(game.Guessing)
 			}
-			if (card.Color != pb.Color_BLUE && game.Guessing == blueTeam) ||
-				(card.Color != pb.Color_RED && game.Guessing == redTeam) {
+			if (card.Color != pb.Color_BLUE && game.Guessing == BlueTeam) ||
+				(card.Color != pb.Color_RED && game.Guessing == RedTeam) {
 				nextTurn(game)
 			}
 			break
@@ -65,21 +65,23 @@ func checkWinner(game *pb.Game) {
 		}
 	}
 	if blueWon {
-		game.Winner = blueTeam
+		game.Winner = BlueTeam
 	}
 	if redWon {
-		game.Winner = redTeam
+		game.Winner = RedTeam
 	}
 }
 
 func oppositeTeam(team string) string {
-	if team == blueTeam {
-		return redTeam
+	if team == BlueTeam {
+		return RedTeam
 	}
-	return blueTeam
+	return BlueTeam
 }
 
 func nextTurn(game *pb.Game) {
+	game.Clue.Number = 0
+	game.Clue.Word = ""
 	game.Guessing = oppositeTeam(game.Guessing)
 }
 

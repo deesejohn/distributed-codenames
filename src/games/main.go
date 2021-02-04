@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"log"
 	"math/rand"
 	"net"
@@ -106,10 +107,10 @@ func (s *server) CreateGame(ctx context.Context, in *pb.CreateGameRequest) (
 	var guessing string
 	if rand.Float64() < .5 {
 		colors = append(colors, pb.Color_BLUE)
-		guessing = "blue_team"
+		guessing = game.BlueTeam
 	} else {
 		colors = append(colors, pb.Color_RED)
-		guessing = "red_team"
+		guessing = game.RedTeam
 	}
 	rand.Shuffle(len(colors), func(i, j int) {
 		colors[i], colors[j] = colors[j], colors[i]
@@ -135,7 +136,7 @@ func (s *server) CreateGame(ctx context.Context, in *pb.CreateGameRequest) (
 		Word:   "",
 		Number: 0,
 	}
-	game := &pb.Game{
+	state := &pb.Game{
 		GameId:            gameID,
 		HostId:            in.HostId,
 		BlueTeam:          in.BlueTeam,
@@ -148,10 +149,10 @@ func (s *server) CreateGame(ctx context.Context, in *pb.CreateGameRequest) (
 		Clue:              clue,
 		Winner:            "",
 	}
-	if err := set(ctx, gameID, game); err != nil {
+	if err := set(ctx, gameID, state); err != nil {
 		log.Fatal(err)
 	}
-	go publish(game)
+	go publish(state)
 	return &pb.CreateGameResponse{
 		GameId: gameID,
 	}, nil
@@ -167,9 +168,34 @@ func (s *server) Guess(ctx context.Context, in *pb.GuessRequest) (
 	if err != nil {
 		return nil, err
 	}
-	set(ctx, state.GameId, state)
+	if err := set(ctx, state.GameId, state); err != nil {
+		log.Fatal(err)
+	}
 	go publish(state)
 	return &pb.GuessResponse{}, nil
+}
+
+func (s *server) Hint(ctx context.Context, in *pb.HintRequest) (
+	*pb.HintResponse, error) {
+	state, err := get(ctx, in.GameId)
+	if err != nil {
+		log.Fatal(err)
+	}
+	var spymaster string
+	if state.Guessing == game.BlueTeam {
+		spymaster = state.BlueTeamSpymaster
+	} else if state.Guessing == game.RedTeam {
+		spymaster = state.RedTeamSpymaster
+	}
+	if in.PlayerId != spymaster {
+		return nil, errors.New("You are the not guessing team's spymaster")
+	}
+	state.Clue = in.Clue
+	if err := set(ctx, state.GameId, state); err != nil {
+		log.Fatal(err)
+	}
+	go publish(state)
+	return &pb.HintResponse{}, nil
 }
 
 func (s *server) Check(ctx context.Context, req *healthpb.HealthCheckRequest) (*healthpb.HealthCheckResponse, error) {

@@ -15,15 +15,18 @@ import gameApi from './api/games.api';
 //Components
 import Board from './components/Board';
 import GameOver from './components/GameOver';
+import Hint from './components/Hint';
+import HintDialog from './components/HintDialog';
 
 //Types
-import { Game, Card } from './types';
+import { Card, Clue, Game } from './types';
 
 //Styles
 import './App.css';
 
 export default function App() {
   const [game, setGame] = useState<Game | null>(null);
+  const [promptHint, setPromptHint] = useState<boolean>(false);
   const reconnect = useRef(100);
   const ws = useRef<WebSocket>();
   const route = window.location.pathname.split('/');
@@ -43,13 +46,11 @@ export default function App() {
   //Callbacks
   const handleOnClickGuess = useCallback(
     async (card: Card) => {
-      const data = {
-        player_id: player_id,
-        card_id: card.card_id,
-      };
+      if (!player_id) {
+        return;
+      }
       try {
-        const response = await gameApi.guess(game_id, data);
-        return response.status;
+        await gameApi.guess(game_id, player_id, card.card_id);
       } catch (error) {
         console.warn(error);
       }
@@ -60,7 +61,7 @@ export default function App() {
   const getGameSession = useCallback(async () => {
     try {
       const response = await gameApi.get(game_id);
-      setGame(response.data);
+      setGame(response);
     } catch (error) {
       console.warn(error);
     }
@@ -96,11 +97,24 @@ export default function App() {
   }, [game_id, getGameSession]);
 
   useEffect(() => {
-    if (!game) {
+    if (!game || !player_id) {
       return;
     }
+    const spymaster = game.guessing === 'blue_team'
+      ? game.blue_team_spymaster
+      : game.red_team_spymaster;
+    setPromptHint(
+      player_id === spymaster && !game.clue.word
+    );
     console.log(game);
-  }, [game]);
+  }, [game, player_id]);
+
+  const handleHint = async (clue: Clue) => {
+    if (!player_id) {
+      return;
+    }
+    await gameApi.hint(game_id, player_id, clue);
+  };
 
   return (
     <Container maxWidth="md">
@@ -116,7 +130,11 @@ export default function App() {
             <CircularProgress /> Loading...
           </div>
         ) : !game.winner ? (
-          <Board board={game.board} guess={handleOnClickGuess} />
+          <div>
+            <Hint clue={game.clue}></Hint>
+            <HintDialog handleHint={handleHint} open={promptHint}></HintDialog>
+            <Board board={game.board} guess={handleOnClickGuess} />
+          </div>
         ) : (
           <GameOver winner={game.winner} />
         )}
