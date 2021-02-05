@@ -16,7 +16,16 @@ const Word = (props: { card: Card; guess: (card: Card) => void }) => {
           {card.label}
         </GameCard>
       ) : (
-        <RevealedGameCard cardType={card.color}>{card.label}</RevealedGameCard>
+        <RevealedGameCard
+          py={1}
+          px={2}
+          borderRadius={4}
+          boxShadow={2}
+          textAlign={'center'}
+          cardColor={card.color}
+        >
+          {card.label}
+        </RevealedGameCard>
       )}
     </GameCardContainer>
   );

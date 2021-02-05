@@ -1,8 +1,9 @@
 import styled from 'styled-components';
+import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 
 type Card = {
-  cardType: number;
+  cardColor: number;
 };
 
 export const GameCardContainer = styled.div`
@@ -13,12 +14,9 @@ export const GameCardContainer = styled.div`
 
 export const GameCard = styled(Button)``;
 
-export const RevealedGameCard: any = styled.div<Card>`
-  border-radius: 4px;
-  text-align: center;
-  padding: 8px 16px;
+export const RevealedGameCard = styled(Box)<Card>`
   ${(props) => {
-    switch (props.cardType) {
+    switch (props.cardColor) {
       case 1:
         return `
           background: ${props.theme.colors.blue};
