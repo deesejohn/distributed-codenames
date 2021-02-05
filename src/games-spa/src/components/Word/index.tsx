@@ -1,42 +1,33 @@
-import React, { useCallback } from 'react';
-import Button from '@material-ui/core/Button';
+import React from 'react';
 
 //Types
 import { Card } from '../../types';
 
 //Styles
-import './styles.css';
+import { GameCardContainer, GameCard, RevealedGameCard } from './styles';
 
 const Word = (props: { card: Card; guess: (card: Card) => void }) => {
   const { card, guess } = props;
 
-  const getCardColor = useCallback(
-    (
-      card: Card
-    ): 'inherit' | 'primary' | 'secondary' | 'default' | undefined => {
-      switch (card.color) {
-        case 1:
-          return 'primary';
-        case 2:
-          return 'secondary';
-        case 3:
-          return 'inherit';
-        default:
-          return 'default';
-      }
-    },
-    []
-  );
-
   return (
-    <Button
-      color={getCardColor(card)}
-      fullWidth
-      onClick={() => guess(card)}
-      variant="contained"
-    >
-      {card.label}
-    </Button>
+    <GameCardContainer>
+      {!card.revealed ? (
+        <GameCard fullWidth onClick={() => guess(card)} variant="contained">
+          {card.label}
+        </GameCard>
+      ) : (
+        <RevealedGameCard
+          py={1}
+          px={2}
+          borderRadius={4}
+          boxShadow={2}
+          textAlign={'center'}
+          cardColor={card.color}
+        >
+          {card.label}
+        </RevealedGameCard>
+      )}
+    </GameCardContainer>
   );
 };
 

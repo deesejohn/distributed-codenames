@@ -1,30 +1,25 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { purple, teal } from '@material-ui/core/colors';
+
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+
+// Theme Components
+import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
+import { ThemeProvider as ScThemeProvider } from 'styled-components';
+import { scTheme, muiTheme } from './theme';
+
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      main: purple[800],
-    },
-    secondary: {
-      main: teal[800],
-    },
-    type: 'dark',
-  },
-});
-
 ReactDOM.render(
   <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <App />
-    </ThemeProvider>
+    <MuiThemeProvider theme={muiTheme}>
+      <ScThemeProvider theme={scTheme}>
+        <CssBaseline />
+        <App />
+      </ScThemeProvider>
+    </MuiThemeProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
