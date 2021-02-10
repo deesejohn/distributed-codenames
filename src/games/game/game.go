@@ -39,6 +39,7 @@ func Guess(game *pb.Game, playerID string, cardID string) error {
 				return errors.New("Card already guessed")
 			}
 			if game.Clue.Number < 1 {
+				nextTurn(game)
 				return errors.New("Out of guesses")
 			}
 			card.Color = game.Key[i].Color
