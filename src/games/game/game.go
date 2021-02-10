@@ -33,14 +33,14 @@ func Guess(game *pb.Game, playerID string, cardID string) error {
 	if !onTeam {
 		return errors.New("Player is not on the guessing team")
 	}
+	if game.Clue.Number < 1 {
+		nextTurn(game)
+		return errors.New("Out of guesses")
+	}
 	for i, card := range game.Board {
 		if card.CardId == cardID {
 			if card.Revealed {
 				return errors.New("Card already guessed")
-			}
-			if game.Clue.Number < 1 {
-				nextTurn(game)
-				return errors.New("Out of guesses")
 			}
 			card.Color = game.Key[i].Color
 			card.Revealed = true
@@ -55,6 +55,9 @@ func Guess(game *pb.Game, playerID string, cardID string) error {
 			}
 			break
 		}
+	}
+	if game.Clue.Number < 1 {
+		nextTurn(game)
 	}
 	checkWinner(game)
 	return nil
