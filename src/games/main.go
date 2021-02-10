@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"encoding/json"
-	"errors"
 	"log"
 	"math/rand"
 	"net"
@@ -13,7 +12,6 @@ import (
 	game "github.com/deesejohn/distributed-codenames/src/games/game"
 	pb "github.com/deesejohn/distributed-codenames/src/games/genproto"
 	"github.com/go-redis/redis/v8"
-	"github.com/google/uuid"
 	nats "github.com/nats-io/nats.go"
 	"google.golang.org/grpc"
 	healthpb "google.golang.org/grpc/health/grpc_health_v1"
@@ -73,10 +71,7 @@ func main() {
 
 func (s *server) GetGame(ctx context.Context, in *pb.GetGameRequest) (
 	*pb.GetGameResponse, error) {
-	game, err := get(ctx, in.GameId)
-	if err != nil {
-		log.Fatal(err)
-	}
+	game := get(ctx, in.GameId)
 	return &pb.GetGameResponse{
 		Game: game,
 	}, nil
@@ -84,7 +79,6 @@ func (s *server) GetGame(ctx context.Context, in *pb.GetGameRequest) (
 
 func (s *server) CreateGame(ctx context.Context, in *pb.CreateGameRequest) (
 	*pb.CreateGameResponse, error) {
-	gameID := uuid.New().String()
 	conn, err := grpc.Dial(wordsAddr, grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
@@ -94,138 +88,68 @@ func (s *server) CreateGame(ctx context.Context, in *pb.CreateGameRequest) (
 	cr, err := c.GetWords(ctx, &pb.WordsRequest{
 		Category: pb.Category_NORMAL,
 	})
-	rand.Shuffle(len(cr.Words), func(i, j int) {
-		cr.Words[i], cr.Words[j] = cr.Words[j], cr.Words[i]
-	})
-	colors := []pb.Color{pb.Color_BLACK}
-	for i := 0; i < 7; i++ {
-		colors = append(colors, pb.Color_BEIGE)
-	}
-	for i := 0; i < 8; i++ {
-		colors = append(colors, pb.Color_BLUE, pb.Color_RED)
-	}
-	var guessing string
-	if rand.Float64() < .5 {
-		colors = append(colors, pb.Color_BLUE)
-		guessing = game.BlueTeam
-	} else {
-		colors = append(colors, pb.Color_RED)
-		guessing = game.RedTeam
-	}
-	rand.Shuffle(len(colors), func(i, j int) {
-		colors[i], colors[j] = colors[j], colors[i]
-	})
-	var board []*pb.Card
-	var key []*pb.Card
-	for i := 0; i < 25; i++ {
-		cardID := uuid.New().String()
-		board = append(board, &pb.Card{
-			CardId:   cardID,
-			Color:    pb.Color_UNKNOWN_COLOR,
-			Label:    cr.Words[i],
-			Revealed: false,
-		})
-		key = append(key, &pb.Card{
-			CardId:   cardID,
-			Color:    colors[i],
-			Label:    cr.Words[i],
-			Revealed: false,
-		})
-	}
-	clue := &pb.Clue{
-		Word:   "",
-		Number: 0,
-	}
-	state := &pb.Game{
-		GameId:            gameID,
-		HostId:            in.HostId,
-		BlueTeam:          in.BlueTeam,
-		BlueTeamSpymaster: in.BlueTeam[0].PlayerId,
-		RedTeam:           in.RedTeam,
-		RedTeamSpymaster:  in.RedTeam[0].PlayerId,
-		Board:             board,
-		Key:               key,
-		Guessing:          guessing,
-		Clue:              clue,
-		Winner:            "",
-	}
-	if err := set(ctx, gameID, state); err != nil {
-		log.Fatal(err)
-	}
+	state, err := game.New(in.HostId, in.BlueTeam, in.RedTeam, cr.Words)
+	set(ctx, state.GameId, state)
 	go publish(state)
 	return &pb.CreateGameResponse{
-		GameId: gameID,
+		GameId: state.GameId,
 	}, nil
 }
 
 func (s *server) Guess(ctx context.Context, in *pb.GuessRequest) (
 	*pb.GuessResponse, error) {
-	state, err := get(ctx, in.GameId)
-	if err != nil {
-		log.Fatal(err)
-	}
-	err = game.Guess(state, in.PlayerId, in.CardId)
+	state := get(ctx, in.GameId)
+	err := game.Guess(state, in.PlayerId, in.CardId)
 	if err != nil {
 		return nil, err
 	}
-	if err := set(ctx, state.GameId, state); err != nil {
-		log.Fatal(err)
-	}
+	set(ctx, state.GameId, state)
 	go publish(state)
 	return &pb.GuessResponse{}, nil
 }
 
 func (s *server) Hint(ctx context.Context, in *pb.HintRequest) (
 	*pb.HintResponse, error) {
-	state, err := get(ctx, in.GameId)
+	state := get(ctx, in.GameId)
+	err := game.Hint(state, in.PlayerId, in.Clue)
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
-	var spymaster string
-	if state.Guessing == game.BlueTeam {
-		spymaster = state.BlueTeamSpymaster
-	} else if state.Guessing == game.RedTeam {
-		spymaster = state.RedTeamSpymaster
-	}
-	if in.PlayerId != spymaster {
-		return nil, errors.New("You are the not guessing team's spymaster")
-	}
-	state.Clue = in.Clue
-	if err := set(ctx, state.GameId, state); err != nil {
-		log.Fatal(err)
-	}
+	set(ctx, state.GameId, state)
 	go publish(state)
 	return &pb.HintResponse{}, nil
 }
 
-func (s *server) Check(ctx context.Context, req *healthpb.HealthCheckRequest) (*healthpb.HealthCheckResponse, error) {
-	return &healthpb.HealthCheckResponse{Status: healthpb.HealthCheckResponse_SERVING}, nil
+func (s *server) Check(ctx context.Context, req *healthpb.HealthCheckRequest) (
+	*healthpb.HealthCheckResponse, error) {
+	return &healthpb.HealthCheckResponse{
+		Status: healthpb.HealthCheckResponse_SERVING,
+	}, nil
 }
 
-func get(ctx context.Context, gameID string) (*pb.Game, error) {
+func get(ctx context.Context, gameID string) *pb.Game {
 	rdb := redis.NewClient(redisOptions)
 	val, err := rdb.Get(ctx, redisPrefix+gameID).Result()
 	if err != nil {
-		return nil, err
+		log.Fatal(err)
 	}
 	var game *pb.Game
 	err = json.Unmarshal([]byte(val), &game)
 	if err != nil {
-		return nil, err
+		log.Fatal(err)
 	}
-	return game, nil
+	return game
 }
 
-func set(ctx context.Context, gameID string, game *pb.Game) error {
+func set(ctx context.Context, gameID string, game *pb.Game) {
 	data, err := json.Marshal(game)
 	if err != nil {
-		return err
+		log.Fatal(err)
 	}
 	rdb := redis.NewClient(redisOptions)
 	if rdb.Set(ctx, redisPrefix+gameID, data, 0).Err(); err != nil {
-		return err
+		log.Fatal(err)
 	}
-	return nil
 }
 
 func publish(game *pb.Game) {
