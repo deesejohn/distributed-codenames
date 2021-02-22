@@ -17,7 +17,9 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(Configuration)' != 'Release'">
-    <Protobuf Include="..\..\protos\games.proto" OutputDir="genproto" GrpcServices="Client" CompileOutputs="false" />
-  </ItemGroup>
+  <Target Name="protoc" BeforeTargets="ResolveReferences">
+    <ItemGroup Condition="'$(Configuration)' == 'Debug'">
+      <Protobuf Include="..\..\..\..\protos\games.proto" OutputDir="genproto" GrpcServices="Client" CompileOutputs="false" />
+    </ItemGroup>
+  </Target>
 </Project>

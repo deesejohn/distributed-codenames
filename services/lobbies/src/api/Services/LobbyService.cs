@@ -3,28 +3,33 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using lobbies.Models;
+using lobbies.api.Hubs;
+using lobbies.api.Models;
+using Microsoft.AspNetCore.SignalR;
 using static protos.GamesService;
 
-namespace lobbies.Services
+namespace lobbies.api.Services
 {
     public class LobbyService
     {
         private readonly GamesServiceClient _gamesService;
+        private readonly IHubContext<LobbyHub> _lobbyHub;
         private readonly ILobbyRepository _repo;
 
         public LobbyService(
             GamesServiceClient gamesService,
+            IHubContext<LobbyHub> lobbyHub,
             ILobbyRepository repo
         )
         {
             _gamesService = gamesService ?? throw new ArgumentNullException(nameof(gamesService));
+            _lobbyHub = lobbyHub ?? throw new ArgumentNullException(nameof(lobbyHub));
             _repo = repo ?? throw new ArgumentNullException(nameof(repo));
         }
 
-        public Task<Lobby> GetAsync(string lobbyId)
+        public Task<Lobby> GetAsync(string lobbyId, CancellationToken cancellationToken = default)
         {
-            return _repo.GetAsync(lobbyId);
+            return _repo.GetAsync(lobbyId, cancellationToken);
         }
 
         public async Task<string> StartNewAsync(Player host, CancellationToken cancellationToken = default)
@@ -37,6 +42,8 @@ namespace lobbies.Services
                 RedTeam = Enumerable.Empty<Player>()
             };
             await _repo.UpdateAsync(lobby, cancellationToken);
+            await _lobbyHub.Clients.Group(lobby.Id)
+                .SendAsync(LobbyHub.LOBBY_UPDATED, lobby, cancellationToken);
             return lobby.Id;
         }
 
@@ -55,6 +62,8 @@ namespace lobbies.Services
                 ? lobby with { BlueTeam = lobby.BlueTeam.Append(player) }
                 : lobby with { RedTeam = lobby.RedTeam.Append(player) };
             await _repo.UpdateAsync(lobbyWithPlayer, cancellationToken);
+            await _lobbyHub.Clients.Group(lobby.Id)
+                .SendAsync(LobbyHub.LOBBY_UPDATED, lobby, cancellationToken);
         }
 
         public async Task ChangeTeamsAsync(string lobbyId, Player player, CancellationToken cancellationToken = default)
@@ -69,6 +78,8 @@ namespace lobbies.Services
                 lobby with { BlueTeam = blueTeam, RedTeam = redTeam },
                 cancellationToken
             );
+            await _lobbyHub.Clients.Group(lobby.Id)
+                .SendAsync(LobbyHub.LOBBY_UPDATED, lobby, cancellationToken);
         }
 
         public async Task RemovePlayerAsync(string lobbyId, string playerId, CancellationToken cancellationToken = default)
@@ -82,6 +93,8 @@ namespace lobbies.Services
                 },
                 cancellationToken
             );
+            await _lobbyHub.Clients.Group(lobby.Id)
+                .SendAsync(LobbyHub.LOBBY_UPDATED, lobby, cancellationToken);
         }
 
         public async Task StartGameAsync(string lobbyId, string playerId, CancellationToken cancellationToken = default)
@@ -98,6 +111,8 @@ namespace lobbies.Services
             await _repo.UpdateAsync(
                 lobby with { GameId = response.GameId }
             );
+            await _lobbyHub.Clients.Group(lobby.Id)
+                .SendAsync(LobbyHub.LOBBY_UPDATED, lobby, cancellationToken);
         }
 
         private static Func<Player, bool> IsPlayer(string playerId)

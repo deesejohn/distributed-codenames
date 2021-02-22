@@ -23,14 +23,14 @@ If you find a bug please open an issue or pull request. This project is a way fo
 
 | Service | Language / Framework | Notes |
 | - | - | - |
-| Games | Go / [gRPC](https://grpc.io/) | Handles game logic, stores state in [Redis](https://redis.io/) and publishes updates to [NATS](https://nats.io/) |
-| Games BFF | Typescript / [Express](https://expressjs.com/) | Streams game session updates to clients in real time with websockets, subscribes to NATS |
-| Games SPA | Typescript / [React](https://reactjs.org/) | Game frontend using [Material UI](https://material-ui.com/) components |
-| Lobbies | C# / [ASP&#46;NET Core](https://docs.microsoft.com/en-us/aspnet/core/?view=aspnetcore-5.0) | Handles updating teams and game settings |
-| Lobbies SPA | Typescript / [Angular](https://angular.io/) | Allows players to select their team, allows host to change game settings |
-| Players | Python / [FastAPI](https://fastapi.tiangolo.com/) | Handles player state with redis |
-| Players SPA | Typescript / React | Allows players to set their nickname |
-| Words | Go / gRPC | Provides different word lists to vary games |
+| [Games](services/games) | Go / [gRPC](https://grpc.io/) | Handles game logic, stores state in [Redis](https://redis.io/) and publishes updates to [NATS](https://nats.io/) |
+| [Games BFF](services/games-bff) | Typescript / [Express](https://expressjs.com/) | Streams game session updates to clients in real time with websockets, subscribes to NATS |
+| [Games SPA](services/games-bff) | Typescript / [React](https://reactjs.org/) | Game frontend using [Material UI](https://material-ui.com/) components |
+| [Lobbies](services/lobbies) | C# / [ASP&#46;NET Core](https://docs.microsoft.com/en-us/aspnet/core/?view=aspnetcore-5.0) | Handles updating teams and game settings |
+| [Lobbies SPA](services/lobbies-spa) | Typescript / [Angular](https://angular.io/) | Allows players to select their team, allows host to change game settings |
+| [Players](services/players) | Python / [FastAPI](https://fastapi.tiangolo.com/) | Handles player state with redis |
+| [Players SPA](services/players-spa) | Typescript / React | Allows players to set their nickname |
+| [Words](services/words) | Go / gRPC | Provides different word lists to vary games |
 
 ### Install Helm Dependencies
 

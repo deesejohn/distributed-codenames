@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace lobbies.Models
+namespace lobbies.api.Models
 {
     public record Player
     {

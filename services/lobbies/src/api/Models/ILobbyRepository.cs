@@ -1,7 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace lobbies.Models
+namespace lobbies.api.Models
 {
     public interface ILobbyRepository
     {

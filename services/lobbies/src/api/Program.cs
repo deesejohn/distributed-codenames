@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace lobbies
+namespace lobbies.api
 {
     public class Program
     {
