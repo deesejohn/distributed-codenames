@@ -1,9 +1,9 @@
 using System;
 using System.Threading.Tasks;
-using lobbies.Services;
+using lobbies.api.Services;
 using Microsoft.AspNetCore.SignalR;
 
-namespace lobbies.Hubs
+namespace lobbies.api.Hubs
 {
     public class LobbyHub : Hub
     {

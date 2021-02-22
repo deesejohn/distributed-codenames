@@ -3,14 +3,14 @@ kind: Config
 metadata:
   name: distributed-codenames
 requires:
-  - path: src/games
-  - path: src/games-bff
-  - path: src/games-spa
-  - path: src/lobbies
-  - path: src/lobbies-spa
-  - path: src/players
-  - path: src/players-spa
-  - path: src/words
+  - path: services/games
+  - path: services/games-bff
+  - path: services/games-spa
+  - path: services/lobbies
+  - path: services/lobbies-spa
+  - path: services/players
+  - path: services/players-spa
+  - path: services/words
 deploy:
   kubectl:
     manifests:

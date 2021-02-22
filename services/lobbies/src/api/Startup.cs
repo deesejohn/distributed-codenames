@@ -6,15 +6,15 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using lobbies.Services;
+using lobbies.api.Services;
 using Microsoft.AspNetCore.Routing;
-using lobbies.Repositories;
-using lobbies.Models;
-using lobbies.Hubs;
+using lobbies.api.Repositories;
+using lobbies.api.Models;
+using lobbies.api.Hubs;
 using Microsoft.AspNetCore.Http.Connections;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
-namespace lobbies
+namespace lobbies.api
 {
     public class Startup
     {

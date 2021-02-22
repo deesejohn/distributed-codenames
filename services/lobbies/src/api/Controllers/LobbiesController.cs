@@ -1,12 +1,12 @@
 using System.Threading;
 using System;
 using System.Threading.Tasks;
-using lobbies.Models;
-using lobbies.Services;
+using lobbies.api.Models;
+using lobbies.api.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace lobbies.Controllers
+namespace lobbies.api.Controllers
 {
     [ApiController]
     [Route("")]

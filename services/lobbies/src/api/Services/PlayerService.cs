@@ -4,9 +4,9 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using lobbies.Models;
+using lobbies.api.Models;
 
-namespace lobbies.Services
+namespace lobbies.api.Services
 {
     public class PlayerService
     {

@@ -2,22 +2,18 @@ using System;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using lobbies.Hubs;
-using lobbies.Models;
-using Microsoft.AspNetCore.SignalR;
+using lobbies.api.Models;
 using Microsoft.Extensions.Caching.Distributed;
 
-namespace lobbies.Repositories
+namespace lobbies.api.Repositories
 {
     public class RedisLobbyRepository : ILobbyRepository
     {
         private readonly IDistributedCache _cache;
-        private readonly IHubContext<LobbyHub> _lobbyHub;
 
-        public RedisLobbyRepository(IDistributedCache cache, IHubContext<LobbyHub> lobbyHub)
+        public RedisLobbyRepository(IDistributedCache cache)
         {
             _cache = cache ?? throw new ArgumentNullException(nameof(cache));
-            _lobbyHub = lobbyHub ?? throw new ArgumentNullException(nameof(lobbyHub));
         }
 
         public async Task<Lobby> GetAsync(string lobbyId, CancellationToken cancellationToken = default)
@@ -34,8 +30,6 @@ namespace lobbies.Repositories
                 JsonSerializer.Serialize(lobby),
                 cancellationToken
             );
-            await _lobbyHub.Clients.Group(lobby.Id)
-                .SendAsync(LobbyHub.LOBBY_UPDATED, lobby, cancellationToken);
         }
     }
 }
