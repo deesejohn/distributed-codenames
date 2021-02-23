@@ -23,10 +23,10 @@ namespace lobbies.api.Repositories
             );
         }
 
-        public async Task UpdateAsync(Lobby lobby, CancellationToken cancellationToken = default)
+        public async Task UpdateAsync(string lobbyId, Lobby lobby, CancellationToken cancellationToken = default)
         {
             await _cache.SetStringAsync(
-                lobby.Id,
+                lobbyId,
                 JsonSerializer.Serialize(lobby),
                 cancellationToken
             );

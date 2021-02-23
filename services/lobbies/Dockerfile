@@ -15,7 +15,7 @@ RUN dotnet restore
 FROM base AS test
 WORKDIR /app
 COPY . .
-RUN dotnet test --collect:"XPlat Code Coverage"
+RUN dotnet test -c "Test" --collect:"XPlat Code Coverage"
 
 FROM test AS build
 WORKDIR /app

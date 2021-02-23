@@ -47,19 +47,23 @@ namespace protos {
             "CgdnYW1lX2lkGAEgASgJEhEKCXBsYXllcl9pZBgCIAEoCRIpCgRjbHVlGAMg",
             "ASgLMhsuZGlzdHJpYnV0ZWRfY29kZW5hbWVzLkNsdWUiDgoMSGludFJlc3Bv",
             "bnNlIkMKDEd1ZXNzUmVxdWVzdBIPCgdnYW1lX2lkGAEgASgJEhEKCXBsYXll",
-            "cl9pZBgCIAEoCRIPCgdjYXJkX2lkGAMgASgJIg8KDUd1ZXNzUmVzcG9uc2Uq",
-            "QwoFQ29sb3ISEQoNVU5LTk9XTl9DT0xPUhAAEggKBEJMVUUQARIHCgNSRUQQ",
-            "AhIJCgVCRUlHRRADEgkKBUJMQUNLEAQy8AIKDEdhbWVzU2VydmljZRJhCgpD",
-            "cmVhdGVHYW1lEiguZGlzdHJpYnV0ZWRfY29kZW5hbWVzLkNyZWF0ZUdhbWVS",
-            "ZXF1ZXN0GikuZGlzdHJpYnV0ZWRfY29kZW5hbWVzLkNyZWF0ZUdhbWVSZXNw",
-            "b25zZRJYCgdHZXRHYW1lEiUuZGlzdHJpYnV0ZWRfY29kZW5hbWVzLkdldEdh",
-            "bWVSZXF1ZXN0GiYuZGlzdHJpYnV0ZWRfY29kZW5hbWVzLkdldEdhbWVSZXNw",
-            "b25zZRJPCgRIaW50EiIuZGlzdHJpYnV0ZWRfY29kZW5hbWVzLkhpbnRSZXF1",
-            "ZXN0GiMuZGlzdHJpYnV0ZWRfY29kZW5hbWVzLkhpbnRSZXNwb25zZRJSCgVH",
-            "dWVzcxIjLmRpc3RyaWJ1dGVkX2NvZGVuYW1lcy5HdWVzc1JlcXVlc3QaJC5k",
-            "aXN0cmlidXRlZF9jb2RlbmFtZXMuR3Vlc3NSZXNwb25zZUI8WjFnaXRodWIu",
-            "Y29tL2RlZXNlam9obi9kaXN0cmlidXRlZC1jb2RlbmFtZXMvcHJvdG9zqgIG",
-            "cHJvdG9zYgZwcm90bzM="));
+            "cl9pZBgCIAEoCRIPCgdjYXJkX2lkGAMgASgJIg8KDUd1ZXNzUmVzcG9uc2Ui",
+            "NQoPU2tpcFR1cm5SZXF1ZXN0Eg8KB2dhbWVfaWQYASABKAkSEQoJcGxheWVy",
+            "X2lkGAIgASgJIhIKEFNraXBUdXJuUmVzcG9uc2UqQwoFQ29sb3ISEQoNVU5L",
+            "Tk9XTl9DT0xPUhAAEggKBEJMVUUQARIHCgNSRUQQAhIJCgVCRUlHRRADEgkK",
+            "BUJMQUNLEAQyzQMKDEdhbWVzU2VydmljZRJhCgpDcmVhdGVHYW1lEiguZGlz",
+            "dHJpYnV0ZWRfY29kZW5hbWVzLkNyZWF0ZUdhbWVSZXF1ZXN0GikuZGlzdHJp",
+            "YnV0ZWRfY29kZW5hbWVzLkNyZWF0ZUdhbWVSZXNwb25zZRJYCgdHZXRHYW1l",
+            "EiUuZGlzdHJpYnV0ZWRfY29kZW5hbWVzLkdldEdhbWVSZXF1ZXN0GiYuZGlz",
+            "dHJpYnV0ZWRfY29kZW5hbWVzLkdldEdhbWVSZXNwb25zZRJPCgRIaW50EiIu",
+            "ZGlzdHJpYnV0ZWRfY29kZW5hbWVzLkhpbnRSZXF1ZXN0GiMuZGlzdHJpYnV0",
+            "ZWRfY29kZW5hbWVzLkhpbnRSZXNwb25zZRJSCgVHdWVzcxIjLmRpc3RyaWJ1",
+            "dGVkX2NvZGVuYW1lcy5HdWVzc1JlcXVlc3QaJC5kaXN0cmlidXRlZF9jb2Rl",
+            "bmFtZXMuR3Vlc3NSZXNwb25zZRJbCghTa2lwVHVybhImLmRpc3RyaWJ1dGVk",
+            "X2NvZGVuYW1lcy5Ta2lwVHVyblJlcXVlc3QaJy5kaXN0cmlidXRlZF9jb2Rl",
+            "bmFtZXMuU2tpcFR1cm5SZXNwb25zZUI8WjFnaXRodWIuY29tL2RlZXNlam9o",
+            "bi9kaXN0cmlidXRlZC1jb2RlbmFtZXMvcHJvdG9zqgIGcHJvdG9zYgZwcm90",
+            "bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::protos.Color), }, null, new pbr::GeneratedClrTypeInfo[] {
@@ -74,7 +78,9 @@ namespace protos {
             new pbr::GeneratedClrTypeInfo(typeof(global::protos.HintRequest), global::protos.HintRequest.Parser, new[]{ "GameId", "PlayerId", "Clue" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::protos.HintResponse), global::protos.HintResponse.Parser, null, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::protos.GuessRequest), global::protos.GuessRequest.Parser, new[]{ "GameId", "PlayerId", "CardId" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::protos.GuessResponse), global::protos.GuessResponse.Parser, null, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::protos.GuessResponse), global::protos.GuessResponse.Parser, null, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::protos.SkipTurnRequest), global::protos.SkipTurnRequest.Parser, new[]{ "GameId", "PlayerId" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::protos.SkipTurnResponse), global::protos.SkipTurnResponse.Parser, null, null, null, null, null)
           }));
     }
     #endregion
@@ -2799,6 +2805,350 @@ namespace protos {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(GuessResponse other) {
+      if (other == null) {
+        return;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+        }
+      }
+    }
+    #endif
+
+  }
+
+  public sealed partial class SkipTurnRequest : pb::IMessage<SkipTurnRequest>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<SkipTurnRequest> _parser = new pb::MessageParser<SkipTurnRequest>(() => new SkipTurnRequest());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<SkipTurnRequest> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::protos.GamesReflection.Descriptor.MessageTypes[12]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public SkipTurnRequest() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public SkipTurnRequest(SkipTurnRequest other) : this() {
+      gameId_ = other.gameId_;
+      playerId_ = other.playerId_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public SkipTurnRequest Clone() {
+      return new SkipTurnRequest(this);
+    }
+
+    /// <summary>Field number for the "game_id" field.</summary>
+    public const int GameIdFieldNumber = 1;
+    private string gameId_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string GameId {
+      get { return gameId_; }
+      set {
+        gameId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "player_id" field.</summary>
+    public const int PlayerIdFieldNumber = 2;
+    private string playerId_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string PlayerId {
+      get { return playerId_; }
+      set {
+        playerId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as SkipTurnRequest);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(SkipTurnRequest other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (GameId != other.GameId) return false;
+      if (PlayerId != other.PlayerId) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (GameId.Length != 0) hash ^= GameId.GetHashCode();
+      if (PlayerId.Length != 0) hash ^= PlayerId.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (GameId.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(GameId);
+      }
+      if (PlayerId.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(PlayerId);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (GameId.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(GameId);
+      }
+      if (PlayerId.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(PlayerId);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (GameId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(GameId);
+      }
+      if (PlayerId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(PlayerId);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(SkipTurnRequest other) {
+      if (other == null) {
+        return;
+      }
+      if (other.GameId.Length != 0) {
+        GameId = other.GameId;
+      }
+      if (other.PlayerId.Length != 0) {
+        PlayerId = other.PlayerId;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            GameId = input.ReadString();
+            break;
+          }
+          case 18: {
+            PlayerId = input.ReadString();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            GameId = input.ReadString();
+            break;
+          }
+          case 18: {
+            PlayerId = input.ReadString();
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  public sealed partial class SkipTurnResponse : pb::IMessage<SkipTurnResponse>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<SkipTurnResponse> _parser = new pb::MessageParser<SkipTurnResponse>(() => new SkipTurnResponse());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<SkipTurnResponse> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::protos.GamesReflection.Descriptor.MessageTypes[13]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public SkipTurnResponse() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public SkipTurnResponse(SkipTurnResponse other) : this() {
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public SkipTurnResponse Clone() {
+      return new SkipTurnResponse(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as SkipTurnResponse);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(SkipTurnResponse other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(SkipTurnResponse other) {
       if (other == null) {
         return;
       }

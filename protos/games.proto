@@ -79,9 +79,17 @@ message GuessRequest {
 
 message GuessResponse {}
 
+message SkipTurnRequest {
+    string game_id = 1;
+    string player_id = 2;
+}
+
+message SkipTurnResponse {}
+
 service GamesService {
     rpc CreateGame (CreateGameRequest) returns (CreateGameResponse);
     rpc GetGame (GetGameRequest) returns (GetGameResponse);
     rpc Hint (HintRequest) returns (HintResponse);
     rpc Guess (GuessRequest) returns (GuessResponse);
+    rpc SkipTurn (SkipTurnRequest) returns (SkipTurnResponse);
 }

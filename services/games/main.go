@@ -120,6 +120,18 @@ func (s *server) Hint(ctx context.Context, in *pb.HintRequest) (
 	return &pb.HintResponse{}, nil
 }
 
+func (s *server) SkipTurn(ctx context.Context, in *pb.SkipTurnRequest) (
+	*pb.SkipTurnResponse, error) {
+	state := get(ctx, in.GameId)
+	err := game.SkipTurn(state, in.PlayerId)
+	if err != nil {
+		return nil, err
+	}
+	set(ctx, state.GameId, state)
+	go publish(state)
+	return &pb.SkipTurnResponse{}, nil
+}
+
 func (s *server) Check(ctx context.Context, req *healthpb.HealthCheckRequest) (
 	*healthpb.HealthCheckResponse, error) {
 	return &healthpb.HealthCheckResponse{

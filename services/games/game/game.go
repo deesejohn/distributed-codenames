@@ -51,7 +51,7 @@ func Guess(game *pb.Game, playerID string, cardID string) error {
 			}
 			if (card.Color != pb.Color_BLUE && game.Guessing == BlueTeam) ||
 				(card.Color != pb.Color_RED && game.Guessing == RedTeam) {
-				nextTurn(game)
+				game.Clue.Number = 0
 			}
 			break
 		}
@@ -140,6 +140,28 @@ func New(hostID string, blueTeam []*pb.Player, redTeam []*pb.Player,
 		Winner:            "",
 	}
 	return game, nil
+}
+
+// SkipTurn skips the current guess
+func SkipTurn(game *pb.Game, playerID string) error {
+	var team []*pb.Player
+	if game.Guessing == BlueTeam {
+		team = game.BlueTeam
+	} else {
+		team = game.RedTeam
+	}
+	onTeam := false
+	for _, player := range team {
+		if player.PlayerId == playerID {
+			onTeam = true
+			break
+		}
+	}
+	if !onTeam {
+		return errors.New("Player not on the guessing team")
+	}
+	nextTurn(game)
+	return nil
 }
 
 func checkWinner(game *pb.Game) {

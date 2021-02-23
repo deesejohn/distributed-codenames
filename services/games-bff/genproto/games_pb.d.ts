@@ -341,6 +341,46 @@ export namespace GuessResponse {
   }
 }
 
+export class SkipTurnRequest extends jspb.Message {
+  getGameId(): string;
+  setGameId(value: string): void;
+
+  getPlayerId(): string;
+  setPlayerId(value: string): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): SkipTurnRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: SkipTurnRequest): SkipTurnRequest.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: SkipTurnRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): SkipTurnRequest;
+  static deserializeBinaryFromReader(message: SkipTurnRequest, reader: jspb.BinaryReader): SkipTurnRequest;
+}
+
+export namespace SkipTurnRequest {
+  export type AsObject = {
+    gameId: string,
+    playerId: string,
+  }
+}
+
+export class SkipTurnResponse extends jspb.Message {
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): SkipTurnResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: SkipTurnResponse): SkipTurnResponse.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: SkipTurnResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): SkipTurnResponse;
+  static deserializeBinaryFromReader(message: SkipTurnResponse, reader: jspb.BinaryReader): SkipTurnResponse;
+}
+
+export namespace SkipTurnResponse {
+  export type AsObject = {
+  }
+}
+
 export interface ColorMap {
   UNKNOWN_COLOR: 0;
   BLUE: 1;

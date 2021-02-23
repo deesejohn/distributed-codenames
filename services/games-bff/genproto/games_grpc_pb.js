@@ -92,6 +92,28 @@ function deserialize_distributed_codenames_HintResponse(buffer_arg) {
   return games_pb.HintResponse.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_distributed_codenames_SkipTurnRequest(arg) {
+  if (!(arg instanceof games_pb.SkipTurnRequest)) {
+    throw new Error('Expected argument of type distributed_codenames.SkipTurnRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_distributed_codenames_SkipTurnRequest(buffer_arg) {
+  return games_pb.SkipTurnRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_distributed_codenames_SkipTurnResponse(arg) {
+  if (!(arg instanceof games_pb.SkipTurnResponse)) {
+    throw new Error('Expected argument of type distributed_codenames.SkipTurnResponse');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_distributed_codenames_SkipTurnResponse(buffer_arg) {
+  return games_pb.SkipTurnResponse.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 
 var GamesServiceService = exports.GamesServiceService = {
   createGame: {
@@ -137,6 +159,17 @@ var GamesServiceService = exports.GamesServiceService = {
     requestDeserialize: deserialize_distributed_codenames_GuessRequest,
     responseSerialize: serialize_distributed_codenames_GuessResponse,
     responseDeserialize: deserialize_distributed_codenames_GuessResponse,
+  },
+  skipTurn: {
+    path: '/distributed_codenames.GamesService/SkipTurn',
+    requestStream: false,
+    responseStream: false,
+    requestType: games_pb.SkipTurnRequest,
+    responseType: games_pb.SkipTurnResponse,
+    requestSerialize: serialize_distributed_codenames_SkipTurnRequest,
+    requestDeserialize: deserialize_distributed_codenames_SkipTurnRequest,
+    responseSerialize: serialize_distributed_codenames_SkipTurnResponse,
+    responseDeserialize: deserialize_distributed_codenames_SkipTurnResponse,
   },
 };
 

@@ -21,6 +21,7 @@ type GamesServiceClient interface {
 	GetGame(ctx context.Context, in *GetGameRequest, opts ...grpc.CallOption) (*GetGameResponse, error)
 	Hint(ctx context.Context, in *HintRequest, opts ...grpc.CallOption) (*HintResponse, error)
 	Guess(ctx context.Context, in *GuessRequest, opts ...grpc.CallOption) (*GuessResponse, error)
+	SkipTurn(ctx context.Context, in *SkipTurnRequest, opts ...grpc.CallOption) (*SkipTurnResponse, error)
 }
 
 type gamesServiceClient struct {
@@ -67,6 +68,15 @@ func (c *gamesServiceClient) Guess(ctx context.Context, in *GuessRequest, opts .
 	return out, nil
 }
 
+func (c *gamesServiceClient) SkipTurn(ctx context.Context, in *SkipTurnRequest, opts ...grpc.CallOption) (*SkipTurnResponse, error) {
+	out := new(SkipTurnResponse)
+	err := c.cc.Invoke(ctx, "/distributed_codenames.GamesService/SkipTurn", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // GamesServiceServer is the server API for GamesService service.
 // All implementations must embed UnimplementedGamesServiceServer
 // for forward compatibility
@@ -75,6 +85,7 @@ type GamesServiceServer interface {
 	GetGame(context.Context, *GetGameRequest) (*GetGameResponse, error)
 	Hint(context.Context, *HintRequest) (*HintResponse, error)
 	Guess(context.Context, *GuessRequest) (*GuessResponse, error)
+	SkipTurn(context.Context, *SkipTurnRequest) (*SkipTurnResponse, error)
 	mustEmbedUnimplementedGamesServiceServer()
 }
 
@@ -93,6 +104,9 @@ func (UnimplementedGamesServiceServer) Hint(context.Context, *HintRequest) (*Hin
 }
 func (UnimplementedGamesServiceServer) Guess(context.Context, *GuessRequest) (*GuessResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Guess not implemented")
+}
+func (UnimplementedGamesServiceServer) SkipTurn(context.Context, *SkipTurnRequest) (*SkipTurnResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SkipTurn not implemented")
 }
 func (UnimplementedGamesServiceServer) mustEmbedUnimplementedGamesServiceServer() {}
 
@@ -179,6 +193,24 @@ func _GamesService_Guess_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
+func _GamesService_SkipTurn_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SkipTurnRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GamesServiceServer).SkipTurn(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/distributed_codenames.GamesService/SkipTurn",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GamesServiceServer).SkipTurn(ctx, req.(*SkipTurnRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _GamesService_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "distributed_codenames.GamesService",
 	HandlerType: (*GamesServiceServer)(nil),
@@ -198,6 +230,10 @@ var _GamesService_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Guess",
 			Handler:    _GamesService_Guess_Handler,
+		},
+		{
+			MethodName: "SkipTurn",
+			Handler:    _GamesService_SkipTurn_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

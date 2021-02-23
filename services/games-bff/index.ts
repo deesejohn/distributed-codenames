@@ -12,7 +12,8 @@ import {
   GetGameRequest,
   GuessRequest,
   HintRequest,
-  Player as GrpcPlayer
+  Player as GrpcPlayer,
+  SkipTurnRequest
 } from './genproto/games_pb';
 import { Card } from './Card';
 import { Game } from './Game';
@@ -101,6 +102,19 @@ app.post('/:game_id/hint', (req, res) => {
   clue.setWord(req.body.word);
   request.setClue(clue);
   gameClient.hint(request, (err, data) => {
+    if (err) {
+      res.status(400).send();
+      return;
+    };
+    res.status(204).send();
+  });
+});
+
+app.post('/:game_id/skip', (req, res) => {
+  let request = new SkipTurnRequest();
+  request.setGameId(req.params.game_id);
+  request.setPlayerId(req.body.player_id);
+  gameClient.skipTurn(request, (err, data) => {
     if (err) {
       res.status(400).send();
       return;

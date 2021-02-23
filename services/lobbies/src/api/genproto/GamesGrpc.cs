@@ -50,6 +50,8 @@ namespace protos {
     static readonly grpc::Marshaller<global::protos.HintResponse> __Marshaller_distributed_codenames_HintResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::protos.HintResponse.Parser));
     static readonly grpc::Marshaller<global::protos.GuessRequest> __Marshaller_distributed_codenames_GuessRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::protos.GuessRequest.Parser));
     static readonly grpc::Marshaller<global::protos.GuessResponse> __Marshaller_distributed_codenames_GuessResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::protos.GuessResponse.Parser));
+    static readonly grpc::Marshaller<global::protos.SkipTurnRequest> __Marshaller_distributed_codenames_SkipTurnRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::protos.SkipTurnRequest.Parser));
+    static readonly grpc::Marshaller<global::protos.SkipTurnResponse> __Marshaller_distributed_codenames_SkipTurnResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::protos.SkipTurnResponse.Parser));
 
     static readonly grpc::Method<global::protos.CreateGameRequest, global::protos.CreateGameResponse> __Method_CreateGame = new grpc::Method<global::protos.CreateGameRequest, global::protos.CreateGameResponse>(
         grpc::MethodType.Unary,
@@ -78,6 +80,13 @@ namespace protos {
         "Guess",
         __Marshaller_distributed_codenames_GuessRequest,
         __Marshaller_distributed_codenames_GuessResponse);
+
+    static readonly grpc::Method<global::protos.SkipTurnRequest, global::protos.SkipTurnResponse> __Method_SkipTurn = new grpc::Method<global::protos.SkipTurnRequest, global::protos.SkipTurnResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "SkipTurn",
+        __Marshaller_distributed_codenames_SkipTurnRequest,
+        __Marshaller_distributed_codenames_SkipTurnResponse);
 
     /// <summary>Service descriptor</summary>
     public static global::Google.Protobuf.Reflection.ServiceDescriptor Descriptor
@@ -171,6 +180,22 @@ namespace protos {
       public virtual grpc::AsyncUnaryCall<global::protos.GuessResponse> GuessAsync(global::protos.GuessRequest request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncUnaryCall(__Method_Guess, null, options, request);
+      }
+      public virtual global::protos.SkipTurnResponse SkipTurn(global::protos.SkipTurnRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return SkipTurn(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual global::protos.SkipTurnResponse SkipTurn(global::protos.SkipTurnRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_SkipTurn, null, options, request);
+      }
+      public virtual grpc::AsyncUnaryCall<global::protos.SkipTurnResponse> SkipTurnAsync(global::protos.SkipTurnRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return SkipTurnAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual grpc::AsyncUnaryCall<global::protos.SkipTurnResponse> SkipTurnAsync(global::protos.SkipTurnRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_SkipTurn, null, options, request);
       }
       /// <summary>Creates a new instance of client from given <c>ClientBaseConfiguration</c>.</summary>
       protected override GamesServiceClient NewInstance(ClientBaseConfiguration configuration)

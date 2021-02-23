@@ -23,6 +23,7 @@ import { Card, Clue, Game } from './types';
 
 //Styles
 import './App.css';
+import Button from '@material-ui/core/Button';
 
 export default function App() {
   const [game, setGame] = useState<Game | null>(null);
@@ -39,7 +40,7 @@ export default function App() {
   const player_id = useMemo(() => {
     return document.cookie
       ?.split('; ')
-      ?.find((row) => row.startsWith('player_id'))
+      ?.find(row => row.startsWith('player_id'))
       ?.split('=')[1];
   }, []);
 
@@ -100,12 +101,11 @@ export default function App() {
     if (!game || !player_id) {
       return;
     }
-    const spymaster = game.guessing === 'blue_team'
-      ? game.blue_team_spymaster
-      : game.red_team_spymaster;
-    setPromptHint(
-      player_id === spymaster && !game.clue.word
-    );
+    const spymaster =
+      game.guessing === 'blue_team'
+        ? game.blue_team_spymaster
+        : game.red_team_spymaster;
+    setPromptHint(player_id === spymaster && !game.clue.word);
     console.log(game);
   }, [game, player_id]);
 
@@ -114,6 +114,13 @@ export default function App() {
       return;
     }
     await gameApi.hint(game_id, player_id, clue);
+  };
+
+  const handleSkip = async () => {
+    if (!player_id) {
+      return;
+    }
+    await gameApi.skip(game_id, player_id);
   };
 
   return (
@@ -134,6 +141,15 @@ export default function App() {
             <Hint clue={game.clue}></Hint>
             <HintDialog handleHint={handleHint} open={promptHint}></HintDialog>
             <Board board={game.board} guess={handleOnClickGuess} />
+            <Button
+              color="primary"
+              fullWidth
+              type="submit"
+              variant="contained"
+              onClick={handleSkip}
+            >
+              Skip
+            </Button>
           </div>
         ) : (
           <GameOver winner={game.winner} />
