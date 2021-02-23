@@ -41,6 +41,7 @@ namespace api.tests.ServiceTests
         {
             _repo
                 .Setup(r => r.UpdateAsync(
+                    It.IsAny<string>(),
                     It.Is<Lobby>(l => l.HostId == host.Id && l.BlueTeam.Contains(host)),
                     CancellationToken.None
                 ))

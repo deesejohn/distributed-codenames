@@ -11,6 +11,7 @@ interface IGamesServiceService extends grpc.ServiceDefinition<grpc.UntypedServic
   getGame: grpc.MethodDefinition<games_pb.GetGameRequest, games_pb.GetGameResponse>;
   hint: grpc.MethodDefinition<games_pb.HintRequest, games_pb.HintResponse>;
   guess: grpc.MethodDefinition<games_pb.GuessRequest, games_pb.GuessResponse>;
+  skipTurn: grpc.MethodDefinition<games_pb.SkipTurnRequest, games_pb.SkipTurnResponse>;
 }
 
 export const GamesServiceService: IGamesServiceService;
@@ -20,6 +21,7 @@ export interface IGamesServiceServer extends grpc.UntypedServiceImplementation {
   getGame: grpc.handleUnaryCall<games_pb.GetGameRequest, games_pb.GetGameResponse>;
   hint: grpc.handleUnaryCall<games_pb.HintRequest, games_pb.HintResponse>;
   guess: grpc.handleUnaryCall<games_pb.GuessRequest, games_pb.GuessResponse>;
+  skipTurn: grpc.handleUnaryCall<games_pb.SkipTurnRequest, games_pb.SkipTurnResponse>;
 }
 
 export class GamesServiceClient extends grpc.Client {
@@ -36,4 +38,7 @@ export class GamesServiceClient extends grpc.Client {
   guess(argument: games_pb.GuessRequest, callback: grpc.requestCallback<games_pb.GuessResponse>): grpc.ClientUnaryCall;
   guess(argument: games_pb.GuessRequest, metadataOrOptions: grpc.Metadata | grpc.CallOptions | null, callback: grpc.requestCallback<games_pb.GuessResponse>): grpc.ClientUnaryCall;
   guess(argument: games_pb.GuessRequest, metadata: grpc.Metadata | null, options: grpc.CallOptions | null, callback: grpc.requestCallback<games_pb.GuessResponse>): grpc.ClientUnaryCall;
+  skipTurn(argument: games_pb.SkipTurnRequest, callback: grpc.requestCallback<games_pb.SkipTurnResponse>): grpc.ClientUnaryCall;
+  skipTurn(argument: games_pb.SkipTurnRequest, metadataOrOptions: grpc.Metadata | grpc.CallOptions | null, callback: grpc.requestCallback<games_pb.SkipTurnResponse>): grpc.ClientUnaryCall;
+  skipTurn(argument: games_pb.SkipTurnRequest, metadata: grpc.Metadata | null, options: grpc.CallOptions | null, callback: grpc.requestCallback<games_pb.SkipTurnResponse>): grpc.ClientUnaryCall;
 }

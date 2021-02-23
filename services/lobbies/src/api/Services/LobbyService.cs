@@ -41,7 +41,7 @@ namespace lobbies.api.Services
                 BlueTeam = new Player[] { host },
                 RedTeam = Enumerable.Empty<Player>()
             };
-            await _repo.UpdateAsync(lobby, cancellationToken);
+            await _repo.UpdateAsync(lobby.Id, lobby, cancellationToken);
             await _lobbyHub.Clients.Group(lobby.Id)
                 .SendAsync(LobbyHub.LOBBY_UPDATED, lobby, cancellationToken);
             return lobby.Id;
@@ -61,9 +61,9 @@ namespace lobbies.api.Services
             var lobbyWithPlayer = lobby.BlueTeam.Count() <= lobby.RedTeam.Count()
                 ? lobby with { BlueTeam = lobby.BlueTeam.Append(player) }
                 : lobby with { RedTeam = lobby.RedTeam.Append(player) };
-            await _repo.UpdateAsync(lobbyWithPlayer, cancellationToken);
+            await _repo.UpdateAsync(lobbyId, lobbyWithPlayer, cancellationToken);
             await _lobbyHub.Clients.Group(lobby.Id)
-                .SendAsync(LobbyHub.LOBBY_UPDATED, lobby, cancellationToken);
+                .SendAsync(LobbyHub.LOBBY_UPDATED, lobbyWithPlayer, cancellationToken);
         }
 
         public async Task ChangeTeamsAsync(string lobbyId, Player player, CancellationToken cancellationToken = default)
@@ -74,27 +74,23 @@ namespace lobbies.api.Services
                 , lobby.RedTeam.Append(player))
                 : (lobby.BlueTeam.Append(player)
                 , lobby.RedTeam.Where(p => p.Id != player.Id));
-            await _repo.UpdateAsync(
-                lobby with { BlueTeam = blueTeam, RedTeam = redTeam },
-                cancellationToken
-            );
+            var nextLobby = lobby with { BlueTeam = blueTeam, RedTeam = redTeam };
+            await _repo.UpdateAsync(lobbyId, nextLobby, cancellationToken);
             await _lobbyHub.Clients.Group(lobby.Id)
-                .SendAsync(LobbyHub.LOBBY_UPDATED, lobby, cancellationToken);
+                .SendAsync(LobbyHub.LOBBY_UPDATED, nextLobby, cancellationToken);
         }
 
         public async Task RemovePlayerAsync(string lobbyId, string playerId, CancellationToken cancellationToken = default)
         {
             var lobby = await _repo.GetAsync(lobbyId);
-            await _repo.UpdateAsync(
-                lobby with
-                {
-                    BlueTeam = lobby.BlueTeam.Where(p => p.Id != playerId),
-                    RedTeam = lobby.RedTeam.Where(p => p.Id != playerId)
-                },
-                cancellationToken
-            );
+            var nextLobby = lobby with
+            {
+                BlueTeam = lobby.BlueTeam.Where(p => p.Id != playerId),
+                RedTeam = lobby.RedTeam.Where(p => p.Id != playerId)
+            };
+            await _repo.UpdateAsync(lobbyId, nextLobby, cancellationToken);
             await _lobbyHub.Clients.Group(lobby.Id)
-                .SendAsync(LobbyHub.LOBBY_UPDATED, lobby, cancellationToken);
+                .SendAsync(LobbyHub.LOBBY_UPDATED, nextLobby, cancellationToken);
         }
 
         public async Task StartGameAsync(string lobbyId, string playerId, CancellationToken cancellationToken = default)
@@ -108,11 +104,10 @@ namespace lobbies.api.Services
             request.BlueTeam.AddRange(Map(lobby.BlueTeam));
             request.RedTeam.AddRange(Map(lobby.RedTeam));
             var response = await _gamesService.CreateGameAsync(request);
-            await _repo.UpdateAsync(
-                lobby with { GameId = response.GameId }
-            );
+            var nextLobby = lobby with { GameId = response.GameId };
+            await _repo.UpdateAsync(lobbyId, nextLobby, cancellationToken);
             await _lobbyHub.Clients.Group(lobby.Id)
-                .SendAsync(LobbyHub.LOBBY_UPDATED, lobby, cancellationToken);
+                .SendAsync(LobbyHub.LOBBY_UPDATED, nextLobby, cancellationToken);
         }
 
         private static Func<Player, bool> IsPlayer(string playerId)

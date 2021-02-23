@@ -31,10 +31,20 @@ const hint = async (
   });
 };
 
+const skip = async (
+  game_id: string,
+  player_id: string,
+): Promise<void> => {
+  await apiClient.post(`${game_id}/skip`, {
+    player_id: player_id,
+  });
+};
+
 const methods = {
   get,
   guess,
   hint,
+  skip,
 };
 
 export default methods;
