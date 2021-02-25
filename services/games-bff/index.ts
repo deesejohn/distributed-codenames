@@ -15,9 +15,11 @@ import {
   Player as GrpcPlayer,
   SkipTurnRequest
 } from './genproto/games_pb';
-import { Card } from './Card';
-import { Game } from './Game';
-import { Player } from './Player';
+import {
+  Card,
+  Game,
+  Player
+} from 'models';
 
 const
   app = express(),
