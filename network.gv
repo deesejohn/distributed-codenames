@@ -51,7 +51,7 @@ digraph networkgraph {
   lobbies_svc -> games_svc [constraint=false]
 
   # nats pub/sub
-  edge [arrowhead=onormal, color=gray, style=dashed]
+  edge [arrowhead=onormal, color=gray, constraint=false, style=dashed]
   games_svc -> games_bff [label="game.*"]
   
   # SignalR
