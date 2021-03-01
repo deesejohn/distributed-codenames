@@ -20,22 +20,21 @@ export const RevealedGameCard = styled(Box)<Card>`
       case 1:
         return `
           background: ${props.theme.colors.blue};
-          color: ${props.theme.colors.blue};
+          color: black
         `;
       case 2:
         return `
           background: ${props.theme.colors.red};
-          color: ${props.theme.colors.red};
+          color: black
         `;
       case 3:
         return `
           background: ${props.theme.colors.tan};
-          color: ${props.theme.colors.tan};
+          color: black
         `;
       case 4:
         return `
           background: ${props.theme.colors.black};
-          color: ${props.theme.colors.black};
         `;
       default:
         return 'default';

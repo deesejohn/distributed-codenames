@@ -109,6 +109,13 @@ export default function App() {
     console.log(game);
   }, [game, player_id]);
 
+  const board: Card[] = [
+    game?.blue_team_spymaster,
+    game?.red_team_spymaster,
+  ].includes(player_id)
+    ? game?.key || []
+    : game?.board || [];
+
   const handleHint = async (clue: Clue) => {
     if (!player_id) {
       return;
@@ -140,7 +147,7 @@ export default function App() {
           <div>
             <Hint clue={game.clue}></Hint>
             <HintDialog handleHint={handleHint} open={promptHint}></HintDialog>
-            <Board board={game.board} guess={handleOnClickGuess} />
+            <Board board={board} guess={handleOnClickGuess} />
             <Button
               color="primary"
               fullWidth

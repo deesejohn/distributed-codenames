@@ -11,7 +11,7 @@ const Word = (props: { card: Card; guess: (card: Card) => void }) => {
 
   return (
     <GameCardContainer>
-      {!card.revealed ? (
+      {!card.color ? (
         <GameCard fullWidth onClick={() => guess(card)} variant="contained">
           {card.label}
         </GameCard>
@@ -24,7 +24,7 @@ const Word = (props: { card: Card; guess: (card: Card) => void }) => {
           textAlign={'center'}
           cardColor={card.color}
         >
-          {card.label}
+          {!card.revealed ? card.label : <del>{card.label}</del>}
         </RevealedGameCard>
       )}
     </GameCardContainer>
