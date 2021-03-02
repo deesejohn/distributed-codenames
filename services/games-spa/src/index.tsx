@@ -1,24 +1,24 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from 'react-dom';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 // Theme Components
 import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
-import { ThemeProvider as ScThemeProvider } from 'styled-components';
-import { scTheme, muiTheme } from './theme';
+import { ThemeProvider } from 'styled-components';
+import { muiTheme } from './theme';
 
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-ReactDOM.render(
+render(
   <React.StrictMode>
     <MuiThemeProvider theme={muiTheme}>
-      <ScThemeProvider theme={scTheme}>
+      <ThemeProvider theme={muiTheme}>
         <CssBaseline />
         <App />
-      </ScThemeProvider>
+      </ThemeProvider>
     </MuiThemeProvider>
   </React.StrictMode>,
   document.getElementById('root')
