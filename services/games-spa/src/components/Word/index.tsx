@@ -8,7 +8,6 @@ import { GameCardContainer, GameCard, RevealedGameCard } from './styles';
 
 const Word = (props: { card: Card; guess: (card: Card) => void }) => {
   const { card, guess } = props;
-
   return (
     <GameCardContainer>
       {!card.color ? (
