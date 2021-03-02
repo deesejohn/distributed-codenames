@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
-import { darken } from '@material-ui/core/styles';
 
 const colors = {
   blue: '#25769f',
