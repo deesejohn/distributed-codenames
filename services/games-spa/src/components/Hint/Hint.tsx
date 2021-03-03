@@ -15,19 +15,20 @@ const useStyles = makeStyles({
 
 const Hint = (props: { clue: Clue }) => {
   const classes = useStyles();
+  const { clue } = props;
   return (
     <div>
-      {!props.clue.word ? (
+      {!clue.word ? (
         <div>Waiting for clue</div>
       ) : (
         <List className={classes.root}>
           <ListItem>
-            <ListItemText primary="Word" secondary={props.clue?.word} />
+            <ListItemText primary="Word" secondary={clue?.word} />
           </ListItem>
           <ListItem>
             <ListItemText
               primary="Guesses"
-              secondary={`${props.clue?.number - 1} + 1 extra`}
+              secondary={`${clue?.number - 1} + 1 extra`}
             />
           </ListItem>
         </List>

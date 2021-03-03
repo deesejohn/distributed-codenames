@@ -13,10 +13,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import gameApi from './api/games.api';
 
 //Components
-import Board from './components/Board';
-import GameOver from './components/GameOver';
-import Hint from './components/Hint';
-import HintDialog from './components/HintDialog';
+import { Board, GameOver, Hint, HintDialog } from './components';
 
 //Types
 import { Card, Clue, Game } from './types';

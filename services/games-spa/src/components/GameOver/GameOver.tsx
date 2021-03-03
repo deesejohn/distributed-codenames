@@ -1,6 +1,6 @@
 import Box from '@material-ui/core/Box';
 
-const GamerOver = (props: { winner: string }) => {
+const GameOver = (props: { winner: string }) => {
   const message = `${
     props.winner === 'red_team' ? 'Red Team' : 'Blue Team'
   } Wins!`;
@@ -12,4 +12,4 @@ const GamerOver = (props: { winner: string }) => {
   );
 };
 
-export default GamerOver;
+export default GameOver;
