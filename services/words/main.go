@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	_ "embed"
 	"log"
 	"net"
 	"strings"
@@ -12,6 +13,9 @@ import (
 	healthpb "google.golang.org/grpc/health/grpc_health_v1"
 	"google.golang.org/grpc/status"
 )
+
+//go:embed assets/normal.csv
+var normal string
 
 type server struct {
 	pb.UnimplementedWordsServiceServer
@@ -34,21 +38,15 @@ func main() {
 
 func (s *server) GetWords(ctx context.Context, in *pb.WordsRequest) (
 	*pb.WordsResponse, error) {
-	var filename string
+	var csv string
 	switch in.Category {
 	case pb.Category_NORMAL:
-		filename = "normal.csv"
-	case pb.Category_ADULT:
-		filename = "adult.csv"
+		csv = normal
 	}
-	if filename == "" {
+	if csv == "" {
 		return nil, status.Error(codes.InvalidArgument, "Unknown category")
 	}
-	data, err := Asset("../../assets/words/" + filename)
-	if err != nil {
-		return nil, err
-	}
-	words := strings.Split(string(data[:]), "\n")
+	words := strings.Split(csv, "\n")
 	return &pb.WordsResponse{
 		Category: pb.Category_NORMAL,
 		Words:    words,
