@@ -4,7 +4,7 @@ import React from 'react';
 import { Card } from '../../types';
 
 //Styles
-import { GameCardContainer, GameCard, RevealedGameCard } from './styles';
+import { GameCardContainer, GameCard, RevealedGameCard } from './Word.styles';
 
 const Word = (props: { card: Card; guess: (card: Card) => void }) => {
   const { card, guess } = props;

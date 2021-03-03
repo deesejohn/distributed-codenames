@@ -16,8 +16,9 @@ const HintDialog = (props: {
   const onSubmit = async (clue: Clue) => {
     await props.handleHint(clue);
   };
+  const { open } = props;
   return (
-    <Dialog open={props.open} aria-labelledby="form-dialog-title">
+    <Dialog open={open} aria-labelledby="form-dialog-title">
       <DialogTitle id="form-dialog-title">Hint</DialogTitle>
       <DialogContent>
         <DialogContentText>
@@ -28,7 +29,7 @@ const HintDialog = (props: {
             error={errors.nickname}
             fullWidth
             inputRef={register({
-              required: true
+              required: true,
             })}
             label="Word"
             helperText={errors.word ? 'Please provide a word' : null}
@@ -39,18 +40,14 @@ const HintDialog = (props: {
             error={errors.nickname}
             fullWidth
             inputRef={register({
-              required: true
+              required: true,
             })}
             label="Number"
             helperText={errors.word ? 'Please provide a number' : null}
             name="number"
             type="number"
           />
-          <Button
-            color="primary"
-            fullWidth
-            type="submit"
-            variant="contained">
+          <Button color="primary" fullWidth type="submit" variant="contained">
             Submit
           </Button>
         </form>
