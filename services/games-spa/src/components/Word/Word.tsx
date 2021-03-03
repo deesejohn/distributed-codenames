@@ -5,12 +5,12 @@ import React from 'react';
 import { Card } from '../../types';
 
 //Styles
-import { CardContainer, HiddenCard, RevealedCard } from './Word.styles';
+import { HiddenCard, RevealedCard } from './Word.styles';
 
 const Word = (props: { card: Card; guess: (card: Card) => void }) => {
   const { card, guess } = props;
   return (
-    <CardContainer>
+    <div>
       {!card.color ? (
         <HiddenCard fullWidth onClick={() => guess(card)} variant="contained">
           {card.label}
@@ -31,7 +31,7 @@ const Word = (props: { card: Card; guess: (card: Card) => void }) => {
           )}
         </RevealedCard>
       )}
-    </CardContainer>
+    </div>
   );
 };
 
