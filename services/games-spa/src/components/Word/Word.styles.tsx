@@ -8,12 +8,6 @@ const colors = {
   dark: '#454042',
 };
 
-export const CardContainer = styled.div`
-  display: block;
-  width: 100%;
-  height: 100%;
-`;
-
 export const HiddenCard = styled(Button)``;
 
 export const RevealedCard = styled(Button)<{ cardColor: number }>`
