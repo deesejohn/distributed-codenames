@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 
 const colors = {
@@ -9,37 +8,39 @@ const colors = {
   dark: '#454042',
 };
 
-export const GameCardContainer = styled.div`
+export const CardContainer = styled.div`
   display: block;
   width: 100%;
   height: 100%;
 `;
 
-export const GameCard = styled(Button)``;
+export const HiddenCard = styled(Button)``;
 
-export const RevealedGameCard = styled(Box)<{ cardColor: number }>`
-${({ cardColor, theme }) => {
-  switch (cardColor) {
-    case 1:
-      return `
+export const RevealedCard = styled(Button)<{ cardColor: number }>`
+  ${({ cardColor, theme }) => {
+    switch (cardColor) {
+      case 1:
+        return `
         background: ${colors.blue};
         background: linear-gradient(
           135deg,
           ${colors.blue},
           ${theme.palette.secondary.dark}
         );
+        &:disabled { color: white; }
       `;
-    case 2:
-      return `
+      case 2:
+        return `
         background: ${colors.red};
         background: linear-gradient(
           135deg,
           ${colors.red},
           ${theme.palette.primary.dark}
         );
+        &:disabled { color: white; }
       `;
-    case 3:
-      return `
+      case 3:
+        return `
         background: ${colors.tan};
         background: linear-gradient(
           135deg,
@@ -47,18 +48,20 @@ ${({ cardColor, theme }) => {
           ${theme.palette.warning.dark}
         );
         color: black;
+        &:disabled { color: black; }
       `;
-    case 4:
-      return `
+      case 4:
+        return `
         background: ${colors.dark};
         background: linear-gradient(
           135deg,
           ${colors.dark},
           black
         );
+        &:disabled { color: white; }
       `;
-    default:
-      return '';
-  }
-}};
+      default:
+        return '';
+    }
+  }};
 `;
