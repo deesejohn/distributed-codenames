@@ -41,6 +41,31 @@ export default function App() {
       ?.split('=')[1];
   }, []);
 
+  const onGuessingTeam = useMemo(() => {
+    if (!game || !player_id) {
+      return false;
+    }
+    const team = game.guessing === 'blue_team' ? game.blue_team : game.red_team;
+    return team.some(player => player.player_id === player_id);
+  }, [game, player_id]);
+
+  const isSpymaster = useMemo(() => {
+    return [game?.blue_team_spymaster, game?.red_team_spymaster].includes(
+      player_id
+    );
+  }, [game, player_id]);
+
+  const isSpymasterGuessing = useMemo(() => {
+    if (!game) {
+      return false;
+    }
+    const spymasterId =
+      game.guessing === 'blue_team'
+        ? game.blue_team_spymaster
+        : game.red_team_spymaster;
+    return player_id === spymasterId && !game.clue.word;
+  }, [game, player_id]);
+
   //Callbacks
   const handleOnClickGuess = useCallback(
     async (card: Card) => {
@@ -95,23 +120,13 @@ export default function App() {
   }, [game_id, getGameSession]);
 
   useEffect(() => {
-    if (!game || !player_id) {
+    if (!game || !game.clue || !game.clue.word) {
       return;
     }
-    const spymaster =
-      game.guessing === 'blue_team'
-        ? game.blue_team_spymaster
-        : game.red_team_spymaster;
-    setPromptHint(player_id === spymaster && !game.clue.word);
-    console.log(game);
-  }, [game, player_id]);
+    setPromptHint(false);
+  }, [game]);
 
-  const board: Card[] = [
-    game?.blue_team_spymaster,
-    game?.red_team_spymaster,
-  ].includes(player_id)
-    ? game?.key || []
-    : game?.board || [];
+  const board: Card[] = (isSpymaster ? game?.key : game?.board) || [];
 
   const handleHint = async (clue: Clue) => {
     if (!player_id) {
@@ -126,6 +141,9 @@ export default function App() {
     }
     await gameApi.skip(game_id, player_id);
   };
+
+  const openPrompt = () => setPromptHint(true);
+  const closePrompt = () => setPromptHint(false);
 
   return (
     <Container maxWidth="md">
@@ -142,18 +160,36 @@ export default function App() {
           </div>
         ) : !game.winner ? (
           <div>
-            <Hint clue={game.clue}></Hint>
-            <HintDialog handleHint={handleHint} open={promptHint}></HintDialog>
+            <Hint clue={game.clue} />
+            <HintDialog
+              handleHint={handleHint}
+              open={promptHint}
+              handleClose={closePrompt}
+            />
             <Board board={board} guess={handleOnClickGuess} />
-            <Button
-              color="primary"
-              fullWidth
-              type="submit"
-              variant="contained"
-              onClick={handleSkip}
-            >
-              Skip
-            </Button>
+            {isSpymaster ? (
+              <Button
+                color="primary"
+                fullWidth
+                type="submit"
+                variant="contained"
+                onClick={openPrompt}
+                disabled={!isSpymasterGuessing}
+              >
+                Hint
+              </Button>
+            ) : (
+              <Button
+                color="primary"
+                fullWidth
+                type="submit"
+                variant="contained"
+                onClick={handleSkip}
+                disabled={!onGuessingTeam}
+              >
+                Skip
+              </Button>
+            )}
           </div>
         ) : (
           <GameOver winner={game.winner} />

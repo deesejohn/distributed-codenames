@@ -7,18 +7,24 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
 import { Clue } from '../../types';
 import { useForm } from 'react-hook-form';
+import Box from '@material-ui/core/Box';
 
 const HintDialog = (props: {
   handleHint: (clue: Clue) => Promise<void>;
+  handleClose: () => void;
   open: boolean;
 }) => {
   const { register, handleSubmit, errors } = useForm();
   const onSubmit = async (clue: Clue) => {
     await props.handleHint(clue);
   };
-  const { open } = props;
+  const { open, handleClose } = props;
   return (
-    <Dialog open={open} aria-labelledby="form-dialog-title">
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      aria-labelledby="form-dialog-title"
+    >
       <DialogTitle id="form-dialog-title">Hint</DialogTitle>
       <DialogContent>
         <DialogContentText>
@@ -47,9 +53,17 @@ const HintDialog = (props: {
             name="number"
             type="number"
           />
-          <Button color="primary" fullWidth type="submit" variant="contained">
-            Submit
-          </Button>
+          <Box
+            alignItems="center"
+            display="flex"
+            justifyContent="space-evenly"
+            m={2}
+          >
+            <Button color="primary" type="submit" variant="contained">
+              Submit
+            </Button>
+            <Button onClick={handleClose}>Dismiss</Button>
+          </Box>
         </form>
       </DialogContent>
     </Dialog>
