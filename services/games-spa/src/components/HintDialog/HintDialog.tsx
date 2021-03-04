@@ -10,15 +10,13 @@ import { useForm } from 'react-hook-form';
 import Box from '@material-ui/core/Box';
 
 const HintDialog = (props: {
-  handleHint: (clue: Clue) => Promise<void>;
   handleClose: () => void;
+  handleHint: (clue: Clue) => Promise<void>;
   open: boolean;
 }) => {
-  const { register, handleSubmit, errors } = useForm();
-  const onSubmit = async (clue: Clue) => {
-    await props.handleHint(clue);
-  };
-  const { open, handleClose } = props;
+  const { handleHint, handleClose, open } = props;
+  const { errors, handleSubmit, register } = useForm();
+  const onSubmit = async (clue: Clue) => await handleHint(clue);
   return (
     <Dialog
       open={open}
