@@ -1,13 +1,12 @@
-import React from "react";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button/Button";
-import { useForm } from "react-hook-form";
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button/Button';
+import { useForm } from 'react-hook-form';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      "& > *": {
+      '& > *': {
         margin: theme.spacing(1),
       },
     },
@@ -17,14 +16,14 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function NicknameForm() {
   const classes = useStyles();
   const { register, handleSubmit, errors } = useForm();
-  const baseUri = process.env.REACT_APP_PLAYERS_API || "/";
+  const baseUri = process.env.REACT_APP_PLAYERS_API || '/';
   const createPlayer = async (player: {
     nickname: string;
   }): Promise<string> => {
     const response = await fetch(baseUri, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(player),
     });
@@ -35,9 +34,9 @@ export default function NicknameForm() {
     player: { nickname: string }
   ): Promise<void> => {
     await fetch(`${baseUri}/${playerId}`, {
-      method: "PUT",
+      method: 'PUT',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(player),
     });
@@ -45,9 +44,9 @@ export default function NicknameForm() {
   };
   const onSubmit = async (data: { nickname: string }) => {
     const playerId = document.cookie
-      ?.split("; ")
-      ?.find((row) => row.startsWith("player_id"))
-      ?.split("=")[1];
+      ?.split('; ')
+      ?.find(row => row.startsWith('player_id'))
+      ?.split('=')[1];
     if (!playerId) {
       const id = await createPlayer(data);
       // expire after 1 day
@@ -55,14 +54,14 @@ export default function NicknameForm() {
       document.cookie =
         `player_id=${id}` +
         `; expires=${date.toUTCString()}` +
-        "; path=/" +
-        "; samesite=lax";
+        '; path=/' +
+        '; samesite=lax';
     } else {
       await updatePlayer(playerId, data);
     }
     const params = new URLSearchParams(window.location.search);
-    const redirectUrl = params.get("redirect_uri");
-    if (!!redirectUrl && redirectUrl.startsWith("/")) {
+    const redirectUrl = params.get('redirect_uri');
+    if (!!redirectUrl && redirectUrl.startsWith('/')) {
       window.location.assign(redirectUrl);
     }
   };
@@ -75,7 +74,7 @@ export default function NicknameForm() {
           required: true,
         })}
         label="Nickname"
-        helperText={errors.nickname ? "Please provide a nickname" : null}
+        helperText={errors.nickname ? 'Please provide a nickname' : null}
         name="nickname"
         variant="filled"
       />
