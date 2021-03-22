@@ -1,18 +1,18 @@
 using System;
 using System.Collections.Generic;
+using lobbies.api.Hubs;
+using lobbies.api.Models;
+using lobbies.api.Repositories;
+using lobbies.api.Services;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http.Connections;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using lobbies.api.Services;
-using Microsoft.AspNetCore.Routing;
-using lobbies.api.Repositories;
-using lobbies.api.Models;
-using lobbies.api.Hubs;
-using Microsoft.AspNetCore.Http.Connections;
-using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
 namespace lobbies.api
 {
@@ -46,8 +46,11 @@ namespace lobbies.api
                 o.Address = Configuration.GetValue<Uri>("GAMES_HOST");
             });
             services.AddHealthChecks()
-                .AddRedis(GetRedisConnectionString(), tags: new string[]{"ready"});
-            services.AddHttpClient<PlayerService>();
+                .AddRedis(GetRedisConnectionString(), tags: new string[] { "ready" });
+            services.AddHttpClient<PlayerService>(c =>
+            {
+                c.BaseAddress = Configuration.GetValue<Uri>("PLAYERS_HOST");
+            });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
@@ -72,7 +75,7 @@ namespace lobbies.api
             {
                 app.UseDeveloperExceptionPage();
             }
-            app.UseSwagger(c => 
+            app.UseSwagger(c =>
             {
                 c.PreSerializeFilters.Add((swaggerDoc, httpReq) =>
                 {

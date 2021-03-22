@@ -22,7 +22,7 @@ namespace lobbies.api.Services
             try
             {
                 return await _client.GetFromJsonAsync<Player>(
-                    $"http://players/{playerId}",
+                    $"/{playerId}",
                     cancellationToken
                 );
             }

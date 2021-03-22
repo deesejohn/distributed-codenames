@@ -33,6 +33,8 @@ spec:
               value: "http://games:50051"
             - name: HOST_PREFIX
               value: "/api/lobbies"
+            - name: PLAYERS_HOST
+              value: "http://players"
             - name: REDIS_HOST
               value: "lobbies-redis-master"
             - name: REDIS_PASSWORD
