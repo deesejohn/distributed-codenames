@@ -1,4 +1,4 @@
-apiVersion: skaffold/v2beta11
+apiVersion: skaffold/v2beta13
 kind: Config
 metadata:
   name: games
@@ -10,7 +10,7 @@ deploy:
     manifests:
     - k8s/games.yaml
 portForward:
-  - resourceType: service
-    resourceName: games
-    port: 50051
-    localPort: 4000
+- resourceType: service
+  resourceName: games
+  port: 50051
+  localPort: 4000
