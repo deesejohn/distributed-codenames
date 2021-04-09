@@ -1,4 +1,4 @@
-apiVersion: skaffold/v2beta11
+apiVersion: skaffold/v2beta13
 kind: Config
 metadata:
   name: words
@@ -10,7 +10,7 @@ deploy:
     manifests:
     - k8s/words.yaml
 portForward:
-  - resourceType: service
-    resourceName: words
-    port: 50051
-    localPort: 3000
+- resourceType: service
+  resourceName: words
+  port: 50051
+  localPort: 3000

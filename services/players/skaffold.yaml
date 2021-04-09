@@ -1,4 +1,4 @@
-apiVersion: skaffold/v2beta11
+apiVersion: skaffold/v2beta13
 kind: Config
 metadata:
   name: players
@@ -10,7 +10,7 @@ deploy:
     manifests:
     - k8s/players.yaml
 portForward:
-  - resourceType: service
-    resourceName: players
-    port: 80
-    localPort: 8000
+- resourceType: service
+  resourceName: players
+  port: 80
+  localPort: 8000
