@@ -88,7 +88,13 @@ func (s *server) CreateGame(ctx context.Context, in *pb.CreateGameRequest) (
 	cr, err := c.GetWords(ctx, &pb.WordsRequest{
 		Category: pb.Category_NORMAL,
 	})
+	if err != nil {
+		return nil, err
+	}
 	state, err := game.New(in.HostId, in.BlueTeam, in.RedTeam, cr.Words)
+	if err != nil {
+		return nil, err
+	}
 	set(ctx, state.GameId, state)
 	go publish(state)
 	return &pb.CreateGameResponse{
@@ -118,6 +124,11 @@ func (s *server) Hint(ctx context.Context, in *pb.HintRequest) (
 	set(ctx, state.GameId, state)
 	go publish(state)
 	return &pb.HintResponse{}, nil
+}
+
+func (s *server) PlayAgain(ctx context.Context, in *pb.PlayAgainRequest) (
+	*pb.PlayAgainResponse, error) {
+	return &pb.PlayAgainResponse{}, nil
 }
 
 func (s *server) SkipTurn(ctx context.Context, in *pb.SkipTurnRequest) (

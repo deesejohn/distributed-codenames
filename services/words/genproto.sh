@@ -1,5 +1,4 @@
 #!/bin/sh
-PATH=$PATH:$GOPATH/bin
 OUT=genproto
 
 [ -d $OUT ] || mkdir $OUT
