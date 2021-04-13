@@ -79,15 +79,7 @@ func (s *server) GetGame(ctx context.Context, in *pb.GetGameRequest) (
 
 func (s *server) CreateGame(ctx context.Context, in *pb.CreateGameRequest) (
 	*pb.CreateGameResponse, error) {
-	conn, err := grpc.Dial(wordsAddr, grpc.WithInsecure(), grpc.WithBlock())
-	if err != nil {
-		log.Fatalf("did not connect: %v", err)
-	}
-	defer conn.Close()
-	c := pb.NewWordsServiceClient(conn)
-	cr, err := c.GetWords(ctx, &pb.WordsRequest{
-		Category: pb.Category_NORMAL,
-	})
+	cr, err := getWords(ctx, pb.Category_NORMAL)
 	if err != nil {
 		return nil, err
 	}
@@ -128,6 +120,17 @@ func (s *server) Hint(ctx context.Context, in *pb.HintRequest) (
 
 func (s *server) PlayAgain(ctx context.Context, in *pb.PlayAgainRequest) (
 	*pb.PlayAgainResponse, error) {
+	cr, err := getWords(ctx, pb.Category_NORMAL)
+	if err != nil {
+		return nil, err
+	}
+	state := get(ctx, in.GameId)
+	err = game.PlayAgain(state, in.PlayerId, cr.Words)
+	if err != nil {
+		return nil, err
+	}
+	set(ctx, state.GameId, state)
+	go publish(state)
 	return &pb.PlayAgainResponse{}, nil
 }
 
@@ -162,6 +165,20 @@ func get(ctx context.Context, gameID string) *pb.Game {
 		log.Fatal(err)
 	}
 	return game
+}
+
+func getWords(ctx context.Context, category pb.Category) (
+	*pb.WordsResponse, error) {
+	conn, err := grpc.Dial(wordsAddr, grpc.WithInsecure(), grpc.WithBlock())
+	if err != nil {
+		log.Fatalf("did not connect: %v", err)
+	}
+	defer conn.Close()
+	c := pb.NewWordsServiceClient(conn)
+	cr, err := c.GetWords(ctx, &pb.WordsRequest{
+		Category: category,
+	})
+	return cr, err
 }
 
 func set(ctx context.Context, gameID string, game *pb.Game) {

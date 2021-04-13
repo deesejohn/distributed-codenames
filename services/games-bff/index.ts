@@ -1,10 +1,10 @@
-import express from 'express';
-import { json } from 'body-parser';
-import http from 'http';
-import * as grpc from '@grpc/grpc-js';
-import { connect, StringCodec } from 'nats';
-import { Server } from 'ws';
-import { GamesServiceClient } from './genproto/games_grpc_pb';
+import express from "express";
+import { json } from "body-parser";
+import http from "http";
+import * as grpc from "@grpc/grpc-js";
+import { connect, StringCodec } from "nats";
+import { Server } from "ws";
+import { GamesServiceClient } from "./genproto/games_grpc_pb";
 import {
   Card as GrpcCard,
   Clue as GrpcClue,
@@ -12,21 +12,16 @@ import {
   GetGameRequest,
   GuessRequest,
   HintRequest,
+  PlayAgainRequest,
   Player as GrpcPlayer,
-  SkipTurnRequest
-} from './genproto/games_pb';
-import {
-  Card,
-  Game,
-  Player
-} from 'models';
+  SkipTurnRequest,
+} from "./genproto/games_pb";
+import { Card, Game, Player } from "models";
 
-const
-  app = express(),
+const app = express(),
   server = http.createServer(app);
-const
-  GAMES_HOST = process.env.GAMES_HOST || 'localhost:4000',
-  NATS_HOST = process.env.NATS_HOST || '',
+const GAMES_HOST = process.env.GAMES_HOST || "localhost:4000",
+  NATS_HOST = process.env.NATS_HOST || "",
   PORT = 8000;
 
 const gameClient = new GamesServiceClient(
@@ -39,7 +34,7 @@ function mapCard(dto: GrpcCard.AsObject): Card {
     card_id: dto.cardId,
     label: dto.label,
     color: dto.color,
-    revealed: dto.revealed
+    revealed: dto.revealed,
   };
 }
 
@@ -58,20 +53,20 @@ function mapGame(dto: GrpcGame.AsObject): Game {
       word: dto.clue.word,
       number: dto.clue.number,
     },
-    winner: dto.winner
+    winner: dto.winner,
   };
 }
 
 function mapPlayer(dto: GrpcPlayer.AsObject): Player {
   return {
     player_id: dto.playerId,
-    nickname: dto.nickname
+    nickname: dto.nickname,
   };
 }
 
 app.use(json());
 
-app.get('/:game_id/', (req, res) => {
+app.get("/:game_id/", (req, res) => {
   let request = new GetGameRequest();
   request.setGameId(req.params.game_id);
   gameClient.getGame(request, (err, data) => {
@@ -81,7 +76,7 @@ app.get('/:game_id/', (req, res) => {
   });
 });
 
-app.post('/:game_id/guess', (req, res) => {
+app.post("/:game_id/guess", (req, res) => {
   let request = new GuessRequest();
   request.setGameId(req.params.game_id);
   request.setPlayerId(req.body.player_id);
@@ -90,12 +85,12 @@ app.post('/:game_id/guess', (req, res) => {
     if (err) {
       res.status(400).send();
       return;
-    };
+    }
     res.status(204).send();
   });
 });
 
-app.post('/:game_id/hint', (req, res) => {
+app.post("/:game_id/hint", (req, res) => {
   let request = new HintRequest();
   request.setGameId(req.params.game_id);
   request.setPlayerId(req.body.player_id);
@@ -107,12 +102,25 @@ app.post('/:game_id/hint', (req, res) => {
     if (err) {
       res.status(400).send();
       return;
-    };
+    }
     res.status(204).send();
   });
 });
 
-app.post('/:game_id/skip', (req, res) => {
+app.post("/:game_id/play_again", (req, res) => {
+  let request = new PlayAgainRequest();
+  request.setGameId(req.params.game_id);
+  request.setPlayerId(req.body.player_id);
+  gameClient.playAgain(request, (err, data) => {
+    if (err) {
+      res.status(400).send();
+      return;
+    }
+    res.status(204).send();
+  });
+});
+
+app.post("/:game_id/skip", (req, res) => {
   let request = new SkipTurnRequest();
   request.setGameId(req.params.game_id);
   request.setPlayerId(req.body.player_id);
@@ -120,26 +128,26 @@ app.post('/:game_id/skip', (req, res) => {
     if (err) {
       res.status(400).send();
       return;
-    };
+    }
     res.status(204).send();
   });
 });
 
-app.get('/health/live', (_, res) => res.status(204).send());
-app.get('/health/ready', (_, res) => res.status(204).send());
+app.get("/health/live", (_, res) => res.status(204).send());
+app.get("/health/ready", (_, res) => res.status(204).send());
 
-const wss = new Server({ server: server, path: '/session' });
-wss.on('connection', (ws, req) => {
+const wss = new Server({ server: server, path: "/session" });
+wss.on("connection", (ws, req) => {
   (async () => {
-    const url = new URL(req.url, 'http://localhost');
-    const game_id = url.searchParams.get('game_id').replace(/[\*\>]/, '');
+    const url = new URL(req.url, "http://localhost");
+    const game_id = url.searchParams.get("game_id").replace(/[\*\>]/, "");
     const nc = await connect({ servers: NATS_HOST });
     const c = StringCodec();
     const sub = nc.subscribe(`games.${game_id}`);
     for await (const m of sub) {
       ws.send(c.decode(m.data));
-    };
+    }
   })().catch(console.log);
 });
 
-server.listen(PORT, () => console.log('[server]: Server is running'));
+server.listen(PORT, () => console.log("[server]: Server is running"));

@@ -16,7 +16,7 @@ const (
 // Guess a card
 func Guess(game *pb.Game, playerID string, cardID string) error {
 	if gameOver(game) {
-		return errors.New("Cannot guess after the game is over")
+		return errors.New("cannot guess after the game is over")
 	}
 	var team []*pb.Player
 	if game.Guessing == BlueTeam {
@@ -31,16 +31,16 @@ func Guess(game *pb.Game, playerID string, cardID string) error {
 		}
 	}
 	if !onTeam {
-		return errors.New("Player is not on the guessing team")
+		return errors.New("player is not on the guessing team")
 	}
 	if game.Clue.Number < 1 {
 		nextTurn(game)
-		return errors.New("Out of guesses")
+		return errors.New("out of guesses")
 	}
 	for i, card := range game.Board {
 		if card.CardId == cardID {
 			if card.Revealed {
-				return errors.New("Card already guessed")
+				return errors.New("card already guessed")
 			}
 			card.Color = game.Key[i].Color
 			card.Revealed = true
@@ -72,7 +72,7 @@ func Hint(game *pb.Game, playerID string, clue *pb.Clue) error {
 		spymaster = game.RedTeamSpymaster
 	}
 	if playerID != spymaster {
-		return errors.New("You are the not guessing team's spymaster")
+		return errors.New("player is the not guessing team's spymaster")
 	}
 	game.Clue = clue
 	// The guessing team gets n + 1 guesses
@@ -84,44 +84,14 @@ func Hint(game *pb.Game, playerID string, clue *pb.Clue) error {
 func New(hostID string, blueTeam []*pb.Player, redTeam []*pb.Player,
 	words []string) (*pb.Game, error) {
 	gameID := uuid.New().String()
-	rand.Shuffle(len(words), func(i, j int) {
-		words[i], words[j] = words[j], words[i]
-	})
-	colors := []pb.Color{pb.Color_BLACK}
-	for i := 0; i < 7; i++ {
-		colors = append(colors, pb.Color_BEIGE)
-	}
-	for i := 0; i < 8; i++ {
-		colors = append(colors, pb.Color_BLUE, pb.Color_RED)
-	}
 	var guessing string
 	if rand.Float64() < .5 {
-		colors = append(colors, pb.Color_BLUE)
 		guessing = BlueTeam
 	} else {
-		colors = append(colors, pb.Color_RED)
 		guessing = RedTeam
 	}
-	rand.Shuffle(len(colors), func(i, j int) {
-		colors[i], colors[j] = colors[j], colors[i]
-	})
-	var board []*pb.Card
-	var key []*pb.Card
-	for i := 0; i < 25; i++ {
-		cardID := uuid.New().String()
-		board = append(board, &pb.Card{
-			CardId:   cardID,
-			Color:    pb.Color_UNKNOWN_COLOR,
-			Label:    words[i],
-			Revealed: false,
-		})
-		key = append(key, &pb.Card{
-			CardId:   cardID,
-			Color:    colors[i],
-			Label:    words[i],
-			Revealed: false,
-		})
-	}
+	colors := randomColors(guessing)
+	board, key := generateBoard(words, colors)
 	clue := &pb.Clue{
 		Word:   "",
 		Number: 0,
@@ -142,6 +112,28 @@ func New(hostID string, blueTeam []*pb.Player, redTeam []*pb.Player,
 	return game, nil
 }
 
+// PlayAgain starts a new game after one has completed
+func PlayAgain(game *pb.Game, hostID string, words []string) error {
+	if !gameOver(game) {
+		return errors.New("game still in progress")
+	}
+	if game.HostId != hostID {
+		return errors.New("player is not the host")
+	}
+	game.Guessing = oppositeTeam(game.Guessing)
+	colors := randomColors(game.Guessing)
+	board, key := generateBoard(words, colors)
+	clue := &pb.Clue{
+		Word:   "",
+		Number: 0,
+	}
+	game.Board = board
+	game.Key = key
+	game.Clue = clue
+	game.Winner = ""
+	return nil
+}
+
 // SkipTurn skips the current guess
 func SkipTurn(game *pb.Game, playerID string) error {
 	var team []*pb.Player
@@ -158,7 +150,7 @@ func SkipTurn(game *pb.Game, playerID string) error {
 		}
 	}
 	if !onTeam {
-		return errors.New("Player not on the guessing team")
+		return errors.New("player not on the guessing team")
 	}
 	nextTurn(game)
 	return nil
@@ -198,4 +190,47 @@ func nextTurn(game *pb.Game) {
 
 func gameOver(game *pb.Game) bool {
 	return game.Winner != ""
+}
+
+func generateBoard(words []string, colors []pb.Color) ([]*pb.Card, []*pb.Card) {
+	rand.Shuffle(len(words), func(i, j int) {
+		words[i], words[j] = words[j], words[i]
+	})
+	var board []*pb.Card
+	var key []*pb.Card
+	for i := 0; i < 25; i++ {
+		cardID := uuid.New().String()
+		board = append(board, &pb.Card{
+			CardId:   cardID,
+			Color:    pb.Color_UNKNOWN_COLOR,
+			Label:    words[i],
+			Revealed: false,
+		})
+		key = append(key, &pb.Card{
+			CardId:   cardID,
+			Color:    colors[i],
+			Label:    words[i],
+			Revealed: false,
+		})
+	}
+	return board, key
+}
+
+func randomColors(guessing string) []pb.Color {
+	colors := []pb.Color{pb.Color_BLACK}
+	for i := 0; i < 7; i++ {
+		colors = append(colors, pb.Color_BEIGE)
+	}
+	for i := 0; i < 8; i++ {
+		colors = append(colors, pb.Color_BLUE, pb.Color_RED)
+	}
+	if guessing == BlueTeam {
+		colors = append(colors, pb.Color_BLUE)
+	} else {
+		colors = append(colors, pb.Color_RED)
+	}
+	rand.Shuffle(len(colors), func(i, j int) {
+		colors[i], colors[j] = colors[j], colors[i]
+	})
+	return colors
 }
