@@ -11,7 +11,7 @@ const get = async (game_id: string): Promise<Game> => {
 const guess = async (
   game_id: string,
   player_id: string,
-  card_id: string,
+  card_id: string
 ): Promise<void> => {
   await apiClient.post(`${game_id}/guess`, {
     player_id: player_id,
@@ -22,7 +22,7 @@ const guess = async (
 const hint = async (
   game_id: string,
   player_id: string,
-  clue: Clue, 
+  clue: Clue
 ): Promise<void> => {
   await apiClient.post(`${game_id}/hint`, {
     player_id: player_id,
@@ -31,10 +31,13 @@ const hint = async (
   });
 };
 
-const skip = async (
-  game_id: string,
-  player_id: string,
-): Promise<void> => {
+const playAgain = async (game_id: string, player_id: string): Promise<void> => {
+  await apiClient.post(`${game_id}/play_again`, {
+    player_id: player_id,
+  });
+};
+
+const skip = async (game_id: string, player_id: string): Promise<void> => {
   await apiClient.post(`${game_id}/skip`, {
     player_id: player_id,
   });
@@ -44,6 +47,7 @@ const methods = {
   get,
   guess,
   hint,
+  playAgain,
   skip,
 };
 

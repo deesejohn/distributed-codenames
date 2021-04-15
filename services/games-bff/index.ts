@@ -70,8 +70,15 @@ app.get("/:game_id/", (req, res) => {
   let request = new GetGameRequest();
   request.setGameId(req.params.game_id);
   gameClient.getGame(request, (err, data) => {
-    if (err) throw err;
-    const response = data?.getGame().toObject();
+    if (err) {
+      res.status(400).send();
+      return;
+    }
+    if (!data) {
+      res.status(404).send();
+      return;
+    }
+    const response = data.getGame().toObject();
     res.send(mapGame(response));
   });
 });

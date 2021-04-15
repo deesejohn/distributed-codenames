@@ -56,10 +56,10 @@ func Guess(game *pb.Game, playerID string, cardID string) error {
 			break
 		}
 	}
-	if game.Clue.Number < 1 {
+	checkWinner(game)
+	if !gameOver(game) && game.Clue.Number < 1 {
 		nextTurn(game)
 	}
-	checkWinner(game)
 	return nil
 }
 
