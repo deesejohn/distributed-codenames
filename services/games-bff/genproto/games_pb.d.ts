@@ -251,6 +251,50 @@ export namespace GetGameResponse {
   }
 }
 
+export class GuessRequest extends jspb.Message {
+  getGameId(): string;
+  setGameId(value: string): void;
+
+  getPlayerId(): string;
+  setPlayerId(value: string): void;
+
+  getCardId(): string;
+  setCardId(value: string): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): GuessRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: GuessRequest): GuessRequest.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: GuessRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): GuessRequest;
+  static deserializeBinaryFromReader(message: GuessRequest, reader: jspb.BinaryReader): GuessRequest;
+}
+
+export namespace GuessRequest {
+  export type AsObject = {
+    gameId: string,
+    playerId: string,
+    cardId: string,
+  }
+}
+
+export class GuessResponse extends jspb.Message {
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): GuessResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: GuessResponse): GuessResponse.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: GuessResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): GuessResponse;
+  static deserializeBinaryFromReader(message: GuessResponse, reader: jspb.BinaryReader): GuessResponse;
+}
+
+export namespace GuessResponse {
+  export type AsObject = {
+  }
+}
+
 export class HintRequest extends jspb.Message {
   getGameId(): string;
   setGameId(value: string): void;
@@ -297,46 +341,42 @@ export namespace HintResponse {
   }
 }
 
-export class GuessRequest extends jspb.Message {
+export class PlayAgainRequest extends jspb.Message {
   getGameId(): string;
   setGameId(value: string): void;
 
   getPlayerId(): string;
   setPlayerId(value: string): void;
 
-  getCardId(): string;
-  setCardId(value: string): void;
-
   serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): GuessRequest.AsObject;
-  static toObject(includeInstance: boolean, msg: GuessRequest): GuessRequest.AsObject;
+  toObject(includeInstance?: boolean): PlayAgainRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: PlayAgainRequest): PlayAgainRequest.AsObject;
   static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
   static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-  static serializeBinaryToWriter(message: GuessRequest, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): GuessRequest;
-  static deserializeBinaryFromReader(message: GuessRequest, reader: jspb.BinaryReader): GuessRequest;
+  static serializeBinaryToWriter(message: PlayAgainRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): PlayAgainRequest;
+  static deserializeBinaryFromReader(message: PlayAgainRequest, reader: jspb.BinaryReader): PlayAgainRequest;
 }
 
-export namespace GuessRequest {
+export namespace PlayAgainRequest {
   export type AsObject = {
     gameId: string,
     playerId: string,
-    cardId: string,
   }
 }
 
-export class GuessResponse extends jspb.Message {
+export class PlayAgainResponse extends jspb.Message {
   serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): GuessResponse.AsObject;
-  static toObject(includeInstance: boolean, msg: GuessResponse): GuessResponse.AsObject;
+  toObject(includeInstance?: boolean): PlayAgainResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: PlayAgainResponse): PlayAgainResponse.AsObject;
   static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
   static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-  static serializeBinaryToWriter(message: GuessResponse, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): GuessResponse;
-  static deserializeBinaryFromReader(message: GuessResponse, reader: jspb.BinaryReader): GuessResponse;
+  static serializeBinaryToWriter(message: PlayAgainResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): PlayAgainResponse;
+  static deserializeBinaryFromReader(message: PlayAgainResponse, reader: jspb.BinaryReader): PlayAgainResponse;
 }
 
-export namespace GuessResponse {
+export namespace PlayAgainResponse {
   export type AsObject = {
   }
 }

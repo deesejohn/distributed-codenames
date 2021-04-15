@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 OUT=genproto
 # Windows users see protoc-gen-ts.cmd and grpc_tools_node_protoc_plugin.cmd
 if [ "$OSTYPE" == "cygwin" ] || [ "$OSTYPE" == "msys" ]; then

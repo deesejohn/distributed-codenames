@@ -12,20 +12,15 @@ import {
   GetGameRequest,
   GuessRequest,
   HintRequest,
+  PlayAgainRequest,
   Player as GrpcPlayer,
-  SkipTurnRequest
+  SkipTurnRequest,
 } from './genproto/games_pb';
-import {
-  Card,
-  Game,
-  Player
-} from 'models';
+import { Card, Game, Player } from 'models';
 
-const
-  app = express(),
+const app = express(),
   server = http.createServer(app);
-const
-  GAMES_HOST = process.env.GAMES_HOST || 'localhost:4000',
+const GAMES_HOST = process.env.GAMES_HOST || 'localhost:4000',
   NATS_HOST = process.env.NATS_HOST || '',
   PORT = 8000;
 
@@ -39,7 +34,7 @@ function mapCard(dto: GrpcCard.AsObject): Card {
     card_id: dto.cardId,
     label: dto.label,
     color: dto.color,
-    revealed: dto.revealed
+    revealed: dto.revealed,
   };
 }
 
@@ -58,14 +53,14 @@ function mapGame(dto: GrpcGame.AsObject): Game {
       word: dto.clue.word,
       number: dto.clue.number,
     },
-    winner: dto.winner
+    winner: dto.winner,
   };
 }
 
 function mapPlayer(dto: GrpcPlayer.AsObject): Player {
   return {
     player_id: dto.playerId,
-    nickname: dto.nickname
+    nickname: dto.nickname,
   };
 }
 
@@ -75,8 +70,15 @@ app.get('/:game_id/', (req, res) => {
   let request = new GetGameRequest();
   request.setGameId(req.params.game_id);
   gameClient.getGame(request, (err, data) => {
-    if (err) throw err;
-    const response = data?.getGame().toObject();
+    if (err) {
+      res.status(400).send();
+      return;
+    }
+    if (!data) {
+      res.status(404).send();
+      return;
+    }
+    const response = data.getGame().toObject();
     res.send(mapGame(response));
   });
 });
@@ -90,7 +92,7 @@ app.post('/:game_id/guess', (req, res) => {
     if (err) {
       res.status(400).send();
       return;
-    };
+    }
     res.status(204).send();
   });
 });
@@ -107,7 +109,20 @@ app.post('/:game_id/hint', (req, res) => {
     if (err) {
       res.status(400).send();
       return;
-    };
+    }
+    res.status(204).send();
+  });
+});
+
+app.post('/:game_id/play_again', (req, res) => {
+  let request = new PlayAgainRequest();
+  request.setGameId(req.params.game_id);
+  request.setPlayerId(req.body.player_id);
+  gameClient.playAgain(request, (err, data) => {
+    if (err) {
+      res.status(400).send();
+      return;
+    }
     res.status(204).send();
   });
 });
@@ -120,7 +135,7 @@ app.post('/:game_id/skip', (req, res) => {
     if (err) {
       res.status(400).send();
       return;
-    };
+    }
     res.status(204).send();
   });
 });
@@ -138,7 +153,7 @@ wss.on('connection', (ws, req) => {
     const sub = nc.subscribe(`games.${game_id}`);
     for await (const m of sub) {
       ws.send(c.decode(m.data));
-    };
+    }
   })().catch(console.log);
 });
 

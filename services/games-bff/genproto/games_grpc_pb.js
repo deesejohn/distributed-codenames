@@ -92,6 +92,28 @@ function deserialize_distributed_codenames_HintResponse(buffer_arg) {
   return games_pb.HintResponse.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_distributed_codenames_PlayAgainRequest(arg) {
+  if (!(arg instanceof games_pb.PlayAgainRequest)) {
+    throw new Error('Expected argument of type distributed_codenames.PlayAgainRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_distributed_codenames_PlayAgainRequest(buffer_arg) {
+  return games_pb.PlayAgainRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_distributed_codenames_PlayAgainResponse(arg) {
+  if (!(arg instanceof games_pb.PlayAgainResponse)) {
+    throw new Error('Expected argument of type distributed_codenames.PlayAgainResponse');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_distributed_codenames_PlayAgainResponse(buffer_arg) {
+  return games_pb.PlayAgainResponse.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 function serialize_distributed_codenames_SkipTurnRequest(arg) {
   if (!(arg instanceof games_pb.SkipTurnRequest)) {
     throw new Error('Expected argument of type distributed_codenames.SkipTurnRequest');
@@ -138,6 +160,17 @@ var GamesServiceService = exports.GamesServiceService = {
     responseSerialize: serialize_distributed_codenames_GetGameResponse,
     responseDeserialize: deserialize_distributed_codenames_GetGameResponse,
   },
+  guess: {
+    path: '/distributed_codenames.GamesService/Guess',
+    requestStream: false,
+    responseStream: false,
+    requestType: games_pb.GuessRequest,
+    responseType: games_pb.GuessResponse,
+    requestSerialize: serialize_distributed_codenames_GuessRequest,
+    requestDeserialize: deserialize_distributed_codenames_GuessRequest,
+    responseSerialize: serialize_distributed_codenames_GuessResponse,
+    responseDeserialize: deserialize_distributed_codenames_GuessResponse,
+  },
   hint: {
     path: '/distributed_codenames.GamesService/Hint',
     requestStream: false,
@@ -149,16 +182,16 @@ var GamesServiceService = exports.GamesServiceService = {
     responseSerialize: serialize_distributed_codenames_HintResponse,
     responseDeserialize: deserialize_distributed_codenames_HintResponse,
   },
-  guess: {
-    path: '/distributed_codenames.GamesService/Guess',
+  playAgain: {
+    path: '/distributed_codenames.GamesService/PlayAgain',
     requestStream: false,
     responseStream: false,
-    requestType: games_pb.GuessRequest,
-    responseType: games_pb.GuessResponse,
-    requestSerialize: serialize_distributed_codenames_GuessRequest,
-    requestDeserialize: deserialize_distributed_codenames_GuessRequest,
-    responseSerialize: serialize_distributed_codenames_GuessResponse,
-    responseDeserialize: deserialize_distributed_codenames_GuessResponse,
+    requestType: games_pb.PlayAgainRequest,
+    responseType: games_pb.PlayAgainResponse,
+    requestSerialize: serialize_distributed_codenames_PlayAgainRequest,
+    requestDeserialize: deserialize_distributed_codenames_PlayAgainRequest,
+    responseSerialize: serialize_distributed_codenames_PlayAgainResponse,
+    responseDeserialize: deserialize_distributed_codenames_PlayAgainResponse,
   },
   skipTurn: {
     path: '/distributed_codenames.GamesService/SkipTurn',

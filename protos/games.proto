@@ -63,6 +63,14 @@ message GetGameResponse {
     Game game = 1;
 }
 
+message GuessRequest {
+    string game_id = 1;
+    string player_id = 2;
+    string card_id = 3;
+}
+
+message GuessResponse {}
+
 message HintRequest {
     string game_id = 1;
     string player_id = 2;
@@ -71,13 +79,12 @@ message HintRequest {
 
 message HintResponse {}
 
-message GuessRequest {
+message PlayAgainRequest {
     string game_id = 1;
     string player_id = 2;
-    string card_id = 3;
 }
 
-message GuessResponse {}
+message PlayAgainResponse {}
 
 message SkipTurnRequest {
     string game_id = 1;
@@ -89,7 +96,8 @@ message SkipTurnResponse {}
 service GamesService {
     rpc CreateGame (CreateGameRequest) returns (CreateGameResponse);
     rpc GetGame (GetGameRequest) returns (GetGameResponse);
-    rpc Hint (HintRequest) returns (HintResponse);
     rpc Guess (GuessRequest) returns (GuessResponse);
+    rpc Hint (HintRequest) returns (HintResponse);
+    rpc PlayAgain (PlayAgainRequest) returns (PlayAgainResponse);
     rpc SkipTurn (SkipTurnRequest) returns (SkipTurnResponse);
 }

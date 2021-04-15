@@ -46,10 +46,12 @@ namespace protos {
     static readonly grpc::Marshaller<global::protos.CreateGameResponse> __Marshaller_distributed_codenames_CreateGameResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::protos.CreateGameResponse.Parser));
     static readonly grpc::Marshaller<global::protos.GetGameRequest> __Marshaller_distributed_codenames_GetGameRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::protos.GetGameRequest.Parser));
     static readonly grpc::Marshaller<global::protos.GetGameResponse> __Marshaller_distributed_codenames_GetGameResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::protos.GetGameResponse.Parser));
-    static readonly grpc::Marshaller<global::protos.HintRequest> __Marshaller_distributed_codenames_HintRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::protos.HintRequest.Parser));
-    static readonly grpc::Marshaller<global::protos.HintResponse> __Marshaller_distributed_codenames_HintResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::protos.HintResponse.Parser));
     static readonly grpc::Marshaller<global::protos.GuessRequest> __Marshaller_distributed_codenames_GuessRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::protos.GuessRequest.Parser));
     static readonly grpc::Marshaller<global::protos.GuessResponse> __Marshaller_distributed_codenames_GuessResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::protos.GuessResponse.Parser));
+    static readonly grpc::Marshaller<global::protos.HintRequest> __Marshaller_distributed_codenames_HintRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::protos.HintRequest.Parser));
+    static readonly grpc::Marshaller<global::protos.HintResponse> __Marshaller_distributed_codenames_HintResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::protos.HintResponse.Parser));
+    static readonly grpc::Marshaller<global::protos.PlayAgainRequest> __Marshaller_distributed_codenames_PlayAgainRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::protos.PlayAgainRequest.Parser));
+    static readonly grpc::Marshaller<global::protos.PlayAgainResponse> __Marshaller_distributed_codenames_PlayAgainResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::protos.PlayAgainResponse.Parser));
     static readonly grpc::Marshaller<global::protos.SkipTurnRequest> __Marshaller_distributed_codenames_SkipTurnRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::protos.SkipTurnRequest.Parser));
     static readonly grpc::Marshaller<global::protos.SkipTurnResponse> __Marshaller_distributed_codenames_SkipTurnResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::protos.SkipTurnResponse.Parser));
 
@@ -67,6 +69,13 @@ namespace protos {
         __Marshaller_distributed_codenames_GetGameRequest,
         __Marshaller_distributed_codenames_GetGameResponse);
 
+    static readonly grpc::Method<global::protos.GuessRequest, global::protos.GuessResponse> __Method_Guess = new grpc::Method<global::protos.GuessRequest, global::protos.GuessResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "Guess",
+        __Marshaller_distributed_codenames_GuessRequest,
+        __Marshaller_distributed_codenames_GuessResponse);
+
     static readonly grpc::Method<global::protos.HintRequest, global::protos.HintResponse> __Method_Hint = new grpc::Method<global::protos.HintRequest, global::protos.HintResponse>(
         grpc::MethodType.Unary,
         __ServiceName,
@@ -74,12 +83,12 @@ namespace protos {
         __Marshaller_distributed_codenames_HintRequest,
         __Marshaller_distributed_codenames_HintResponse);
 
-    static readonly grpc::Method<global::protos.GuessRequest, global::protos.GuessResponse> __Method_Guess = new grpc::Method<global::protos.GuessRequest, global::protos.GuessResponse>(
+    static readonly grpc::Method<global::protos.PlayAgainRequest, global::protos.PlayAgainResponse> __Method_PlayAgain = new grpc::Method<global::protos.PlayAgainRequest, global::protos.PlayAgainResponse>(
         grpc::MethodType.Unary,
         __ServiceName,
-        "Guess",
-        __Marshaller_distributed_codenames_GuessRequest,
-        __Marshaller_distributed_codenames_GuessResponse);
+        "PlayAgain",
+        __Marshaller_distributed_codenames_PlayAgainRequest,
+        __Marshaller_distributed_codenames_PlayAgainResponse);
 
     static readonly grpc::Method<global::protos.SkipTurnRequest, global::protos.SkipTurnResponse> __Method_SkipTurn = new grpc::Method<global::protos.SkipTurnRequest, global::protos.SkipTurnResponse>(
         grpc::MethodType.Unary,
@@ -149,6 +158,22 @@ namespace protos {
       {
         return CallInvoker.AsyncUnaryCall(__Method_GetGame, null, options, request);
       }
+      public virtual global::protos.GuessResponse Guess(global::protos.GuessRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return Guess(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual global::protos.GuessResponse Guess(global::protos.GuessRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_Guess, null, options, request);
+      }
+      public virtual grpc::AsyncUnaryCall<global::protos.GuessResponse> GuessAsync(global::protos.GuessRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return GuessAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual grpc::AsyncUnaryCall<global::protos.GuessResponse> GuessAsync(global::protos.GuessRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_Guess, null, options, request);
+      }
       public virtual global::protos.HintResponse Hint(global::protos.HintRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return Hint(request, new grpc::CallOptions(headers, deadline, cancellationToken));
@@ -165,21 +190,21 @@ namespace protos {
       {
         return CallInvoker.AsyncUnaryCall(__Method_Hint, null, options, request);
       }
-      public virtual global::protos.GuessResponse Guess(global::protos.GuessRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual global::protos.PlayAgainResponse PlayAgain(global::protos.PlayAgainRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
-        return Guess(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+        return PlayAgain(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
-      public virtual global::protos.GuessResponse Guess(global::protos.GuessRequest request, grpc::CallOptions options)
+      public virtual global::protos.PlayAgainResponse PlayAgain(global::protos.PlayAgainRequest request, grpc::CallOptions options)
       {
-        return CallInvoker.BlockingUnaryCall(__Method_Guess, null, options, request);
+        return CallInvoker.BlockingUnaryCall(__Method_PlayAgain, null, options, request);
       }
-      public virtual grpc::AsyncUnaryCall<global::protos.GuessResponse> GuessAsync(global::protos.GuessRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual grpc::AsyncUnaryCall<global::protos.PlayAgainResponse> PlayAgainAsync(global::protos.PlayAgainRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
-        return GuessAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+        return PlayAgainAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
-      public virtual grpc::AsyncUnaryCall<global::protos.GuessResponse> GuessAsync(global::protos.GuessRequest request, grpc::CallOptions options)
+      public virtual grpc::AsyncUnaryCall<global::protos.PlayAgainResponse> PlayAgainAsync(global::protos.PlayAgainRequest request, grpc::CallOptions options)
       {
-        return CallInvoker.AsyncUnaryCall(__Method_Guess, null, options, request);
+        return CallInvoker.AsyncUnaryCall(__Method_PlayAgain, null, options, request);
       }
       public virtual global::protos.SkipTurnResponse SkipTurn(global::protos.SkipTurnRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {

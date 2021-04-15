@@ -67,20 +67,6 @@ export default function App() {
   }, [game, player_id]);
 
   //Callbacks
-  const handleOnClickGuess = useCallback(
-    async (card: Card) => {
-      if (!player_id) {
-        return;
-      }
-      try {
-        await gameApi.guess(game_id, player_id, card.card_id);
-      } catch (error) {
-        console.warn(error);
-      }
-    },
-    [game_id, player_id]
-  );
-
   const getGameSession = useCallback(async () => {
     try {
       const response = await gameApi.get(game_id);
@@ -89,6 +75,40 @@ export default function App() {
       console.warn(error);
     }
   }, [game_id, setGame]);
+
+  const handleGuess = useCallback(
+    async (card: Card) => {
+      if (!player_id) {
+        return;
+      }
+      await gameApi.guess(game_id, player_id, card.card_id);
+    },
+    [game_id, player_id]
+  );
+
+  const handleHint = useCallback(
+    async (clue: Clue) => {
+      if (!player_id) {
+        return;
+      }
+      await gameApi.hint(game_id, player_id, clue);
+    },
+    [game_id, player_id]
+  );
+
+  const handlePlayAgain = useCallback(async () => {
+    if (!player_id) {
+      return;
+    }
+    await gameApi.playAgain(game_id, player_id);
+  }, [game_id, player_id]);
+
+  const handleSkip = useCallback(async () => {
+    if (!player_id) {
+      return;
+    }
+    await gameApi.skip(game_id, player_id);
+  }, [game_id, player_id]);
 
   //Effects
   useEffect(() => {
@@ -128,20 +148,6 @@ export default function App() {
 
   const board: Card[] = (isSpymaster ? game?.key : game?.board) || [];
 
-  const handleHint = async (clue: Clue) => {
-    if (!player_id) {
-      return;
-    }
-    await gameApi.hint(game_id, player_id, clue);
-  };
-
-  const handleSkip = async () => {
-    if (!player_id) {
-      return;
-    }
-    await gameApi.skip(game_id, player_id);
-  };
-
   const openPrompt = () => setPromptHint(true);
   const closePrompt = () => setPromptHint(false);
 
@@ -166,7 +172,7 @@ export default function App() {
               open={promptHint}
               handleClose={closePrompt}
             />
-            <Board board={board} guess={handleOnClickGuess} />
+            <Board board={board} guess={handleGuess} />
             {isSpymaster ? (
               <Button
                 color="primary"
@@ -192,7 +198,7 @@ export default function App() {
             )}
           </div>
         ) : (
-          <GameOver winner={game.winner} />
+          <GameOver playAgain={handlePlayAgain} winner={game.winner} />
         )}
       </Box>
     </Container>

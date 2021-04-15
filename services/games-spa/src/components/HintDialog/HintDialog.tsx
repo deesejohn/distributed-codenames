@@ -30,7 +30,7 @@ const HintDialog = (props: {
         </DialogContentText>
         <form onSubmit={handleSubmit(onSubmit)}>
           <TextField
-            error={errors.nickname}
+            error={errors.word}
             fullWidth
             inputRef={register({
               required: true,
@@ -41,13 +41,13 @@ const HintDialog = (props: {
             variant="filled"
           />
           <TextField
-            error={errors.nickname}
+            error={errors.number}
             fullWidth
             inputRef={register({
               required: true,
             })}
             label="Number"
-            helperText={errors.word ? 'Please provide a number' : null}
+            helperText={errors.number ? 'Please provide a number' : null}
             name="number"
             type="number"
           />
