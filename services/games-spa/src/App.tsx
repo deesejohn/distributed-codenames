@@ -8,38 +8,23 @@ import React, {
 import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
 import CircularProgress from '@material-ui/core/CircularProgress';
-
-//API
-import gameApi from './api/games.api';
-
-//Components
+import Button from '@material-ui/core/Button';
+import './App.css';
+import { Card, Clue, Game } from './types';
+import { GamesClient } from './api/games.api';
 import { Board, GameOver, Hint, HintDialog } from './components';
 
-//Types
-import { Card, Clue, Game } from './types';
-
-//Styles
-import './App.css';
-import Button from '@material-ui/core/Button';
-
-export default function App() {
+export default function App(): JSX.Element {
   const [game, setGame] = useState<Game | null>(null);
   const [promptHint, setPromptHint] = useState<boolean>(false);
   const reconnect = useRef(100);
   const ws = useRef<WebSocket>();
   const route = window.location.pathname.split('/');
-
-  //Memos
-  const game_id = useMemo(() => {
-    return route[route.length - 1];
-  }, [route]);
-
-  const player_id = useMemo(() => {
-    return document.cookie
-      ?.split('; ')
-      ?.find(row => row.startsWith('player_id'))
-      ?.split('=')[1];
-  }, []);
+  const game_id = route[route.length - 1];
+  const player_id = document.cookie
+    ?.split('; ')
+    ?.find(row => row.startsWith('player_id'))
+    ?.split('=')[1];
 
   const onGuessingTeam = useMemo(() => {
     if (!game || !player_id) {
@@ -49,11 +34,11 @@ export default function App() {
     return team.some(player => player.player_id === player_id);
   }, [game, player_id]);
 
-  const isSpymaster = useMemo(() => {
-    return [game?.blue_team_spymaster, game?.red_team_spymaster].includes(
-      player_id
-    );
-  }, [game, player_id]);
+  const isSpymaster = useMemo(
+    () =>
+      [game?.blue_team_spymaster, game?.red_team_spymaster].includes(player_id),
+    [game, player_id]
+  );
 
   const isSpymasterGuessing = useMemo(() => {
     if (!game) {
@@ -66,13 +51,12 @@ export default function App() {
     return player_id === spymasterId && !game.clue.word;
   }, [game, player_id]);
 
-  //Callbacks
   const getGameSession = useCallback(async () => {
     try {
-      const response = await gameApi.get(game_id);
+      const response = await GamesClient.get(game_id);
       setGame(response);
     } catch (error) {
-      console.warn(error);
+      setGame(null);
     }
   }, [game_id, setGame]);
 
@@ -81,7 +65,7 @@ export default function App() {
       if (!player_id) {
         return;
       }
-      await gameApi.guess(game_id, player_id, card.card_id);
+      await GamesClient.guess(game_id, player_id, card.card_id);
     },
     [game_id, player_id]
   );
@@ -91,7 +75,7 @@ export default function App() {
       if (!player_id) {
         return;
       }
-      await gameApi.hint(game_id, player_id, clue);
+      await GamesClient.hint(game_id, player_id, clue);
     },
     [game_id, player_id]
   );
@@ -100,17 +84,16 @@ export default function App() {
     if (!player_id) {
       return;
     }
-    await gameApi.playAgain(game_id, player_id);
+    await GamesClient.playAgain(game_id, player_id);
   }, [game_id, player_id]);
 
   const handleSkip = useCallback(async () => {
     if (!player_id) {
       return;
     }
-    await gameApi.skip(game_id, player_id);
+    await GamesClient.skip(game_id, player_id);
   }, [game_id, player_id]);
 
-  //Effects
   useEffect(() => {
     function subscribeToGameSession() {
       const url = new URL(
@@ -120,15 +103,13 @@ export default function App() {
       url.protocol = url.protocol.replace('http', 'ws');
       ws.current = new WebSocket(url.href);
       ws.current.onopen = () => {
-        console.log('opened');
         reconnect.current = 100;
       };
       ws.current.onclose = () => {
-        console.log('closed, reconnecting...');
         setTimeout(subscribeToGameSession, reconnect.current);
         reconnect.current = Math.max(5000, reconnect.current * 1.2);
       };
-      ws.current.onmessage = (message: any) => {
+      ws.current.onmessage = (message: { data: string }) => {
         setGame(JSON.parse(message.data));
       };
     }
@@ -160,11 +141,15 @@ export default function App() {
         m={2}
         minHeight="100vh"
       >
-        {game === null ? (
+        {game === null && (
           <div>
             <CircularProgress /> Loading...
           </div>
-        ) : !game.winner ? (
+        )}
+        {game && game.winner && (
+          <GameOver playAgain={handlePlayAgain} winner={game.winner} />
+        )}
+        {game && !game.winner && (
           <div>
             <Hint clue={game.clue} />
             <HintDialog
@@ -197,8 +182,6 @@ export default function App() {
               </Button>
             )}
           </div>
-        ) : (
-          <GameOver playAgain={handlePlayAgain} winner={game.winner} />
         )}
       </Box>
     </Container>

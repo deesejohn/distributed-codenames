@@ -5,18 +5,18 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
-import { Clue } from '../../types';
 import { useForm } from 'react-hook-form';
 import Box from '@material-ui/core/Box';
+import { Clue } from '../../types';
 
 const HintDialog = (props: {
   handleClose: () => void;
   handleHint: (clue: Clue) => Promise<void>;
   open: boolean;
-}) => {
+}): JSX.Element => {
   const { handleHint, handleClose, open } = props;
   const { errors, handleSubmit, register } = useForm();
-  const onSubmit = async (clue: Clue) => await handleHint(clue);
+  const onSubmit = (clue: Clue) => handleHint(clue);
   return (
     <Dialog
       open={open}

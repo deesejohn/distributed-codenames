@@ -43,12 +43,10 @@ const skip = async (game_id: string, player_id: string): Promise<void> => {
   });
 };
 
-const methods = {
+export const GamesClient = {
   get,
   guess,
   hint,
   playAgain,
   skip,
 };
-
-export default methods;
