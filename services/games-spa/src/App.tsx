@@ -11,7 +11,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Button from '@material-ui/core/Button';
 import './App.css';
 import { Card, Clue, Game } from './types';
-import { GamesClient } from './api/games.api';
+import GamesClient from './api/games.api';
 import { Board, GameOver, Hint, HintDialog } from './components';
 
 export default function App(): JSX.Element {
@@ -20,24 +20,24 @@ export default function App(): JSX.Element {
   const reconnect = useRef(100);
   const ws = useRef<WebSocket>();
   const route = window.location.pathname.split('/');
-  const game_id = route[route.length - 1];
-  const player_id = document.cookie
+  const gameId = route[route.length - 1];
+  const playerId = document.cookie
     ?.split('; ')
     ?.find(row => row.startsWith('player_id'))
     ?.split('=')[1];
 
   const onGuessingTeam = useMemo(() => {
-    if (!game || !player_id) {
+    if (!game || !playerId) {
       return false;
     }
     const team = game.guessing === 'blue_team' ? game.blue_team : game.red_team;
-    return team.some(player => player.player_id === player_id);
-  }, [game, player_id]);
+    return team.some(player => player.player_id === playerId);
+  }, [game, playerId]);
 
   const isSpymaster = useMemo(
     () =>
-      [game?.blue_team_spymaster, game?.red_team_spymaster].includes(player_id),
-    [game, player_id]
+      [game?.blue_team_spymaster, game?.red_team_spymaster].includes(playerId),
+    [game, playerId]
   );
 
   const isSpymasterGuessing = useMemo(() => {
@@ -48,56 +48,56 @@ export default function App(): JSX.Element {
       game.guessing === 'blue_team'
         ? game.blue_team_spymaster
         : game.red_team_spymaster;
-    return player_id === spymasterId && !game.clue.word;
-  }, [game, player_id]);
+    return playerId === spymasterId && !game.clue.word;
+  }, [game, playerId]);
 
   const getGameSession = useCallback(async () => {
     try {
-      const response = await GamesClient.get(game_id);
+      const response = await GamesClient.get(gameId);
       setGame(response);
     } catch (error) {
       setGame(null);
     }
-  }, [game_id, setGame]);
+  }, [gameId, setGame]);
 
   const handleGuess = useCallback(
     async (card: Card) => {
-      if (!player_id) {
+      if (!playerId) {
         return;
       }
-      await GamesClient.guess(game_id, player_id, card.card_id);
+      await GamesClient.guess(gameId, playerId, card.card_id);
     },
-    [game_id, player_id]
+    [gameId, playerId]
   );
 
   const handleHint = useCallback(
     async (clue: Clue) => {
-      if (!player_id) {
+      if (!playerId) {
         return;
       }
-      await GamesClient.hint(game_id, player_id, clue);
+      await GamesClient.hint(gameId, playerId, clue);
     },
-    [game_id, player_id]
+    [gameId, playerId]
   );
 
   const handlePlayAgain = useCallback(async () => {
-    if (!player_id) {
+    if (!playerId) {
       return;
     }
-    await GamesClient.playAgain(game_id, player_id);
-  }, [game_id, player_id]);
+    await GamesClient.playAgain(gameId, playerId);
+  }, [gameId, playerId]);
 
   const handleSkip = useCallback(async () => {
-    if (!player_id) {
+    if (!playerId) {
       return;
     }
-    await GamesClient.skip(game_id, player_id);
-  }, [game_id, player_id]);
+    await GamesClient.skip(gameId, playerId);
+  }, [gameId, playerId]);
 
   useEffect(() => {
     function subscribeToGameSession() {
       const url = new URL(
-        `/api/games/session?game_id=${game_id}`,
+        `/api/games/session?game_id=${gameId}`,
         window.location.href
       );
       url.protocol = url.protocol.replace('http', 'ws');
@@ -113,12 +113,12 @@ export default function App(): JSX.Element {
         setGame(JSON.parse(message.data));
       };
     }
-    getGameSession();
+    getGameSession().catch(() => {});
     subscribeToGameSession();
     return () => {
       ws.current?.close();
     };
-  }, [game_id, getGameSession]);
+  }, [gameId, getGameSession]);
 
   useEffect(() => {
     if (!game || !game.clue || !game.clue.word) {
@@ -141,46 +141,45 @@ export default function App(): JSX.Element {
         m={2}
         minHeight="100vh"
       >
-        {game === null && (
+        {(game &&
+          (game.winner ? (
+            <GameOver playAgain={handlePlayAgain} winner={game.winner} />
+          ) : (
+            <div>
+              <Hint clue={game.clue} />
+              <HintDialog
+                handleHint={handleHint}
+                open={promptHint}
+                handleClose={closePrompt}
+              />
+              <Board board={board} guess={handleGuess} />
+              {isSpymaster ? (
+                <Button
+                  color="primary"
+                  fullWidth
+                  type="submit"
+                  variant="contained"
+                  onClick={openPrompt}
+                  disabled={!isSpymasterGuessing}
+                >
+                  Hint
+                </Button>
+              ) : (
+                <Button
+                  color="primary"
+                  fullWidth
+                  type="submit"
+                  variant="contained"
+                  onClick={handleSkip}
+                  disabled={!onGuessingTeam}
+                >
+                  Skip
+                </Button>
+              )}
+            </div>
+          ))) || (
           <div>
             <CircularProgress /> Loading...
-          </div>
-        )}
-        {game && game.winner && (
-          <GameOver playAgain={handlePlayAgain} winner={game.winner} />
-        )}
-        {game && !game.winner && (
-          <div>
-            <Hint clue={game.clue} />
-            <HintDialog
-              handleHint={handleHint}
-              open={promptHint}
-              handleClose={closePrompt}
-            />
-            <Board board={board} guess={handleGuess} />
-            {isSpymaster ? (
-              <Button
-                color="primary"
-                fullWidth
-                type="submit"
-                variant="contained"
-                onClick={openPrompt}
-                disabled={!isSpymasterGuessing}
-              >
-                Hint
-              </Button>
-            ) : (
-              <Button
-                color="primary"
-                fullWidth
-                type="submit"
-                variant="contained"
-                onClick={handleSkip}
-                disabled={!onGuessingTeam}
-              >
-                Skip
-              </Button>
-            )}
           </div>
         )}
       </Box>

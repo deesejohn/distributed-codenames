@@ -1,12 +1,13 @@
 import React from 'react';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
+import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
-import { useForm } from 'react-hook-form';
-import Box from '@material-ui/core/Box';
 import { Clue } from '../../types';
 
 const HintDialog = (props: {
@@ -15,8 +16,21 @@ const HintDialog = (props: {
   open: boolean;
 }): JSX.Element => {
   const { handleHint, handleClose, open } = props;
-  const { errors, handleSubmit, register } = useForm();
-  const onSubmit = (clue: Clue) => handleHint(clue);
+  const validationSchema = yup.object({
+    word: yup.string().required('A word is required'),
+    number: yup
+      .number()
+      .min(1, 'At least one guess is required')
+      .required('At least one guess is required'),
+  });
+  const { errors, handleChange, handleSubmit, touched, values } = useFormik({
+    initialValues: {
+      word: '',
+      number: 0,
+    },
+    validationSchema,
+    onSubmit: (clue: Clue) => handleHint(clue),
+  });
   return (
     <Dialog
       open={open}
@@ -28,28 +42,28 @@ const HintDialog = (props: {
         <DialogContentText>
           Give a hint and the number of words on the board it relates to
         </DialogContentText>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit}>
           <TextField
-            error={errors.word}
             fullWidth
-            inputRef={register({
-              required: true,
-            })}
-            label="Word"
-            helperText={errors.word ? 'Please provide a word' : null}
+            id="word"
             name="word"
+            label="Word"
+            value={values.word}
+            onChange={handleChange}
+            error={touched.word && !!errors.word}
+            helperText={touched.word && errors.word && errors.word}
             variant="filled"
           />
           <TextField
-            error={errors.number}
             fullWidth
-            inputRef={register({
-              required: true,
-            })}
-            label="Number"
-            helperText={errors.number ? 'Please provide a number' : null}
+            id="number"
             name="number"
+            label="Number"
             type="number"
+            value={values.number}
+            onChange={handleChange}
+            error={touched.number && !!errors.number}
+            helperText={touched.number && errors.number && errors.number}
           />
           <Box
             alignItems="center"

@@ -1,13 +1,12 @@
-import Box from '@material-ui/core/Box';
 import React from 'react';
-
-//Types
+import Box from '@material-ui/core/Box';
 import { Card } from '../../types';
-
-//Styles
 import { HiddenCard, RevealedCard } from './Word.styles';
 
-const Word = (props: { card: Card; guess: (card: Card) => void }) => {
+const Word = (props: {
+  card: Card;
+  guess: (card: Card) => void;
+}): JSX.Element => {
   const { card, guess } = props;
   return (
     <div>
