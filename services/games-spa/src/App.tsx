@@ -132,56 +132,62 @@ export default function App(): JSX.Element {
   const openPrompt = () => setPromptHint(true);
   const closePrompt = () => setPromptHint(false);
 
+  const Content = (): JSX.Element => {
+    if (!game) {
+      return (
+        <>
+          <CircularProgress /> Loading...
+        </>
+      );
+    }
+    if (game.winner) {
+      return <GameOver playAgain={handlePlayAgain} winner={game.winner} />;
+    }
+    return (
+      <>
+        <Hint clue={game.clue} />
+        <HintDialog
+          handleHint={handleHint}
+          open={promptHint}
+          handleClose={closePrompt}
+        />
+        <Board board={board} guess={handleGuess} />
+        {isSpymaster ? (
+          <Button
+            color="primary"
+            fullWidth
+            type="submit"
+            variant="contained"
+            onClick={openPrompt}
+            disabled={!isSpymasterGuessing}
+          >
+            Hint
+          </Button>
+        ) : (
+          <Button
+            color="primary"
+            fullWidth
+            type="submit"
+            variant="contained"
+            onClick={handleSkip}
+            disabled={!onGuessingTeam}
+          >
+            Skip
+          </Button>
+        )}
+      </>
+    );
+  };
   return (
     <Container maxWidth="md">
       <Box
         alignItems="center"
         display="flex"
+        flexDirection="column"
         justifyContent="center"
-        m={2}
         minHeight="100vh"
       >
-        {(game &&
-          (game.winner ? (
-            <GameOver playAgain={handlePlayAgain} winner={game.winner} />
-          ) : (
-            <div>
-              <Hint clue={game.clue} />
-              <HintDialog
-                handleHint={handleHint}
-                open={promptHint}
-                handleClose={closePrompt}
-              />
-              <Board board={board} guess={handleGuess} />
-              {isSpymaster ? (
-                <Button
-                  color="primary"
-                  fullWidth
-                  type="submit"
-                  variant="contained"
-                  onClick={openPrompt}
-                  disabled={!isSpymasterGuessing}
-                >
-                  Hint
-                </Button>
-              ) : (
-                <Button
-                  color="primary"
-                  fullWidth
-                  type="submit"
-                  variant="contained"
-                  onClick={handleSkip}
-                  disabled={!onGuessingTeam}
-                >
-                  Skip
-                </Button>
-              )}
-            </div>
-          ))) || (
-          <div>
-            <CircularProgress /> Loading...
-          </div>
-        )}
+        <Content />
       </Box>
     </Container>
   );

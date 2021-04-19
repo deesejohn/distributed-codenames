@@ -8,7 +8,16 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { Clue } from '../../types';
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    formField: {
+      margin: theme.spacing(1),
+    },
+  })
+);
 
 const HintDialog = (props: {
   handleClose: () => void;
@@ -16,6 +25,7 @@ const HintDialog = (props: {
   open: boolean;
 }): JSX.Element => {
   const { handleHint, handleClose, open } = props;
+  const { formField } = useStyles();
   const validationSchema = yup.object({
     word: yup.string().required('A word is required'),
     number: yup
@@ -53,6 +63,7 @@ const HintDialog = (props: {
             error={touched.word && !!errors.word}
             helperText={touched.word && errors.word && errors.word}
             variant="filled"
+            className={formField}
           />
           <TextField
             fullWidth
@@ -64,6 +75,8 @@ const HintDialog = (props: {
             onChange={handleChange}
             error={touched.number && !!errors.number}
             helperText={touched.number && errors.number && errors.number}
+            variant="filled"
+            className={formField}
           />
           <Box
             alignItems="center"
