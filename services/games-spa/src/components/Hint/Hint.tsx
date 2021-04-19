@@ -1,40 +1,53 @@
 import React from 'react';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import { makeStyles } from '@material-ui/core/styles';
+import { Card, CardContent, Grid, Typography } from '@material-ui/core';
 import { Clue } from '../../types';
 
-const useStyles = makeStyles({
-  root: {
-    alignItems: 'center',
-    display: 'flex',
-    flexDirection: 'row',
-    padding: 0,
-  },
-});
-
 const Hint = (props: { clue: Clue }): JSX.Element => {
-  const classes = useStyles();
   const { clue } = props;
   return (
-    <div>
-      {!clue.word ? (
-        <div>Waiting for clue</div>
-      ) : (
-        <List className={classes.root}>
-          <ListItem>
-            <ListItemText primary="Word" secondary={clue?.word} />
-          </ListItem>
-          <ListItem>
-            <ListItemText
-              primary="Guesses"
-              secondary={`${clue?.number - 1} + 1 extra`}
-            />
-          </ListItem>
-        </List>
+    <Grid container justify="center" spacing={2}>
+      {(clue.word && (
+        <>
+          <Grid item>
+            <Card>
+              <CardContent>
+                <Typography color="textSecondary" gutterBottom>
+                  Word of the Day
+                </Typography>
+                <Typography variant="h5" component="h2">
+                  {clue.word}
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+          <Grid item>
+            <Card>
+              <CardContent>
+                <Typography color="textSecondary" gutterBottom>
+                  Number
+                </Typography>
+                <Typography variant="h5" component="h2">
+                  {`${clue.number - 1} + 1 extra`}
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+        </>
+      )) || (
+        <Grid item>
+          <Card>
+            <CardContent>
+              <Typography color="textSecondary" gutterBottom>
+                Waiting for spymaster
+              </Typography>
+              <Typography variant="h5" component="h2">
+                No clue
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
       )}
-    </div>
+    </Grid>
   );
 };
 
