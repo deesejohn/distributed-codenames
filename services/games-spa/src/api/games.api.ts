@@ -3,52 +3,50 @@ import { Clue, Game } from '../types';
 
 const apiClient = axios.create({ baseURL: '/api/games/' });
 
-const get = async (game_id: string): Promise<Game> => {
-  const response = await apiClient.get(game_id);
+const get = async (gameId: string): Promise<Game> => {
+  const response = await apiClient.get<Game>(gameId);
   return response.data;
 };
 
 const guess = async (
-  game_id: string,
-  player_id: string,
-  card_id: string
+  gameId: string,
+  playerId: string,
+  cardCd: string
 ): Promise<void> => {
-  await apiClient.post(`${game_id}/guess`, {
-    player_id: player_id,
-    card_id: card_id,
+  await apiClient.post(`${gameId}/guess`, {
+    player_id: playerId,
+    card_id: cardCd,
   });
 };
 
 const hint = async (
-  game_id: string,
-  player_id: string,
+  gameId: string,
+  playerId: string,
   clue: Clue
 ): Promise<void> => {
-  await apiClient.post(`${game_id}/hint`, {
-    player_id: player_id,
+  await apiClient.post(`${gameId}/hint`, {
+    player_id: playerId,
     number: clue.number,
     word: clue.word,
   });
 };
 
-const playAgain = async (game_id: string, player_id: string): Promise<void> => {
-  await apiClient.post(`${game_id}/play_again`, {
-    player_id: player_id,
+const playAgain = async (gameId: string, playerId: string): Promise<void> => {
+  await apiClient.post(`${gameId}/play_again`, {
+    player_id: playerId,
   });
 };
 
-const skip = async (game_id: string, player_id: string): Promise<void> => {
-  await apiClient.post(`${game_id}/skip`, {
-    player_id: player_id,
+const skip = async (gameId: string, playerId: string): Promise<void> => {
+  await apiClient.post(`${gameId}/skip`, {
+    player_id: playerId,
   });
 };
 
-const methods = {
+export default {
   get,
   guess,
   hint,
   playAgain,
   skip,
 };
-
-export default methods;

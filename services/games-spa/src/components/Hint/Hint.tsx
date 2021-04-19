@@ -1,3 +1,4 @@
+import React from 'react';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -13,7 +14,7 @@ const useStyles = makeStyles({
   },
 });
 
-const Hint = (props: { clue: Clue }) => {
+const Hint = (props: { clue: Clue }): JSX.Element => {
   const classes = useStyles();
   const { clue } = props;
   return (

@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
+import { Theme } from '@material-ui/core/styles/createMuiTheme';
 
 const colors = {
   blue: '#25769f',
@@ -12,6 +13,7 @@ export const HiddenCard = styled(Button)``;
 
 export const RevealedCard = styled(Button)<{ cardColor: number }>`
   ${({ cardColor, theme }) => {
+    const { palette } = theme as Theme;
     switch (cardColor) {
       case 1:
         return `
@@ -19,7 +21,7 @@ export const RevealedCard = styled(Button)<{ cardColor: number }>`
         background: linear-gradient(
           135deg,
           ${colors.blue},
-          ${theme.palette.secondary.dark}
+          ${palette.secondary.dark}
         );
         &:disabled { color: white; }
       `;
@@ -29,7 +31,7 @@ export const RevealedCard = styled(Button)<{ cardColor: number }>`
         background: linear-gradient(
           135deg,
           ${colors.red},
-          ${theme.palette.primary.dark}
+          ${palette.primary.dark}
         );
         &:disabled { color: white; }
       `;
@@ -39,7 +41,7 @@ export const RevealedCard = styled(Button)<{ cardColor: number }>`
         background: linear-gradient(
           135deg,
           ${colors.tan},
-          ${theme.palette.warning.dark}
+          ${palette.warning.dark}
         );
         color: black;
         &:disabled { color: black; }

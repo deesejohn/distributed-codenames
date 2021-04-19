@@ -15,4 +15,4 @@ const muiTheme: Theme = createMuiTheme({
   },
 });
 
-export { muiTheme };
+export default muiTheme;

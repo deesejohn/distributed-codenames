@@ -7,7 +7,7 @@ import {
 } from '@material-ui/core';
 import { ThemeProvider } from 'styled-components';
 
-import { muiTheme } from './theme';
+import muiTheme from './theme';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
