@@ -1,10 +1,9 @@
 import React from 'react';
-import Container from '@material-ui/core/Container';
+import { Box, Container } from '@material-ui/core';
 import './App.css';
 import NicknameForm from './NicknameForm';
-import Box from '@material-ui/core/Box';
 
-function App() {
+function App(): JSX.Element {
   return (
     <Container maxWidth="sm">
       <Box
@@ -14,7 +13,7 @@ function App() {
         m={2}
         minHeight="100vh"
       >
-        <NicknameForm></NicknameForm>
+        <NicknameForm />
       </Box>
     </Container>
   );
