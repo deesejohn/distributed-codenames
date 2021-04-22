@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import { purple, teal } from '@material-ui/core/colors';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import App from './App';
+import reportWebVitals from './reportWebVitals';
+import './index.css';
 
 const theme = createMuiTheme({
   palette: {

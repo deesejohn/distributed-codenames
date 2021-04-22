@@ -19,6 +19,14 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
+const validationSchema = yup.object({
+  word: yup.string().required('A word is required'),
+  number: yup
+    .number()
+    .min(1, 'At least one guess is required')
+    .required('At least one guess is required'),
+});
+
 const HintDialog = (props: {
   handleClose: () => void;
   handleHint: (clue: Clue) => Promise<void>;
@@ -26,13 +34,6 @@ const HintDialog = (props: {
 }): JSX.Element => {
   const { handleHint, handleClose, open } = props;
   const { formField } = useStyles();
-  const validationSchema = yup.object({
-    word: yup.string().required('A word is required'),
-    number: yup
-      .number()
-      .min(1, 'At least one guess is required')
-      .required('At least one guess is required'),
-  });
   const { errors, handleChange, handleSubmit, touched, values } = useFormik({
     initialValues: {
       word: '',
@@ -61,7 +62,7 @@ const HintDialog = (props: {
             value={values.word}
             onChange={handleChange}
             error={touched.word && !!errors.word}
-            helperText={touched.word && errors.word && errors.word}
+            helperText={touched.word && errors.word}
             variant="filled"
             className={formField}
           />
@@ -74,7 +75,7 @@ const HintDialog = (props: {
             value={values.number}
             onChange={handleChange}
             error={touched.number && !!errors.number}
-            helperText={touched.number && errors.number && errors.number}
+            helperText={touched.number && errors.number}
             variant="filled"
             className={formField}
           />
