@@ -10,29 +10,36 @@ If you find a bug please open an issue or pull request. This project is a way fo
 
 1. [Docker](https://www.docker.com/products/docker-desktop)
 2. A local [Kubernetes](https://kubernetes.io/) environment (pick one)
-   - Enable Kubernetes in "Docker for Desktop"
    - [Minikube](https://minikube.sigs.k8s.io/docs/start/)
-   - [k3s](https://rancher.com/docs/k3s/latest/en/quick-start/)
+   - [Kind](https://kind.sigs.k8s.io/docs/user/quick-start/)
+   - [k3d](https://k3d.io/#quick-start)
+   - Enable Kubernetes in "Docker for Desktop"
 3. [Helm](https://helm.sh/docs/intro/quickstart/)
 4. [Skaffold](https://skaffold.dev/docs/install/)
 5. (Optional) Languages to run applications natively (see architecture table below)
 
 ### Architecture
 
-![Architecture graph](/docs/img/architecture.png)
+![Architecture graph](/docs/img/distributed-codewords.png)
 
 | Service                             | Language / Framework                                                                       | Notes                                                                                                            |
 | ----------------------------------- | ------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------- |
 | [Games](services/games)             | Go / [gRPC](https://grpc.io/)                                                              | Handles game logic, stores state in [Redis](https://redis.io/) and publishes updates to [NATS](https://nats.io/) |
-| [Games BFF](services/games-bff)     | Typescript / [Express](https://expressjs.com/)                                             | Streams game session updates to clients in real time with websockets, subscribes to NATS                         |
-| [Games SPA](services/games-spa)     | Typescript / [React](https://reactjs.org/)                                                 | Game frontend using [Material UI](https://material-ui.com/) components                                           |
-| [Lobbies](services/lobbies)         | C# / [ASP&#46;NET Core](https://docs.microsoft.com/en-us/aspnet/core/?view=aspnetcore-5.0) | Handles updating teams and game settings                                                                         |
-| [Lobbies SPA](services/lobbies-spa) | Typescript / [Angular](https://angular.io/)                                                | Allows players to select their team, allows host to change game settings                                         |
-| [Players](services/players)         | Python / [FastAPI](https://fastapi.tiangolo.com/)                                          | Handles player state with redis                                                                                  |
-| [Players SPA](services/players-spa) | Typescript / React                                                                         | Allows players to set their nickname                                                                             |
+| [Games BFF](services/games-bff)     | Typescript / [Express](https://expressjs.com/)                                             | [Node.js](https://nodejs.org), subscribes to NATS and streams game updates to players in real time with websockets |
+| [Games SPA](services/games-spa)     | Typescript / [React](https://reactjs.org/)                                                 | Game frontend using [Material UI](https://material-ui.com/), [styled components](https://styled-components.com/), [formik](https://github.com/formium/formik), [axios](https://github.com/axios/axios), and hosted via [NGINX](https://www.nginx.com/) |
+| [Lobbies](services/lobbies)         | C# / [ASP&#46;NET Core](https://docs.microsoft.com/en-us/aspnet/core/?view=aspnetcore-5.0) | Uses [SignalR](https://dotnet.microsoft.com/apps/aspnet/signalr) with a Redis backplane to communicate send updates to the SPA |
+| [Lobbies SPA](services/lobbies-spa) | Typescript / [Angular](https://angular.io/)                                                | Built with [Angular Material](https://material.angular.io/) and [Flex Layout](https://github.com/angular/flex-layout), allows players to select their team |
+| [Players](services/players)         | Python / [FastAPI](https://fastapi.tiangolo.com/)                                          | Handles player state with Redis, hosted via [uvicorn](https://www.uvicorn.org/)                                  |
+| [Players SPA](services/players-spa) | Typescript / React                                                                         | Allows players to set and update their nickname, hosted via NGINX                                                |
 | [Words](services/words)             | Go / gRPC                                                                                  | Provides different word lists to vary games                                                                      |
 
 ### Install Helm Dependencies
+
+Current dependencies are:
+
+1. [ingress-nginx](https://kubernetes.github.io/ingress-nginx/)
+1. [NATS](https://nats.io/)
+1. [Redis](https://redis.io/)
 
 ```sh
 helm repo add bitnami https://charts.bitnami.com/bitnami
@@ -62,10 +69,13 @@ nats-sub <subject>
 
 ## Potential improvements / technologies to evaluate
 
-1. Add CI/CD, evaluate [ArgoCD](https://argoproj.github.io/argo-cd/)
-2. Determine Unit Testing and code coverage strategy
-3. Add formatting/linting configurations and static analysis with quality gates
-4. Remove the sync dependency for Lobby to Player service, potentially with a [jwt](https://jwt.io/)
-5. Use Java for a microservice, possibly with [Quarkus](https://quarkus.io/) on [GraalVM](https://www.graalvm.org/)
-6. Evaluate other options for state management beyond Redis
-7. Leverage microfrontend patterns
+1. Add CI with Github Actions
+   1. Unit test
+   1. Static Analysis ([SAST](https://owasp.org/www-community/Source_Code_Analysis_Tools), code coverage, quality gates, etc.)
+   1. Render manifests and commit to cluster repository
+1. Add CD, evaluate [ArgoCD](https://argoproj.github.io/argo-cd/) and [Flux 2](https://github.com/fluxcd/flux2)
+1. Add formatting/linting configurations
+1. Remove the sync dependency for Lobby to Player service, potentially with a [JWT](https://jwt.io/)
+1. Use Java for a microservice, possibly with [Quarkus](https://quarkus.io/) on [GraalVM](https://www.graalvm.org/)
+1. Evaluate other options for state management beyond Redis, potentially [ArangoDB](https://www.arangodb.com/)
+1. Leverage microfrontend patterns
