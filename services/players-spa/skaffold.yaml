@@ -5,6 +5,7 @@ metadata:
 build:
   artifacts:
   - image: players-spa
+  local: {}
 deploy:
   kubectl:
     manifests:

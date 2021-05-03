@@ -5,6 +5,7 @@ metadata:
 build:
   artifacts:
   - image: games-bff
+  local: {}
 deploy:
   kubectl:
     manifests:

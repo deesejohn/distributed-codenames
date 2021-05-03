@@ -5,6 +5,7 @@ metadata:
 build:
   artifacts:
   - image: games-spa
+  local: {}
 deploy:
   kubectl:
     manifests:
