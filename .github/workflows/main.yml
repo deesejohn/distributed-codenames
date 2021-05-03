@@ -15,7 +15,7 @@ jobs:
           sudo install skaffold /usr/local/bin/
       - name: Render manifests
         run: |
-          echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${GITHUB_ACTOR} --password-stdin
+          echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
           skaffold render --add-skaffold-labels=false \
             --default-repo=ghcr.io/deesejohn \
             --output manifests.yaml \
