@@ -1,0 +1,27 @@
+name: CI
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [master]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Skaffold
+        run: |
+          curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64 && \
+          sudo install skaffold /usr/local/bin/
+      - uses: actions/checkout@v2
+      - name: Render manifests
+        with:
+          repository: 'https://github.com/deesejohn/distributed-codenames-cluster.git'
+      - run: |
+          skaffold render > manifests.yaml
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git checkout -b release/$GITHUB_SHA
+          git add manifests.yaml
+          git commit -m "rendered manifests"
+          git push -u origin release/$GITHUB_SHA
