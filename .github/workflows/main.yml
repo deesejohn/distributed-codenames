@@ -9,24 +9,29 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          path: 'distributed-codenames'
       - name: Install Skaffold
         run: |
           curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64 && \
           sudo install skaffold /usr/local/bin/
       - name: Render manifests
         run: |
+          cd $GITHUB_WORKSPACE/distributed-codenames
           echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
           skaffold render --add-skaffold-labels=false \
             --default-repo=ghcr.io/deesejohn \
-            --output manifests.yaml \
+            --output $GITHUB_WORKSPACE/manifests.yaml \
             --offline=true
       - name: Checkout cluster
         uses: actions/checkout@v2
         with:
+          path: 'distributed-codenames-cluster'
           repository: 'deesejohn/distributed-codenames-cluster'
       - name: Commit manifests
         run: |
-          mv manifests.yaml releases/manifests.yaml
+          cd $GITHUB_WORKSPACE/distributed-codenames-cluster
+          mv $GITHUB_WORKSPACE/manifests.yaml releases/manifests.yaml
           git config user.name github-actions
           git config user.email github-actions@github.com
           git checkout -b release/$GITHUB_SHA
