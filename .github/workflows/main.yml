@@ -16,7 +16,7 @@ jobs:
       - name: Checkout cluster
         uses: actions/checkout@v2
         with:
-          repository: 'https://github.com/deesejohn/distributed-codenames-cluster.git'
+          repository: 'deesejohn/distributed-codenames-cluster.git'
       - name: Render manifests
         run: |
           skaffold render > manifests.yaml
