@@ -14,13 +14,14 @@ jobs:
           curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64 && \
           sudo install skaffold /usr/local/bin/
       - name: Render manifests
-        run: skaffold render > releases/manifests.yaml
+        run: skaffold render > manifests.yaml
       - name: Checkout cluster
         uses: actions/checkout@v2
         with:
           repository: 'deesejohn/distributed-codenames-cluster'
       - name: Commit manifests
         run: |
+          mv manifests.yaml releases/manifests.yaml
           git config user.name github-actions
           git config user.email github-actions@github.com
           git checkout -b release/$GITHUB_SHA
