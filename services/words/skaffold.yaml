@@ -5,6 +5,7 @@ metadata:
 build:
   artifacts:
   - image: words
+  local: {}
 deploy:
   kubectl:
     manifests:
