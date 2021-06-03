@@ -20,8 +20,7 @@ jobs:
         run: |
           cd $GITHUB_WORKSPACE/distributed-codenames
           echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
-          skaffold render --add-skaffold-labels=false \
-            --default-repo=ghcr.io/deesejohn \
+          skaffold render --default-repo=ghcr.io/deesejohn \
             --output $GITHUB_WORKSPACE/manifests.yaml \
             --offline=true
       - name: Checkout cluster
