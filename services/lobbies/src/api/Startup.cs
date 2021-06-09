@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using lobbies.api.Hubs;
 using lobbies.api.Models;
 using lobbies.api.Repositories;
+using lobbies.api.ServiceClients;
 using lobbies.api.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -47,7 +48,7 @@ namespace lobbies.api
             });
             services.AddHealthChecks()
                 .AddRedis(GetRedisConnectionString(), tags: new string[] { "ready" });
-            services.AddHttpClient<PlayerService>(c =>
+            services.AddHttpClient<PlayerServiceClient>(c =>
             {
                 c.BaseAddress = Configuration.GetValue<Uri>("PLAYERS_HOST");
             });

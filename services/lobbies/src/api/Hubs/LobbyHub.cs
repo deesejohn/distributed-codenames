@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using lobbies.api.ServiceClients;
 using lobbies.api.Services;
 using Microsoft.AspNetCore.SignalR;
 
@@ -9,9 +10,9 @@ namespace lobbies.api.Hubs
     {
         public const string LOBBY_UPDATED = "LobbyUpdated";
         private readonly LobbyService _lobbyService;
-        private readonly PlayerService _playerService;
+        private readonly PlayerServiceClient _playerService;
 
-        public LobbyHub(LobbyService lobbyService, PlayerService playerService)
+        public LobbyHub(LobbyService lobbyService, PlayerServiceClient playerService)
         {
             _lobbyService = lobbyService
                 ?? throw new ArgumentNullException(nameof(lobbyService));

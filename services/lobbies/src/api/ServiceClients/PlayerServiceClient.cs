@@ -6,13 +6,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using lobbies.api.Models;
 
-namespace lobbies.api.Services
+namespace lobbies.api.ServiceClients
 {
-    public class PlayerService
+    public class PlayerServiceClient
     {
         private readonly HttpClient _client;
 
-        public PlayerService(HttpClient client)
+        public PlayerServiceClient(HttpClient client)
         {
             _client = client ?? throw new ArgumentNullException(nameof(client));
         }
