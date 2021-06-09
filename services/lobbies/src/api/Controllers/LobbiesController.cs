@@ -1,7 +1,8 @@
-using System.Threading;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using lobbies.api.Models;
+using lobbies.api.ServiceClients;
 using lobbies.api.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,9 +14,9 @@ namespace lobbies.api.Controllers
     public class LobbiesController : ControllerBase
     {
         private readonly LobbyService _lobbyService;
-        private readonly PlayerService _playerService;
+        private readonly PlayerServiceClient _playerService;
 
-        public LobbiesController(LobbyService lobbyService, PlayerService playerService)
+        public LobbiesController(LobbyService lobbyService, PlayerServiceClient playerService)
         {
             _lobbyService = lobbyService ?? throw new ArgumentNullException(nameof(lobbyService));
             _playerService = playerService ?? throw new ArgumentNullException(nameof(playerService));
