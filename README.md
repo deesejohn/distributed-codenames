@@ -41,7 +41,7 @@ Current dependencies are:
 1. [NATS](https://nats.io/)
 1. [Redis](https://redis.io/)
 
-```sh
+```console
 helm repo add bitnami https://charts.bitnami.com/bitnami
 helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
 helm repo add nats https://nats-io.github.io/k8s/helm/charts/
@@ -55,27 +55,26 @@ helm install players-redis bitnami/redis --set cluster.enabled=false
 
 ### Startup services
 
-```sh
-# from the root directory
+```console
 skaffold dev
 ```
 
 ### Debugging nats
 
-```sh
+```console
 kubectl exec -n default -it my-nats-box -- /bin/sh -l
 nats-sub <subject>
 ```
 
 ## Potential improvements / technologies to evaluate
 
-1. Add CI with Github Actions
-   1. Unit test
-   1. Static Analysis ([SAST](https://owasp.org/www-community/Source_Code_Analysis_Tools), code coverage, quality gates, etc.)
-   1. Render manifests and commit to cluster repository
-1. Add CD, evaluate [ArgoCD](https://argoproj.github.io/argo-cd/) and [Flux 2](https://github.com/fluxcd/flux2)
-1. Add formatting/linting configurations
-1. Remove the sync dependency for Lobby to Player service, potentially with a [JWT](https://jwt.io/)
-1. Use Java for a microservice, possibly with [Quarkus](https://quarkus.io/) on [GraalVM](https://www.graalvm.org/)
-1. Evaluate other options for state management beyond Redis, potentially [ArangoDB](https://www.arangodb.com/)
-1. Leverage microfrontend patterns
+1. ✔️ Add CI with Github Actions
+   1. 🚧 Automated tests (unit, integration, e2e, smoke, etc.)
+   1. ⭕ Static Analysis ([SAST](https://owasp.org/www-community/Source_Code_Analysis_Tools), code coverage, quality gates, etc.)
+   1. ✔️ Render manifests and commit to [GitOps repository](https://github.com/deesejohn/distributed-codenames-cluster)
+1. ✔️ Add CD, evaluate [ArgoCD](https://argoproj.github.io/argo-cd/) and [Flux 2](https://github.com/fluxcd/flux2)
+1. ✔️ Add formatting/linting configurations
+1. ⭕ Remove the sync dependency for Lobby to Player service, potentially with a [JWT](https://jwt.io/)
+1. ⭕ Use Java for a microservice, possibly with [Quarkus](https://quarkus.io/) on [GraalVM](https://www.graalvm.org/)
+1. ⭕ Evaluate other options for state management beyond Redis, potentially [ArangoDB](https://www.arangodb.com/)
+1. ⭕ Leverage microfrontend patterns
