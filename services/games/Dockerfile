@@ -1,4 +1,4 @@
-FROM golang:alpine AS packages
+FROM golang:alpine AS builder
 ENV GO111MODULE=on \
     CGO_ENABLED=0 \
     GOOS=linux \
@@ -6,9 +6,6 @@ ENV GO111MODULE=on \
 WORKDIR /app
 COPY go.mod go.sum ./
 RUN go mod download
-
-FROM packages AS builder
-WORKDIR /app
 COPY . .
 RUN go build -o main .
 

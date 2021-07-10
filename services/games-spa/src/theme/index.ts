@@ -1,9 +1,8 @@
 import { purple, teal } from '@material-ui/core/colors';
+import { Theme } from '@material-ui/core';
+import { createTheme } from '@material-ui/core/styles';
 
-import { Theme } from '@material-ui/core/styles/createMuiTheme';
-import { createMuiTheme } from '@material-ui/core/styles';
-
-const muiTheme: Theme = createMuiTheme({
+const muiTheme: Theme = createTheme({
   palette: {
     primary: {
       main: purple[800],
