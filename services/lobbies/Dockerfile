@@ -1,5 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:5.0 AS base
-RUN apt-get update && apt-get install -y ca-certificates && update-ca-certificates
+FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /app
 COPY *.sln .
 COPY src/*/*.csproj ./
@@ -10,16 +9,8 @@ COPY tests/*/*.csproj ./
 RUN for file in $(ls *.csproj); \
     do mkdir -p tests/${file%.*}/ && mv $file tests/${file%.*}/; \
     done
-RUN dotnet restore
-
-FROM base AS test
-WORKDIR /app
 COPY . .
-RUN dotnet test -c "Test" --collect:"XPlat Code Coverage"
-
-FROM test AS build
-WORKDIR /app
-RUN dotnet publish -c release -o out --no-restore
+RUN dotnet publish -c release -o out
 
 FROM mcr.microsoft.com/dotnet/aspnet:5.0
 WORKDIR /app

@@ -23,9 +23,9 @@ namespace lobbies.api.Controllers
         }
 
         [HttpGet("/{lobbyId}")]
-        public Task<Lobby> GetAsync(string lobbyId)
+        public Task<Lobby> GetAsync(string lobbyId, CancellationToken cancellationToken)
         {
-            return _lobbyService.GetAsync(lobbyId);
+            return _lobbyService.GetAsync(lobbyId, cancellationToken);
         }
 
         [HttpPost]
