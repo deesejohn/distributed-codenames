@@ -1,9 +1,7 @@
-FROM node:lts-alpine AS base
+FROM node:lts-alpine AS builder
 WORKDIR /app
 COPY package.json package-lock.json ./
-RUN npm install
-
-FROM base AS builder
+RUN npm ci
 COPY . .
 RUN npm run build
 
