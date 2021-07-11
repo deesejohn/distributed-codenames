@@ -1,13 +1,21 @@
 {
   "compilerOptions": {
-    "allowJs": true,
-    "module": "commonjs",
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
     "target": "es6",
-    "noImplicitAny": true,
-    "moduleResolution": "node",
+    "module": "commonjs",
+    "allowJs": true,
     "outDir": "build",
-    "baseUrl": "."
-  }
+    "strict": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": ".",
+    "typeRoots": [
+      "node_modules/@types"
+    ]
+  },
+  "exclude": [
+    "build",
+    "node_modules"
+  ]
 }
