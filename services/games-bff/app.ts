@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { json } from 'body-parser';
 import express, { Request, Response } from 'express';
 import GameClient from './client';
