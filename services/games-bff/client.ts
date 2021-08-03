@@ -35,7 +35,7 @@ class GameClient {
         if (!game) {
           return resolve(null);
         }
-        return resolve(this.mapGame(game));
+        return resolve(GameClient.mapGame(game));
       });
     });
   };
@@ -109,27 +109,27 @@ class GameClient {
     });
   };
 
-  private mapCard = (dto: GrpcCard.AsObject): Card => ({
+  public static mapCard = (dto: GrpcCard.AsObject): Card => ({
     card_id: dto.cardId,
     label: dto.label,
     color: dto.color,
     revealed: dto.revealed,
   });
 
-  private mapPlayer = (dto: GrpcPlayer.AsObject): Player => ({
+  public static mapPlayer = (dto: GrpcPlayer.AsObject): Player => ({
     player_id: dto.playerId,
     nickname: dto.nickname,
   });
 
-  private mapGame = (dto: GrpcGame.AsObject): Game => ({
+  public static mapGame = (dto: GrpcGame.AsObject): Game => ({
     game_id: dto.gameId,
     host_id: dto.hostId,
-    blue_team: dto.blueTeamList.map(this.mapPlayer),
+    blue_team: dto.blueTeamList.map(GameClient.mapPlayer),
     blue_team_spymaster: dto.blueTeamSpymaster,
-    red_team: dto.redTeamList.map(this.mapPlayer),
+    red_team: dto.redTeamList.map(GameClient.mapPlayer),
     red_team_spymaster: dto.redTeamSpymaster,
-    board: dto.boardList.map(this.mapCard),
-    key: dto.keyList.map(this.mapCard),
+    board: dto.boardList.map(GameClient.mapCard),
+    key: dto.keyList.map(GameClient.mapCard),
     guessing: dto.guessing,
     clue: {
       word: String(dto.clue?.word),

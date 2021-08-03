@@ -109,8 +109,8 @@ export default function App(): JSX.Element {
         setTimeout(subscribeToGameSession, reconnect.current);
         reconnect.current = Math.max(5000, reconnect.current * 1.2);
       };
-      ws.current.onmessage = (message: { data: string }) => {
-        setGame(JSON.parse(message.data));
+      ws.current.onmessage = ({ data }) => {
+        setGame(JSON.parse(data));
       };
     }
     getGameSession().catch(() => {});
