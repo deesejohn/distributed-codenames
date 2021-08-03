@@ -15,6 +15,7 @@ import (
 	nats "github.com/nats-io/nats.go"
 	"google.golang.org/grpc"
 	healthpb "google.golang.org/grpc/health/grpc_health_v1"
+	"google.golang.org/protobuf/proto"
 )
 
 type server struct {
@@ -197,9 +198,12 @@ func publish(game *pb.Game) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	c, _ := nats.NewEncodedConn(nc, nats.JSON_ENCODER)
+	data, err := proto.Marshal(game)
+	if err != nil {
+		log.Fatal(err)
+	}
 	defer nc.Close()
-	err = c.Publish(natsSubject+game.GameId, game)
+	err = nc.Publish(natsSubject+game.GameId, data)
 	if err != nil {
 		log.Fatal(err)
 	}
