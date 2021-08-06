@@ -37,7 +37,7 @@ If you find a bug please open an issue or pull request. This project is a way fo
 
 Current dependencies are:
 
-1. [ingress-nginx](https://kubernetes.github.io/ingress-nginx/)
+1. [Emissary Ingress](https://github.com/emissary-ingress/emissary)
 1. [NATS](https://nats.io/)
 1. [Redis](https://redis.io/)
 
