@@ -54,23 +54,12 @@ spec:
       targetPort: 8000
   type: ClusterIP
 ---
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+apiVersion: getambassador.io/v2
+kind: Mapping
 metadata:
-  name: games-bff-ingress
-  annotations:
-    kubernetes.io/ingress.class: "nginx"
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
-    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
-    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+  name: games-bff-mapping
 spec:
-  rules:
-    - http:
-        paths:
-          - path: /api/games(/|$)(.*)
-            pathType: Prefix
-            backend:
-              service:
-                name: games-bff
-                port:
-                  number: 80
+  prefix: /api/games/
+  service: games-bff
+  allow_upgrade:
+  - websocket

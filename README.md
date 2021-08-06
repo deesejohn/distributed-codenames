@@ -41,12 +41,12 @@ Current dependencies are:
 1. [NATS](https://nats.io/)
 1. [Redis](https://redis.io/)
 
-```console
+```sh
 helm repo add bitnami https://charts.bitnami.com/bitnami
-helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm repo add datawire https://www.getambassador.io
 helm repo add nats https://nats-io.github.io/k8s/helm/charts/
 helm repo update
-helm install ingress-nginx ingress-nginx/ingress-nginx
+helm install ambassador --create-namespace --namespace ambassador datawire/ambassador --set enableAES=false
 helm install my-nats nats/nats
 helm install games-redis bitnami/redis --set cluster.enabled=false
 helm install lobbies-redis bitnami/redis --set cluster.enabled=false
@@ -55,13 +55,13 @@ helm install players-redis bitnami/redis --set cluster.enabled=false
 
 ### Startup services
 
-```console
+```sh
 skaffold dev
 ```
 
 ### Debugging nats
 
-```console
+```sh
 kubectl exec -n default -it my-nats-box -- /bin/sh -l
 nats-sub <subject>
 ```

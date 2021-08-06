@@ -4,7 +4,7 @@ import { Clue, Game } from '../types';
 const apiClient = axios.create({ baseURL: '/api/games/' });
 
 const get = async (gameId: string): Promise<Game> => {
-  const response = await apiClient.get<Game>(gameId);
+  const response = await apiClient.get<Game>(`${gameId}/`);
   return response.data;
 };
 

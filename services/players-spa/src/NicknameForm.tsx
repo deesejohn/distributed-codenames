@@ -36,7 +36,7 @@ const updatePlayer = async (
   playerId: string,
   player: { nickname: string }
 ): Promise<void> => {
-  await fetch(`${baseUri}/${playerId}`, {
+  await fetch(new URL(`/${playerId}/`, baseUri).toString(), {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -69,7 +69,7 @@ const onSubmit = async (data: { nickname: string }) => {
   }
 };
 
-export default function NicknameForm(): JSX.Element {
+const NicknameForm: React.FC = () => {
   const classes = useStyles();
   const { errors, handleChange, handleSubmit, touched, values } = useFormik({
     initialValues: {
@@ -96,4 +96,6 @@ export default function NicknameForm(): JSX.Element {
       </Button>
     </form>
   );
-}
+};
+
+export default NicknameForm;
