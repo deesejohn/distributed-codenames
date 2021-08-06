@@ -18,7 +18,7 @@ export class LobbiesService {
 
   public changeTeam(lobbyId: string, playerId: string): Observable<void> {
     return this.http.post<void>(
-      `/api/lobbies/${lobbyId}/player/${playerId}/change_team`,
+      `/api/lobbies/${lobbyId}/player/${playerId}/change_team/`,
       {},
       { withCredentials: true }
     );
@@ -26,7 +26,7 @@ export class LobbiesService {
 
   public createLobby(): Observable<string> {
     return this.http.post(
-      '/api/lobbies',
+      '/api/lobbies/',
       {},
       {
         responseType: 'text',
@@ -37,7 +37,7 @@ export class LobbiesService {
 
   public startGame(lobbyId: string): Observable<void> {
     return this.http.post<void>(
-      `/api/lobbies/${lobbyId}/start_game`,
+      `/api/lobbies/${lobbyId}/start_game/`,
       {},
       { withCredentials: true }
     );
@@ -61,7 +61,7 @@ export class LobbiesService {
       }).pipe(
         tap(lobby => {
           if (autoRedirect && !!lobby.game_id) {
-            this.document.location.assign(`/games/${lobby.game_id}`);
+            this.document.location.assign(`/games/${lobby.game_id}/`);
           }
         })
       );

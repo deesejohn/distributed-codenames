@@ -20,7 +20,7 @@ export default function App(): JSX.Element {
   const reconnect = useRef(100);
   const ws = useRef<WebSocket>();
   const route = window.location.pathname.split('/');
-  const gameId = route[route.length - 1];
+  const gameId = route[2];
   const playerId = document.cookie
     ?.split('; ')
     ?.find(row => row.startsWith('player_id'))

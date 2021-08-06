@@ -37,21 +37,10 @@ spec:
       targetPort: 80
   type: ClusterIP
 ---
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+apiVersion: getambassador.io/v2
+kind: Mapping
 metadata:
-  name: lobbies-spa-ingress
-  annotations:
-    kubernetes.io/ingress.class: "nginx"
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
+  name: lobbies-spa-mapping
 spec:
-  rules:
-    - http:
-        paths:
-          - path: /lobbies(/|$)(.*)
-            pathType: Prefix
-            backend:
-              service:
-                name: lobbies-spa
-                port:
-                  number: 80
+  prefix: /lobbies
+  service: lobbies-spa
