@@ -1,5 +1,5 @@
 apiVersion: getambassador.io/v2
-kind:  Mapping
+kind: Mapping
 metadata:
   name: root-mapping
 spec:

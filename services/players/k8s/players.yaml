@@ -36,13 +36,6 @@ spec:
                 secretKeyRef:
                   name: players-redis
                   key: redis-password
-          resources:
-            requests:
-              cpu: 100m
-              memory: 50Mi
-            limits:
-              cpu: 200m
-              memory: 100Mi
 ---
 apiVersion: v1
 kind: Service

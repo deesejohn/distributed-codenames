@@ -33,13 +33,6 @@ spec:
               value: "/api/games"
             - name: NATS_HOST
               value: "my-nats"
-          resources:
-            requests:
-              cpu: 100m
-              memory: 50Mi
-            limits:
-              cpu: 200m
-              memory: 100Mi
 ---
 apiVersion: v1
 kind: Service
@@ -62,4 +55,4 @@ spec:
   prefix: /api/games/
   service: games-bff
   allow_upgrade:
-  - websocket
+    - websocket
