@@ -1,7 +1,7 @@
 FROM node:lts-alpine AS install
 WORKDIR /app
 COPY package.json package-lock.json ./
-RUN npm install
+RUN npm ci
 
 FROM install as builder
 WORKDIR /app

@@ -36,13 +36,6 @@ spec:
                   key: redis-password
             - name: WORDS_ADDRESS
               value: "words:50051"
-          resources:
-            requests:
-              cpu: 100m
-              memory: 50Mi
-            limits:
-              cpu: 200m
-              memory: 100Mi
 ---
 apiVersion: v1
 kind: Service

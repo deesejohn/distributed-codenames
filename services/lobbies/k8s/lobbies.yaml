@@ -42,13 +42,6 @@ spec:
                 secretKeyRef:
                   name: lobbies-redis
                   key: redis-password
-          resources:
-            requests:
-              cpu: 100m
-              memory: 50Mi
-            limits:
-              cpu: 200m
-              memory: 100Mi
 ---
 apiVersion: v1
 kind: Service
@@ -71,4 +64,4 @@ spec:
   prefix: /api/lobbies/
   service: lobbies
   allow_upgrade:
-  - websocket
+    - websocket

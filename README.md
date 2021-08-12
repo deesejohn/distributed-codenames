@@ -46,11 +46,15 @@ helm repo add bitnami https://charts.bitnami.com/bitnami
 helm repo add datawire https://www.getambassador.io
 helm repo add nats https://nats-io.github.io/k8s/helm/charts/
 helm repo update
-helm install ambassador --create-namespace --namespace ambassador datawire/ambassador --set enableAES=false
+helm install ambassador datawire/ambassador \
+   --namespace ambassador \
+   --create-namespace \
+   --set enableAES=false \
+   --set replicaCount=1
 helm install my-nats nats/nats
-helm install games-redis bitnami/redis --set cluster.enabled=false
-helm install lobbies-redis bitnami/redis --set cluster.enabled=false
-helm install players-redis bitnami/redis --set cluster.enabled=false
+helm install games-redis bitnami/redis --set architecture=standalone
+helm install lobbies-redis bitnami/redis --set architecture=standalone
+helm install players-redis bitnami/redis --set architecture=standalone
 ```
 
 ### Startup services
