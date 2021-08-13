@@ -28,6 +28,10 @@ namespace lobbies.api.Repositories
             await _cache.SetStringAsync(
                 lobbyId,
                 JsonSerializer.Serialize(lobby),
+                new DistributedCacheEntryOptions
+                {
+                    AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(24)
+                },
                 cancellationToken
             );
         }
