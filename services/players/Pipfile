@@ -8,7 +8,8 @@ verify_ssl = true
 [packages]
 fastapi = "*"
 uvicorn = {extras = ["standard"], version = "*"}
-aredis = {extras = ["hiredis"], version = "*"}
+aioredis = "*"
+dependency-injector = "*"
 
 [requires]
 python_version = "3.9"
