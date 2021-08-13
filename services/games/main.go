@@ -191,6 +191,9 @@ func set(ctx context.Context, gameID string, game *pb.Game) {
 	if rdb.Set(ctx, redisPrefix+gameID, data, 0).Err(); err != nil {
 		log.Fatal(err)
 	}
+	if rdb.Expire(ctx, redisPrefix+gameID, time.Hour*24).Err(); err != nil {
+		log.Fatal(err)
+	}
 }
 
 func publish(game *pb.Game) {
