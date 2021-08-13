@@ -12,7 +12,7 @@ const Hint = (props: { clue: Clue }): JSX.Element => {
             <Card>
               <CardContent>
                 <Typography color="textSecondary" gutterBottom>
-                  Word of the Day
+                  Word
                 </Typography>
                 <Typography variant="h5" component="h2">
                   {clue.word}
