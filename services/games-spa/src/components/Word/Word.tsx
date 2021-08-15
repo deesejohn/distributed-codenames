@@ -1,37 +1,57 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
 import { Card } from '../../types';
-import { HiddenCard, RevealedCard } from './Word.styles';
+import {
+  BlackCard,
+  BlueCard,
+  HiddenCard,
+  RedCard,
+  TanCard,
+} from './Word.styles';
 
-const Word = (props: {
+interface WordProps {
   card: Card;
   guess: (card: Card) => void;
-}): JSX.Element => {
-  const { card, guess } = props;
-  return (
-    <div>
-      {!card.color ? (
+}
+
+const Word = ({ card, guess }: WordProps): JSX.Element => {
+  const Content = () => (
+    <Box component="div" visibility={card.revealed ? 'hidden' : 'shown'}>
+      {card.label}
+    </Box>
+  );
+  switch (card.color) {
+    case 1:
+      return (
+        <BlueCard fullWidth>
+          <Content />
+        </BlueCard>
+      );
+    case 2:
+      return (
+        <RedCard fullWidth>
+          <Content />
+        </RedCard>
+      );
+    case 3:
+      return (
+        <TanCard fullWidth>
+          <Content />
+        </TanCard>
+      );
+    case 4:
+      return (
+        <BlackCard fullWidth>
+          <Content />
+        </BlackCard>
+      );
+    default:
+      return (
         <HiddenCard fullWidth onClick={() => guess(card)} variant="contained">
           {card.label}
         </HiddenCard>
-      ) : (
-        <RevealedCard
-          fullWidth
-          variant="contained"
-          cardColor={card.color}
-          disabled
-        >
-          {!card.revealed ? (
-            card.label
-          ) : (
-            <Box component="div" visibility="hidden">
-              card.label
-            </Box>
-          )}
-        </RevealedCard>
-      )}
-    </div>
-  );
+      );
+  }
 };
 
 export default Word;

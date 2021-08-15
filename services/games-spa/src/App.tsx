@@ -12,9 +12,12 @@ import Button from '@material-ui/core/Button';
 import './App.css';
 import { Card, Clue, Game } from './types';
 import GamesClient from './api/games.api';
-import { Board, GameOver, Hint, HintDialog } from './components';
+import Board from './components/Board/Board';
+import GameOver from './components/GameOver/GameOver';
+import Hint from './components/Hint/Hint';
+import HintDialog from './components/HintDialog/HintDialog';
 
-export default function App(): JSX.Element {
+const App = (): JSX.Element => {
   const [game, setGame] = useState<Game | null>(null);
   const [promptHint, setPromptHint] = useState<boolean>(false);
   const reconnect = useRef(100);
@@ -191,4 +194,6 @@ export default function App(): JSX.Element {
       </Box>
     </Container>
   );
-}
+};
+
+export default App;

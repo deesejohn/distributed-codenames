@@ -11,12 +11,18 @@ const colors = {
 
 export const HiddenCard = styled(Button)``;
 
-export const RevealedCard = styled(Button)<{ cardColor: number }>`
-  ${({ cardColor }) => {
+export const BlackCard = styled(Button)`
+  background: ${colors.dark};
+  background: linear-gradient(135deg, ${colors.dark}, black);
+  &:disabled {
+    color: white;
+  }
+`;
+
+export const BlueCard = styled(Button)`
+  ${() => {
     const { palette } = useTheme();
-    switch (cardColor) {
-      case 1:
-        return `
+    return `
       background: ${colors.blue};
       background: linear-gradient(
         135deg,
@@ -24,9 +30,14 @@ export const RevealedCard = styled(Button)<{ cardColor: number }>`
         ${palette.secondary.dark}
       );
       &:disabled { color: white; }
-    `;
-      case 2:
-        return `
+  `;
+  }}
+`;
+
+export const RedCard = styled(Button)`
+  ${() => {
+    const { palette } = useTheme();
+    return `
       background: ${colors.red};
       background: linear-gradient(
         135deg,
@@ -34,9 +45,14 @@ export const RevealedCard = styled(Button)<{ cardColor: number }>`
         ${palette.primary.dark}
       );
       &:disabled { color: white; }
-    `;
-      case 3:
-        return `
+  `;
+  }}
+`;
+
+export const TanCard = styled(Button)`
+  ${() => {
+    const { palette } = useTheme();
+    return `
       background: ${colors.tan};
       background: linear-gradient(
         135deg,
@@ -45,19 +61,6 @@ export const RevealedCard = styled(Button)<{ cardColor: number }>`
       );
       color: black;
       &:disabled { color: black; }
-    `;
-      case 4:
-        return `
-      background: ${colors.dark};
-      background: linear-gradient(
-        135deg,
-        ${colors.dark},
-        black
-      );
-      &:disabled { color: white; }
-    `;
-      default:
-        return '';
-    }
-  }};
+  `;
+  }}
 `;
