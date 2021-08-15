@@ -27,12 +27,17 @@ const validationSchema = yup.object({
     .required('At least one guess is required'),
 });
 
-const HintDialog = (props: {
+interface HintDialogProps {
   handleClose: () => void;
   handleHint: (clue: Clue) => Promise<void>;
   open: boolean;
-}): JSX.Element => {
-  const { handleHint, handleClose, open } = props;
+}
+
+const HintDialog = ({
+  handleHint,
+  handleClose,
+  open,
+}: HintDialogProps): JSX.Element => {
   const { formField } = useStyles();
   const { errors, handleChange, handleSubmit, touched, values } = useFormik({
     initialValues: {
@@ -62,7 +67,7 @@ const HintDialog = (props: {
             value={values.word}
             onChange={handleChange}
             error={touched.word && !!errors.word}
-            helperText={touched.word && errors.word}
+            helperText={touched.number && !!errors.number && errors.number}
             variant="filled"
             className={formField}
           />
@@ -75,7 +80,7 @@ const HintDialog = (props: {
             value={values.number}
             onChange={handleChange}
             error={touched.number && !!errors.number}
-            helperText={touched.number && errors.number}
+            helperText={touched.number && !!errors.number && errors.number}
             variant="filled"
             className={formField}
           />

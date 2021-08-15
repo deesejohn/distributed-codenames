@@ -84,6 +84,6 @@ async def get_health_ready():
 
 
 container = Container()
-container.config.redis_host.from_env("REDIS_HOST", os.getenv("REDIS_HOST"))
-container.config.redis_password.from_env("REDIS_PASSWORD", os.getenv("REDIS_PASSWORD"))
+container.config.redis_host.from_env("REDIS_HOST", "localhost")
+container.config.redis_password.from_env("REDIS_PASSWORD", "")
 container.wire(modules=[sys.modules[__name__]])
