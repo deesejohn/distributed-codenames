@@ -131,6 +131,15 @@ func PlayAgain(game *pb.Game, hostID string, words []string) error {
 	game.Key = key
 	game.Clue = clue
 	game.Winner = ""
+	nextSpymaster := 0
+	for i, player := range game.BlueTeam {
+		if player.PlayerId == game.BlueTeamSpymaster {
+			nextSpymaster = (i + 1) % len(game.BlueTeam)
+			break
+		}
+	}
+	game.BlueTeamSpymaster = game.BlueTeam[nextSpymaster].PlayerId
+	game.RedTeamSpymaster = game.RedTeam[nextSpymaster].PlayerId
 	return nil
 }
 
