@@ -1,6 +1,7 @@
 from dependency_injector import containers, providers
 
-from . import redis, services
+from . import redis
+from .services import PlayerService
 
 
 class Container(containers.DeclarativeContainer):
@@ -13,7 +14,7 @@ class Container(containers.DeclarativeContainer):
         password=config.redis_password,
     )
 
-    service = providers.Factory(
-        services.Service,
+    player_service = providers.Factory(
+        PlayerService,
         redis=redis_pool,
     )

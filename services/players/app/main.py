@@ -1,15 +1,12 @@
-import json
 import logging
 import os
-import uuid
 import sys
 
 from dependency_injector.wiring import inject, Provide
 from fastapi import Depends, FastAPI, HTTPException, Response, status
-from pydantic import BaseModel
 
 from .containers import Container
-from .services import Service
+from .services import PlayerRead, PlayerService, PlayerWrite
 
 app = FastAPI(
     title="Players Service",
@@ -28,24 +25,16 @@ class HealthCheckFilter(logging.Filter):
 logging.getLogger("uvicorn.access").addFilter(HealthCheckFilter())
 
 
-class PlayerRead(BaseModel):
-    player_id: str
-    nickname: str
-
-
-class PlayerWrite(BaseModel):
-    nickname: str
-
-
 @app.get("/{player_id}", tags=["Players"], response_model=PlayerRead)
 @inject
 async def get_player(
-    player_id: str, service: Service = Depends(Provide[Container.service])
+    player_id: str,
+    player_service: PlayerService = Depends(Provide[Container.player_service]),
 ):
-    player = await service.read_player(player_id)
+    player = await player_service.read(player_id)
     if player is None:
         raise HTTPException(status_code=404, detail="Player not found")
-    return json.loads(player)
+    return player
 
 
 @app.put("/{player_id}", tags=["Players"], status_code=status.HTTP_204_NO_CONTENT)
@@ -53,9 +42,9 @@ async def get_player(
 async def put_player(
     player_id: str,
     player: PlayerWrite,
-    service: Service = Depends(Provide[Container.service]),
+    player_service: PlayerService = Depends(Provide[Container.player_service]),
 ):
-    await service.write_player(
+    await player_service.update(
         player_id, {"player_id": player_id, "nickname": player.nickname}
     )
     return Response(status_code=status.HTTP_204_NO_CONTENT)
@@ -64,12 +53,10 @@ async def put_player(
 @app.post("/", tags=["Players"], response_model=str)
 @inject
 async def post_player(
-    player: PlayerWrite, service: Service = Depends(Provide[Container.service])
+    player: PlayerWrite,
+    player_service: PlayerService = Depends(Provide[Container.player_service]),
 ):
-    player_id = str(uuid.uuid4())
-    await service.write_player(
-        player_id, {"player_id": player_id, "nickname": player.nickname}
-    )
+    player_id = await player_service.create({"nickname": player.nickname})
     return player_id
 
 
