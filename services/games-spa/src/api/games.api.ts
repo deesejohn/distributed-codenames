@@ -43,10 +43,12 @@ const skip = async (gameId: string, playerId: string): Promise<void> => {
   });
 };
 
-export default {
+const client = {
   get,
   guess,
   hint,
   playAgain,
   skip,
 };
+
+export default client;
