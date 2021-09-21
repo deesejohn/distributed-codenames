@@ -19,11 +19,11 @@ class PlayerService:
         self.PLAYERS_PREFIX = "players:"
         self._redis = redis
 
-    async def create(self, player: PlayerWrite):
+    async def create(self, player: PlayerWrite) -> str:
         player_id = str(uuid.uuid4())
         await self._redis.set(
             self.PLAYERS_PREFIX + player_id,
-            json.dumps(player),
+            json.dumps({**player, "player_id": player_id}),
         )
         await self._redis.expire(
             self.PLAYERS_PREFIX + player_id, 24 * 60 * 60  # 24 hours
@@ -34,7 +34,7 @@ class PlayerService:
         player = await self._redis.get(self.PLAYERS_PREFIX + player_id)
         return json.loads(player)
 
-    async def update(self, player_id: str, player: PlayerWrite):
+    async def update(self, player_id: str, player: PlayerWrite) -> None:
         await self._redis.set(
             self.PLAYERS_PREFIX + player_id,
             json.dumps(player),

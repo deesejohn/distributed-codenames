@@ -5,6 +5,8 @@ module.exports = {
     jest: true,
   },
   extends: [
+    'react-app',
+    'react-app/jest',
     'airbnb-typescript',
     'airbnb/hooks',
     'plugin:@typescript-eslint/recommended',
@@ -17,5 +19,6 @@ module.exports = {
     tsconfigRootDir: __dirname,
   },
   plugins: ['react', '@typescript-eslint'],
+  ignorePatterns: ['.eslintrc.js'],
   rules: {},
 };
