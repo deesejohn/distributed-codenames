@@ -1,24 +1,54 @@
-<div *ngIf="lobby$ | async as lobby" fxLayout="row" fxLayoutAlign="space-around start">
-  <mat-card>
-    <mat-list role="list">
-      <div mat-subheader>Blue Team</div>
-      <mat-list-item role="listitem" *ngFor="let player of lobby?.blue_team">
-        {{ player.nickname }}
-      </mat-list-item>
-    </mat-list>
-  </mat-card>
-  <mat-card>
-    <mat-list role="list">
-      <div mat-subheader>Red Team</div>
-      <mat-list-item role="listitem" *ngFor="let player of lobby?.red_team">
-        {{ player.nickname }}
-      </mat-list-item>
-    </mat-list>
-  </mat-card>
+<div
+  *ngIf="lobby$ | async as lobby"
+  fxLayout="column"
+  fxLayoutAlign="center center"
+  fxLayoutGap="20px"
+>
+  <mat-chip-list aria-label="Requirements to start">
+    <mat-chip color="primary">
+      Teams are {{ teamsAreEven(lobby) ? '' : 'not ' }} even &nbsp;
+      <mat-icon>
+        {{ teamsAreEven(lobby) ? 'check_circle_outline' : 'error_outline' }}
+      </mat-icon>
+    </mat-chip>
+    <mat-chip color="primary">
+      Each team {{ teamsAreBothTwoPus(lobby) ? 'has' : 'needs' }} 2+ players
+      &nbsp;
+      <mat-icon>
+        {{
+          teamsAreBothTwoPus(lobby) ? 'check_circle_outline' : 'error_outline'
+        }}
+      </mat-icon>
+    </mat-chip>
+  </mat-chip-list>
+  <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px">
+    <mat-card>
+      <mat-list role="list">
+        <div mat-subheader>Blue Team</div>
+        <mat-list-item role="listitem" *ngFor="let player of lobby?.blue_team">
+          {{ player.nickname }}
+        </mat-list-item>
+      </mat-list>
+    </mat-card>
+    <mat-card>
+      <mat-list role="list">
+        <div mat-subheader>Red Team</div>
+        <mat-list-item role="listitem" *ngFor="let player of lobby?.red_team">
+          {{ player.nickname }}
+        </mat-list-item>
+      </mat-list>
+    </mat-card>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px">
+    <a mat-button routerLink="/">Leave</a>
+    <button type="button" mat-button (click)="changeTeam()">Change Team</button>
+    <button
+      type="button"
+      mat-button
+      (click)="startGame()"
+      [disabled]="!canStart(lobby)"
+    >
+      Start Game
+    </button>
+  </div>
 </div>
-<button type="button" mat-button (click)="changeTeam()">
-  Change Team
-</button>
-<button type="button" mat-button (click)="startGame()">
-  Start Game
-</button>

@@ -30,7 +30,18 @@ export class LobbyComponent {
     }
   }
 
+  canStart = (lobby: Lobby) =>
+    this.teamsAreEven(lobby) &&
+    this.teamsAreBothTwoPus(lobby) &&
+    this.playerService.getPlayerId() === lobby.host_id;
+
   startGame(): void {
     this.lobbiesService.startGame(this.lobbyId).subscribe();
   }
+
+  teamsAreBothTwoPus = (lobby: Lobby) =>
+    lobby.blue_team.length >= 2 && lobby.red_team.length >= 2;
+
+  teamsAreEven = (lobby: Lobby) =>
+    lobby.blue_team.length === lobby.red_team.length;
 }

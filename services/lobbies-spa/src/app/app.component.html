@@ -1,14 +1,7 @@
-<mat-drawer-container>
-  <mat-drawer #drawer mode="over">
-    <mat-nav-list>
-      <a mat-list-item [href]="playersUrl">Change name</a>
-    </mat-nav-list>
-  </mat-drawer>
-
-  <mat-drawer-content style="min-height: 100vh;" fxLayout="row" fxLayoutAlign="center center">
-    <button type="button" mat-button (click)="drawer.toggle()">
-      Menu
-    </button>
-    <router-outlet></router-outlet>
-  </mat-drawer-content>
-</mat-drawer-container>
+<button mat-icon-button [matMenuTriggerFor]="menu" aria-label="menu">
+  <mat-icon>more_vert</mat-icon>
+</button>
+<mat-menu #menu="matMenu">
+  <a mat-button [href]="playersUrl">Change name</a>
+</mat-menu>
+<router-outlet></router-outlet>
