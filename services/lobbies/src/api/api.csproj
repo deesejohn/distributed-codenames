@@ -6,20 +6,12 @@
 
   <ItemGroup>
     <PackageReference Include="AspNetCore.HealthChecks.Redis" Version="5.0.2" />
-    <PackageReference Include="Google.Protobuf" Version="3.19.1" />
-    <PackageReference Include="Grpc.Net.ClientFactory" Version="2.40.0" />
-    <PackageReference Include="Grpc.Tools" Version="2.41.1">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
     <PackageReference Include="Microsoft.AspNetCore.SignalR.StackExchangeRedis" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="6.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
-  <Target Name="protoc" BeforeTargets="ResolveReferences">
-    <ItemGroup Condition="'$(Configuration)' == 'Debug'">
-      <Protobuf Include="..\..\..\..\protos\games.proto" OutputDir="genproto" GrpcServices="Client" CompileOutputs="false" />
-    </ItemGroup>
-  </Target>
+  <ItemGroup>
+    <ProjectReference Include="..\genproto\genproto.csproj" />
+  </ItemGroup>
 </Project>
