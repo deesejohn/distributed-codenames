@@ -48,7 +48,7 @@ namespace lobbies.api
             });
             services.AddHealthChecks()
                 .AddRedis(GetRedisConnectionString(), tags: new string[] { "ready" });
-            services.AddHttpClient<PlayerServiceClient>(c =>
+            services.AddHttpClient<IPlayerServiceClient, PlayerServiceClient>(c =>
             {
                 c.BaseAddress = Configuration.GetValue<Uri>("PLAYERS_HOST");
             });
