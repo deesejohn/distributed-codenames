@@ -16,13 +16,13 @@ namespace api.tests.ServiceTests
 {
     public class LobbyServiceTests
     {
-        private readonly Mock<CallInvoker> _gameServiceInvoker;
+        private readonly Mock<GamesServiceClient> _gameService;
         private readonly Mock<IHubContext<LobbyHub>> _lobbyHub;
         private readonly Mock<ILobbyRepository> _repo;
 
         public LobbyServiceTests()
         {
-            _gameServiceInvoker = new Mock<CallInvoker>();
+            _gameService = new Mock<GamesServiceClient>();
             _lobbyHub = new Mock<IHubContext<LobbyHub>>();
             _repo = new Mock<ILobbyRepository>();
         }
@@ -54,7 +54,7 @@ namespace api.tests.ServiceTests
         private LobbyService BuildService()
         {
             return new LobbyService(
-                new GamesServiceClient(_gameServiceInvoker.Object),
+                _gameService.Object,
                 _lobbyHub.Object,
                 _repo.Object
             );
