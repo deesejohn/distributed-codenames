@@ -119,20 +119,21 @@ namespace api.tests
             _lobbyRepo.Setup(r => r.UpdateAsync(It.IsAny<string>(), It.IsAny<Lobby>(), It.IsAny<CancellationToken>()))
                 .Returns(Task.CompletedTask)
                 .Verifiable();
-            _gameService.Setup(
-                c => c.CreateGameAsync(
+            _gameService
+                .Setup(c => c.CreateGameAsync(
                     It.IsAny<protos.CreateGameRequest>(),
                     null,
                     null,
                     It.IsAny<CancellationToken>()
-                )
-            ).Returns(new Grpc.Core.AsyncUnaryCall<CreateGameResponse>(
-                Task.FromResult(gameResponse),
-                null,
-                null,
-                null,
-                null
-            )).Verifiable();
+                ))
+                .Returns(new Grpc.Core.AsyncUnaryCall<CreateGameResponse>(
+                    Task.FromResult(gameResponse),
+                    null,
+                    null,
+                    null,
+                    null
+                ))
+                .Verifiable();
             _host.ConfigureServices(services =>
             {
                 services.AddTransient<protos.GamesService.GamesServiceClient>(_ => _gameService.Object);
