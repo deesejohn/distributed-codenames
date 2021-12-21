@@ -14,9 +14,9 @@ namespace lobbies.api.Controllers
     public class LobbiesController : ControllerBase
     {
         private readonly LobbyService _lobbyService;
-        private readonly PlayerServiceClient _playerService;
+        private readonly IPlayerServiceClient _playerService;
 
-        public LobbiesController(LobbyService lobbyService, PlayerServiceClient playerService)
+        public LobbiesController(LobbyService lobbyService, IPlayerServiceClient playerService)
         {
             _lobbyService = lobbyService ?? throw new ArgumentNullException(nameof(lobbyService));
             _playerService = playerService ?? throw new ArgumentNullException(nameof(playerService));

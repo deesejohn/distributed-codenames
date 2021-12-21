@@ -8,7 +8,7 @@ using lobbies.api.Models;
 
 namespace lobbies.api.ServiceClients
 {
-    public class PlayerServiceClient
+    public class PlayerServiceClient : IPlayerServiceClient
     {
         private readonly HttpClient _client;
 

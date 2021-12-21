@@ -49,7 +49,7 @@ namespace lobbies.api.Services
 
         public async Task AddPlayerAsync(string lobbyId, Player player, CancellationToken cancellationToken = default)
         {
-            var lobby = await _repo.GetAsync(lobbyId);
+            var lobby = await _repo.GetAsync(lobbyId, cancellationToken);
             if (lobby.BlueTeam.Any(IsPlayer(player.Id)))
             {
                 return;
@@ -68,7 +68,7 @@ namespace lobbies.api.Services
 
         public async Task ChangeTeamsAsync(string lobbyId, Player player, CancellationToken cancellationToken = default)
         {
-            var lobby = await _repo.GetAsync(lobbyId);
+            var lobby = await _repo.GetAsync(lobbyId, cancellationToken);
             var (blueTeam, redTeam) = lobby.BlueTeam.Any(IsPlayer(player.Id))
                 ? (lobby.BlueTeam.Where(p => p.Id != player.Id)
                 , lobby.RedTeam.Append(player))
@@ -103,7 +103,7 @@ namespace lobbies.api.Services
             };
             request.BlueTeam.AddRange(Map(lobby.BlueTeam));
             request.RedTeam.AddRange(Map(lobby.RedTeam));
-            var response = await _gamesService.CreateGameAsync(request);
+            var response = await _gamesService.CreateGameAsync(request, null, null, cancellationToken);
             var nextLobby = lobby with { GameId = response.GameId };
             await _repo.UpdateAsync(lobbyId, nextLobby, cancellationToken);
             await _lobbyHub.Clients.Group(lobby.Id)
@@ -114,12 +114,10 @@ namespace lobbies.api.Services
             => (Player player) => player.Id == playerId;
 
         private static IEnumerable<protos.Player> Map(IEnumerable<Player> players)
-        {
-            return players?.Select(player => new protos.Player
+            => players?.Select(player => new protos.Player
             {
                 PlayerId = player.Id,
                 Nickname = player.Nickname
             });
-        }
     }
 }
