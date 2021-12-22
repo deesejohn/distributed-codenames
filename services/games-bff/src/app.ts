@@ -1,4 +1,4 @@
-import { json } from 'body-parser';
+import { json, urlencoded } from 'body-parser';
 import express, { Request, Response } from 'express';
 import GameClient from './client';
 
@@ -6,6 +6,11 @@ const app = express();
 const GAMES_HOST = process.env.GAMES_HOST || 'localhost:4000';
 export const gameClient = new GameClient(GAMES_HOST);
 
+app.use(
+  urlencoded({
+    extended: true,
+  })
+);
 app.use(json());
 
 app.get('/:game_id/', (req, res, next) => {
