@@ -10,9 +10,9 @@ namespace lobbies.api.Hubs
     {
         public const string LOBBY_UPDATED = "LobbyUpdated";
         private readonly LobbyService _lobbyService;
-        private readonly PlayerServiceClient _playerService;
+        private readonly IPlayerServiceClient _playerService;
 
-        public LobbyHub(LobbyService lobbyService, PlayerServiceClient playerService)
+        public LobbyHub(LobbyService lobbyService, IPlayerServiceClient playerService)
         {
             _lobbyService = lobbyService
                 ?? throw new ArgumentNullException(nameof(lobbyService));
