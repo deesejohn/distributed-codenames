@@ -1,5 +1,5 @@
 import * as grpc from '@grpc/grpc-js';
-import { GamesServiceClient } from './genproto/games_grpc_pb';
+import { GamesServiceClient } from '../genproto/games_grpc_pb';
 import {
   Card as GrpcCard,
   Clue as GrpcClue,
@@ -10,7 +10,7 @@ import {
   PlayAgainRequest,
   Player as GrpcPlayer,
   SkipTurnRequest,
-} from './genproto/games_pb';
+} from '../genproto/games_pb';
 import { Card, Game, Player } from './models';
 
 class GameClient {

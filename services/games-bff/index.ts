@@ -1,8 +1,8 @@
 import http from 'http';
 import { connect } from 'nats';
 import { Server } from 'ws';
-import app from './app';
-import GameClient from './client';
+import app from './src/app';
+import GameClient from './src/client';
 import { Game } from './genproto/games_pb';
 
 const server = http.createServer(app);

@@ -14,4 +14,4 @@ export interface Game {
   guessing: string;
   clue: Clue;
   winner: string;
-};
+}
