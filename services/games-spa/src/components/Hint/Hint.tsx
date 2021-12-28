@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Card, CardContent, Grid, Typography } from '@material-ui/core';
 import { Clue } from '../../types';
 
-const HintWaiting = (): JSX.Element => (
+const HintWaiting: FC = () => (
   <Grid item>
     <Card>
       <CardContent>
@@ -17,7 +17,7 @@ const HintWaiting = (): JSX.Element => (
   </Grid>
 );
 
-const HintClue = ({ clue }: HintProps): JSX.Element => (
+const HintClue: FC<HintProps> = ({ clue }) => (
   <>
     <Grid item>
       <Card>
@@ -50,9 +50,9 @@ interface HintProps {
   clue: Clue;
 }
 
-const Hint = ({ clue }: HintProps): JSX.Element => (
+const Hint: FC<HintProps> = ({ clue }) => (
   <Grid container justify="center" spacing={2}>
-    {(clue.word && <HintClue clue={clue} />) || <HintWaiting />}
+    {clue.word ? <HintClue clue={clue} /> : <HintWaiting />}
   </Grid>
 );
 

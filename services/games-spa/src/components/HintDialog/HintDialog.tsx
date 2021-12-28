@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import Box from '@material-ui/core/Box';
@@ -33,11 +33,7 @@ interface HintDialogProps {
   open: boolean;
 }
 
-const HintDialog = ({
-  handleHint,
-  handleClose,
-  open,
-}: HintDialogProps): JSX.Element => {
+const HintDialog: FC<HintDialogProps> = ({ handleHint, handleClose, open }) => {
   const { formField } = useStyles();
   const { errors, handleChange, handleSubmit, touched, values } = useFormik({
     initialValues: {

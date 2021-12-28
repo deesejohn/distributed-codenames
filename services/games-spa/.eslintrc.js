@@ -5,10 +5,9 @@ module.exports = {
     node: true,
   },
   extends: [
-    'react-app',
-    'react-app/jest',
-    'airbnb-typescript',
+    'airbnb',
     'airbnb/hooks',
+    'airbnb-typescript',
     'plugin:@typescript-eslint/recommended',
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
     'prettier',
@@ -20,5 +19,12 @@ module.exports = {
   },
   plugins: ['react', '@typescript-eslint'],
   ignorePatterns: ['.eslintrc.js'],
-  rules: {},
+  rules: {
+    'react/function-component-definition': [
+      2,
+      {
+        namedComponents: ['arrow-function'],
+      },
+    ],
+  },
 };

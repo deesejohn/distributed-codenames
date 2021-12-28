@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 
@@ -7,7 +7,7 @@ interface GameOverProps {
   winner: string;
 }
 
-const GameOver = ({ playAgain, winner }: GameOverProps): JSX.Element => (
+const GameOver: FC<GameOverProps> = ({ playAgain, winner }) => (
   <Box display="flex" flexWrap="wrap" p={1} m={1}>
     <h3 style={{ fontSize: '24px' }}>
       {`${winner === 'blue_team' ? 'Blue Team' : 'Red Team'} Wins!`}
