@@ -3,12 +3,12 @@ import { Clue, Game } from '../types';
 
 const apiClient = axios.create({ baseURL: '/api/games/' });
 
-const get = async (gameId: string): Promise<Game> => {
+export const get = async (gameId: string): Promise<Game> => {
   const response = await apiClient.get<Game>(`${gameId}/`);
   return response.data;
 };
 
-const guess = async (
+export const guess = async (
   gameId: string,
   playerId: string,
   cardCd: string
@@ -19,7 +19,7 @@ const guess = async (
   });
 };
 
-const hint = async (
+export const hint = async (
   gameId: string,
   playerId: string,
   clue: Clue
@@ -31,24 +31,17 @@ const hint = async (
   });
 };
 
-const playAgain = async (gameId: string, playerId: string): Promise<void> => {
+export const playAgain = async (
+  gameId: string,
+  playerId: string
+): Promise<void> => {
   await apiClient.post(`${gameId}/play_again`, {
     player_id: playerId,
   });
 };
 
-const skip = async (gameId: string, playerId: string): Promise<void> => {
+export const skip = async (gameId: string, playerId: string): Promise<void> => {
   await apiClient.post(`${gameId}/skip`, {
     player_id: playerId,
   });
 };
-
-const client = {
-  get,
-  guess,
-  hint,
-  playAgain,
-  skip,
-};
-
-export default client;
