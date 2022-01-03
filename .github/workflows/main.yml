@@ -1,17 +1,21 @@
 name: CI
 on:
   push:
-    branches: [ main ]
+    branches: [main, feature/github-actions-ko-and-pack]
     paths-ignore:
-      - 'docs/**'
-      - '**/README.md'
+      - "docs/**"
+      - "**/README.md"
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
         with:
-          path: 'distributed-codenames'
+          path: "distributed-codenames"
+      - name: Setup Ko
+        uses: imjasonh/setup-ko@v0.4
+      - name: Setup Pack
+        uses: buildpacks/github-actions/setup-pack@v4.4.0
       - name: Install Skaffold
         run: |
           curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64 && \
@@ -27,8 +31,8 @@ jobs:
       - name: Checkout cluster
         uses: actions/checkout@v2
         with:
-          path: 'distributed-codenames-cluster'
-          repository: 'deesejohn/distributed-codenames-cluster'
+          path: "distributed-codenames-cluster"
+          repository: "deesejohn/distributed-codenames-cluster"
           token: ${{ secrets.CLUSTER_PAT }}
       - name: Commit manifests
         run: |
