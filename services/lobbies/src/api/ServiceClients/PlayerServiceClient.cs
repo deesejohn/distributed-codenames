@@ -1,9 +1,4 @@
-using System;
 using System.Net;
-using System.Net.Http;
-using System.Net.Http.Json;
-using System.Threading;
-using System.Threading.Tasks;
 using lobbies.api.Models;
 
 namespace lobbies.api.ServiceClients
@@ -17,7 +12,7 @@ namespace lobbies.api.ServiceClients
             _client = client ?? throw new ArgumentNullException(nameof(client));
         }
 
-        public async Task<Player> GetAsync(string playerId, CancellationToken cancellationToken = default)
+        public async Task<Player?> GetAsync(string playerId, CancellationToken cancellationToken = default)
         {
             try
             {

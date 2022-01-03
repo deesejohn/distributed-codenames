@@ -16,14 +16,9 @@ spec:
           image: games
           ports:
             - containerPort: 50051
-          readinessProbe:
-            exec:
-              command: ["/bin/grpc_health_probe", "-addr=:50051"]
-            initialDelaySeconds: 5
           livenessProbe:
-            exec:
-              command: ["/bin/grpc_health_probe", "-addr=:50051"]
-            initialDelaySeconds: 10
+            grpc:
+              port: 50051
           env:
             - name: NATS_HOST
               value: "my-nats"

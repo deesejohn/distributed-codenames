@@ -1,12 +1,12 @@
-apiVersion: skaffold/v2beta25
+apiVersion: skaffold/v2beta26
 kind: Config
 metadata:
   name: players
 build:
   artifacts:
-  - image: players
+    - image: players
   local: {}
 deploy:
   kubectl:
     manifests:
-    - k8s/players.yaml
+      - k8s/players.yaml

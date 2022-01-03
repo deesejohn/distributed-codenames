@@ -1,10 +1,11 @@
-FROM node:lts-alpine AS builder
+FROM node:lts-alpine AS build
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
 COPY . .
 RUN npm run build
 
-FROM builder
-ENV NODE_ENV=production
-CMD ["node", "build/index.js"]
+FROM gcr.io/distroless/nodejs:16
+COPY --from=build /app /app
+WORKDIR /app
+CMD ["build/index.js"]

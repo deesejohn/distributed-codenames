@@ -1,7 +1,35 @@
-apiVersion: getambassador.io/v2
+apiVersion: getambassador.io/v3alpha1
+kind: Listener
+metadata:
+  name: emissary-ingress-listener-8080
+  namespace: emissary
+spec:
+  port: 8080
+  protocol: HTTP
+  securityModel: XFP
+  hostBinding:
+    namespace:
+      from: ALL
+---
+apiVersion: getambassador.io/v3alpha1
+kind: Host
+metadata:
+  name: default-host
+spec:
+  hostname: "*"
+  mappingSelector:
+    matchLabels:
+      defaulthost: host
+  requestPolicy:
+    insecure:
+      action: Route
+---
+apiVersion: getambassador.io/v3alpha1
 kind: Mapping
 metadata:
   name: root-mapping
+  labels:
+    defaulthost: host
 spec:
   prefix: /
   service: lobbies-spa

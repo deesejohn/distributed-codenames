@@ -1,12 +1,12 @@
-apiVersion: skaffold/v2beta25
+apiVersion: skaffold/v2beta26
 kind: Config
 metadata:
   name: lobbies
 build:
   artifacts:
-  - image: lobbies
+    - image: lobbies
   local: {}
 deploy:
   kubectl:
     manifests:
-    - k8s/lobbies.yaml
+      - k8s/lobbies.yaml

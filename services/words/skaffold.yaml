@@ -1,12 +1,13 @@
-apiVersion: skaffold/v2beta25
+apiVersion: skaffold/v2beta26
 kind: Config
 metadata:
   name: words
 build:
   artifacts:
-  - image: words
+    - image: words
+      ko: {}
   local: {}
 deploy:
   kubectl:
     manifests:
-    - k8s/words.yaml
+      - k8s/words.yaml

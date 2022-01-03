@@ -1,5 +1,3 @@
-using System;
-using System.Threading.Tasks;
 using lobbies.api.ServiceClients;
 using lobbies.api.Services;
 using Microsoft.AspNetCore.SignalR;
