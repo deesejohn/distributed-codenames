@@ -1,18 +1,17 @@
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
-WORKDIR /app
-COPY *.sln .
-COPY src/*/*.csproj ./
-RUN for file in $(ls *.csproj); \
-    do mkdir -p src/${file%.*}/ && mv $file src/${file%.*}/; \
-    done
-COPY tests/*/*.csproj ./
-RUN for file in $(ls *.csproj); \
-    do mkdir -p tests/${file%.*}/ && mv $file tests/${file%.*}/; \
-    done
-COPY . .
-RUN dotnet publish -c release -o out
+WORKDIR /source
 
-FROM mcr.microsoft.com/dotnet/aspnet:6.0
+COPY src/genproto/ src/genproto/
+RUN dotnet restore src/genproto/ -r linux-x64
+
+COPY src/api/api.csproj src/api/api.csproj
+RUN dotnet restore src/api/ -r linux-x64
+
+COPY src/ src/
+RUN dotnet publish src/api/ -c release -o /app -r linux-x64 \
+    --self-contained false --no-restore
+
+FROM mcr.microsoft.com/dotnet/aspnet:6.0-bullseye-slim-amd64
 WORKDIR /app
-COPY --from=build /app/out ./
-ENTRYPOINT ["dotnet", "./api.dll"]
+COPY --from=build /app ./
+ENTRYPOINT ["./api", "--urls", "http://0.0.0.0:8080"]

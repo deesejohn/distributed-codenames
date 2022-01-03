@@ -1,1 +1,3 @@
 **/genproto/* linguist-generated=true
+* text=auto eol=lf
+*.{png,jpg,jpeg,gif,webp,woff,woff2} binary

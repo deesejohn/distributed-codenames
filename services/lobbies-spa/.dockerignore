@@ -32,6 +32,7 @@ dll
 
 
 # Angular #
+.angular/cache
 *.ngfactory.ts
 *.css.shim.ts
 *.ngsummary.json

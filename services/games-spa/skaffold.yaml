@@ -1,12 +1,12 @@
-apiVersion: skaffold/v2beta25
+apiVersion: skaffold/v2beta26
 kind: Config
 metadata:
   name: games-spa
 build:
   artifacts:
-  - image: games-spa
+    - image: games-spa
   local: {}
 deploy:
   kubectl:
     manifests:
-    - k8s/games-spa.yaml
+      - k8s/games-spa.yaml

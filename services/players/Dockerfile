@@ -12,4 +12,4 @@ RUN PIP_USER=1 \
 FROM builder
 ENV PATH="$PYROOT/bin:$PATH"
 COPY app/ app/
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80"]
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8080"]

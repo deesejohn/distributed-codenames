@@ -15,17 +15,15 @@ spec:
         - name: server
           image: lobbies
           ports:
-            - containerPort: 80
+            - containerPort: 8080
           livenessProbe:
             httpGet:
               path: /health/live
-              port: 80
-            initialDelaySeconds: 5
+              port: 8080
           readinessProbe:
             httpGet:
               path: /health/ready
-              port: 80
-            initialDelaySeconds: 10
+              port: 8080
           env:
             - name: ASPNETCORE_FORWARDEDHEADERS_ENABLED
               value: "true"
@@ -53,13 +51,15 @@ spec:
   ports:
     - name: http
       port: 80
-      targetPort: 80
+      targetPort: 8080
   type: ClusterIP
 ---
-apiVersion: getambassador.io/v2
+apiVersion: getambassador.io/v3alpha1
 kind: Mapping
 metadata:
   name: lobbies-mapping
+  labels:
+    defaulthost: host
 spec:
   prefix: /api/lobbies/
   service: lobbies

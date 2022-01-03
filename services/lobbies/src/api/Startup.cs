@@ -1,18 +1,10 @@
-using System;
-using System.Collections.Generic;
 using lobbies.api.Hubs;
 using lobbies.api.Models;
 using lobbies.api.Repositories;
 using lobbies.api.ServiceClients;
 using lobbies.api.Services;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http.Connections;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 
 namespace lobbies.api
@@ -50,7 +42,8 @@ namespace lobbies.api
                 .AddRedis(GetRedisConnectionString(), tags: new string[] { "ready" });
             services.AddHttpClient<IPlayerServiceClient, PlayerServiceClient>(c =>
             {
-                c.BaseAddress = Configuration.GetValue<Uri>("PLAYERS_HOST");
+                c.BaseAddress = Configuration.GetValue<Uri>("PLAYERS_HOST")
+                    ?? new Uri("http://localhost/api/players");
             });
             services.AddSwaggerGen(c =>
             {
