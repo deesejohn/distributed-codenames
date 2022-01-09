@@ -10,7 +10,22 @@ deploy:
 apiVersion: skaffold/v2beta26
 kind: Config
 metadata:
+  name: games-redis
+deploy:
+  helm:
+    releases:
+      - name: games-redis
+        repo: https://charts.bitnami.com/bitnami
+        remoteChart: redis
+        setValues:
+          architecture: standalone
+---
+apiVersion: skaffold/v2beta26
+kind: Config
+metadata:
   name: games
+requires:
+  - configs: [games-redis, words]
 build:
   artifacts:
     - image: games
@@ -26,6 +41,8 @@ apiVersion: skaffold/v2beta26
 kind: Config
 metadata:
   name: games-bff
+requires:
+  - configs: [games]
 build:
   artifacts:
     - image: games-bff
@@ -42,6 +59,8 @@ apiVersion: skaffold/v2beta26
 kind: Config
 metadata:
   name: games-spa
+requires:
+  - configs: [games-bff]
 build:
   artifacts:
     - image: games-spa
@@ -55,7 +74,22 @@ deploy:
 apiVersion: skaffold/v2beta26
 kind: Config
 metadata:
+  name: lobbies-redis
+deploy:
+  helm:
+    releases:
+      - name: lobbies-redis
+        repo: https://charts.bitnami.com/bitnami
+        remoteChart: redis
+        setValues:
+          architecture: standalone
+---
+apiVersion: skaffold/v2beta26
+kind: Config
+metadata:
   name: lobbies
+requires:
+  - configs: [lobbies-redis]
 build:
   artifacts:
     - image: lobbies
@@ -70,6 +104,8 @@ apiVersion: skaffold/v2beta26
 kind: Config
 metadata:
   name: lobbies-spa
+requires:
+  - configs: [lobbies]
 build:
   artifacts:
     - image: lobbies-spa
@@ -83,7 +119,22 @@ deploy:
 apiVersion: skaffold/v2beta26
 kind: Config
 metadata:
+  name: players-redis
+deploy:
+  helm:
+    releases:
+      - name: players-redis
+        repo: https://charts.bitnami.com/bitnami
+        remoteChart: redis
+        setValues:
+          architecture: standalone
+---
+apiVersion: skaffold/v2beta26
+kind: Config
+metadata:
   name: players
+requires:
+  - configs: [players-redis]
 build:
   artifacts:
     - image: players
@@ -98,6 +149,8 @@ apiVersion: skaffold/v2beta26
 kind: Config
 metadata:
   name: players-spa
+requires:
+  - configs: [players]
 build:
   artifacts:
     - image: players-spa
