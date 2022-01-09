@@ -39,7 +39,9 @@ Current dependencies are:
 
 1. [Emissary Ingress](https://github.com/emissary-ingress/emissary)
 1. [NATS](https://nats.io/)
-1. [Redis](https://redis.io/)
+1. [Redis](https://redis.io/) *
+
+\* Managed by Skaffold
 
 ```sh
 helm repo add datawire https://app.getambassador.io
