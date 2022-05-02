@@ -1,8 +1,8 @@
-import React, { FC } from 'react';
+import React from 'react';
 import { Card, CardContent, Grid, Typography } from '@material-ui/core';
 import { Clue } from '../../types';
 
-const HintWaiting: FC = () => (
+const HintWaiting = (): JSX.Element => (
   <Grid item>
     <Card>
       <CardContent>
@@ -17,7 +17,7 @@ const HintWaiting: FC = () => (
   </Grid>
 );
 
-const HintClue: FC<HintProps> = ({ clue }) => (
+const HintClue = ({ number, word }: Clue): JSX.Element => (
   <>
     <Grid item>
       <Card>
@@ -26,7 +26,7 @@ const HintClue: FC<HintProps> = ({ clue }) => (
             Word
           </Typography>
           <Typography variant="h5" component="h2">
-            {clue.word}
+            {word}
           </Typography>
         </CardContent>
       </Card>
@@ -38,7 +38,7 @@ const HintClue: FC<HintProps> = ({ clue }) => (
             Number
           </Typography>
           <Typography variant="h5" component="h2">
-            {`${clue.number - 1} + 1 extra`}
+            {`${number - 1} + 1 extra`}
           </Typography>
         </CardContent>
       </Card>
@@ -48,11 +48,27 @@ const HintClue: FC<HintProps> = ({ clue }) => (
 
 interface HintProps {
   clue: Clue;
+  team: string;
 }
-
-const Hint: FC<HintProps> = ({ clue }) => (
+const Hint = ({ clue, team }: HintProps): JSX.Element => (
   <Grid container justify="center" spacing={2}>
-    {clue.word ? <HintClue clue={clue} /> : <HintWaiting />}
+    <Grid item>
+      <Card>
+        <CardContent>
+          <Typography color="textSecondary" gutterBottom>
+            You are on team
+          </Typography>
+          <Typography variant="h5" component="h2">
+            {team}
+          </Typography>
+        </CardContent>
+      </Card>
+    </Grid>
+    {clue.word ? (
+      <HintClue number={clue.number} word={clue.word} />
+    ) : (
+      <HintWaiting />
+    )}
   </Grid>
 );
 

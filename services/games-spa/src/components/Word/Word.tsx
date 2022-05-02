@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { useCallback } from 'react';
 import Box from '@material-ui/core/Box';
 import { Card } from '../../types';
 import {
@@ -9,10 +9,13 @@ import {
   TanCard,
 } from './Word.styles';
 
-const Content: FC<{ label: string; revealed: boolean }> = ({
+const Content = ({
   label,
   revealed,
-}) => (
+}: {
+  label: string;
+  revealed: boolean;
+}): JSX.Element => (
   <Box component="div" visibility={revealed ? 'hidden' : 'shown'}>
     {label}
   </Box>
@@ -20,9 +23,12 @@ const Content: FC<{ label: string; revealed: boolean }> = ({
 
 interface WordProps {
   card: Card;
-  guess: (card: Card) => void;
+  guess: (card: Card) => Promise<void>;
 }
-const Word: FC<WordProps> = ({ card, guess }) => {
+const Word = ({ card, guess }: WordProps): JSX.Element => {
+  const handleGuess = useCallback(() => {
+    guess(card).catch(() => {});
+  }, [card, guess]);
   switch (card.color) {
     case 1:
       return (
@@ -50,7 +56,7 @@ const Word: FC<WordProps> = ({ card, guess }) => {
       );
     default:
       return (
-        <HiddenCard fullWidth onClick={() => guess(card)} variant="contained">
+        <HiddenCard fullWidth onClick={handleGuess} variant="contained">
           {card.label}
         </HiddenCard>
       );
