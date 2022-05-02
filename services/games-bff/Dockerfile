@@ -1,4 +1,4 @@
-FROM node:lts-alpine AS build
+FROM node:lts AS build
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
