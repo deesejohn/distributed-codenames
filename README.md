@@ -47,7 +47,7 @@ Current dependencies are:
 helm repo add datawire https://app.getambassador.io
 helm repo add nats https://nats-io.github.io/k8s/helm/charts/
 helm repo update
-kubectl apply -f https://app.getambassador.io/yaml/emissary/2.1.0/emissary-crds.yaml
+kubectl apply -f https://app.getambassador.io/yaml/emissary/2.2.2/emissary-crds.yaml
 helm install -n emissary --create-namespace emissary-ingress datawire/emissary-ingress
 helm install my-nats nats/nats
 ```
