@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { useCallback } from 'react';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 
@@ -7,21 +7,28 @@ interface GameOverProps {
   winner: string;
 }
 
-const GameOver: FC<GameOverProps> = ({ playAgain, winner }) => (
-  <Box display="flex" flexWrap="wrap" p={1} m={1}>
-    <h3 style={{ fontSize: '24px' }}>
-      {`${winner === 'blue_team' ? 'Blue Team' : 'Red Team'} Wins!`}
-    </h3>
-    <Button
-      color="primary"
-      fullWidth
-      type="submit"
-      variant="contained"
-      onClick={playAgain}
-    >
-      Play Again?
-    </Button>
-  </Box>
-);
+const GameOver = ({ playAgain, winner }: GameOverProps): JSX.Element => {
+  const handlePlayAgain = useCallback(() => {
+    (async () => {
+      await playAgain();
+    })().catch(() => {});
+  }, [playAgain]);
+  return (
+    <Box display="flex" flexWrap="wrap" p={1} m={1}>
+      <h3 style={{ fontSize: '24px' }}>
+        {`${winner === 'blue_team' ? 'Blue Team' : 'Red Team'} Wins!`}
+      </h3>
+      <Button
+        color="primary"
+        fullWidth
+        type="submit"
+        variant="contained"
+        onClick={handlePlayAgain}
+      >
+        Play Again?
+      </Button>
+    </Box>
+  );
+};
 
 export default GameOver;

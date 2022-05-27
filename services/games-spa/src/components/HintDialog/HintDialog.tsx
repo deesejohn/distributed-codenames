@@ -1,6 +1,6 @@
-import React, { FC } from 'react';
+import React from 'react';
 import { useFormik } from 'formik';
-import * as yup from 'yup';
+import { number, object, SchemaOf, string } from 'yup';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -19,10 +19,9 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const validationSchema = yup.object({
-  word: yup.string().required('A word is required'),
-  number: yup
-    .number()
+const validationSchema: SchemaOf<Clue> = object({
+  word: string().required('A word is required'),
+  number: number()
     .min(1, 'At least one guess is required')
     .required('At least one guess is required'),
 });
@@ -33,7 +32,11 @@ interface HintDialogProps {
   open: boolean;
 }
 
-const HintDialog: FC<HintDialogProps> = ({ handleHint, handleClose, open }) => {
+const HintDialog = ({
+  handleHint,
+  handleClose,
+  open,
+}: HintDialogProps): JSX.Element => {
   const { formField } = useStyles();
   const { errors, handleChange, handleSubmit, touched, values } = useFormik({
     initialValues: {

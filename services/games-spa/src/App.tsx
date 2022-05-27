@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -39,11 +39,13 @@ const handlePlayAgain = async () => {
   await playAgain(gameId, playerId);
 };
 
-const handleSkip = async () => {
+const handleSkip = () => {
   if (!playerId) {
     return;
   }
-  await skip(gameId, playerId);
+  (async () => {
+    await skip(gameId, playerId);
+  })().catch(() => {});
 };
 
 const sessionUrl = new URL(
@@ -52,7 +54,7 @@ const sessionUrl = new URL(
 );
 sessionUrl.protocol = sessionUrl.protocol.replace('http', 'ws');
 
-const Content: FC<{ game: Game | null }> = ({ game }) => {
+const Content = ({ game }: { game: Game | null }): JSX.Element => {
   const [promptHint, setPromptHint] = useState<boolean>(false);
 
   useEffect(() => {
@@ -95,6 +97,16 @@ const Content: FC<{ game: Game | null }> = ({ game }) => {
     [game, isSpymaster]
   );
 
+  const onTeam = useMemo(() => {
+    if (game?.blue_team.some(player => player.player_id === playerId)) {
+      return 'Blue';
+    }
+    if (game?.red_team.some(player => player.player_id === playerId)) {
+      return 'Red';
+    }
+    return 'Spectator';
+  }, [game]);
+
   if (!game) {
     return (
       <>
@@ -107,7 +119,7 @@ const Content: FC<{ game: Game | null }> = ({ game }) => {
   }
   return (
     <>
-      <Hint clue={game.clue} />
+      <Hint clue={game.clue} team={onTeam} />
       <HintDialog
         handleHint={handleHint}
         open={promptHint}
@@ -141,7 +153,7 @@ const Content: FC<{ game: Game | null }> = ({ game }) => {
   );
 };
 
-const App: FC = () => {
+const App = (): JSX.Element => {
   const [game, setGame] = useState<Game | null>(null);
   const [ws, setWs] = useState<WebSocket>(() => new WebSocket(sessionUrl.href));
 

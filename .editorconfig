@@ -20,3 +20,6 @@ trim_trailing_whitespace = false
 
 [*.py]
 indent_size = 4
+
+[*.proto]
+indent_size = 4
