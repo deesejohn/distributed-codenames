@@ -47,8 +47,8 @@ export class LobbiesService {
     lobbyId: string,
     autoRedirect?: boolean
   ): Observable<Lobby> {
-    return defer(() => {
-      return new Observable<Lobby>(observer => {
+    return defer(() =>
+      new Observable<Lobby>(observer => {
         const connection = new signalR.HubConnectionBuilder()
           .withUrl(`/api/lobbies/session?lobby_id=${lobbyId}`, {
             transport: HttpTransportType.WebSockets,
@@ -64,7 +64,7 @@ export class LobbiesService {
             this.document.location.assign(`/games/${lobby.game_id}/`);
           }
         })
-      );
-    });
+      )
+    );
   }
 }

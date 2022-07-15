@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { LobbyComponent } from './lobby/lobby.component';
-import { NicknameGuard } from './nickname.guard';
+import { NicknameGuard } from './core/nickname.guard';
 
 const routes: Routes = [
   {
@@ -10,13 +10,13 @@ const routes: Routes = [
     canActivate: [NicknameGuard],
     children: [
       { path: '', component: HomeComponent },
-      { path: ':id', component: LobbyComponent }
-    ]
-  }
+      { path: ':id', component: LobbyComponent },
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

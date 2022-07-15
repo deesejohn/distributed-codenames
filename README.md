@@ -4,7 +4,7 @@ A multiplayer, realtime application based on the rules of the board game Codenam
 
 ## Contributing
 
-This project is a way for me to experiment, evaluate, and demo new technologies. If you find a bug, spot an optimization, encounter a bad pratice, or simply want to point out something unidiomatic, please open an issue before raising a pull request.
+This project is a way for me to experiment, evaluate, and demo new technologies. If you find a bug, spot an optimization, encounter a bad practice, or simply want to point out something unidiomatic, please open an issue before raising a pull request.
 
 ### Required tools
 
@@ -25,40 +25,47 @@ This project is a way for me to experiment, evaluate, and demo new technologies.
 | Service                             | Language / Framework                                                                       | Notes                                                                                                                                                                                                                                                  |
 | ----------------------------------- | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | [Games](services/games)             | Go / [gRPC](https://grpc.io/)                                                              | Handles game logic, stores state in [Redis](https://redis.io/) and publishes updates to [NATS](https://nats.io/)                                                                                                                                       |
-| [Games BFF](services/games-bff)     | Typescript / [Express](https://expressjs.com/)                                             | [Node.js](https://nodejs.org), subscribes to NATS and streams game updates to players in real time with websockets                                                                                                                                     |
-| [Games SPA](services/games-spa)     | Typescript / [React](https://reactjs.org/)                                                 | Game frontend using [Material UI](https://material-ui.com/), [styled components](https://styled-components.com/), [formik](https://github.com/formium/formik), [axios](https://github.com/axios/axios), and hosted via [NGINX](https://www.nginx.com/) |
+| [Games BFF](services/games-bff)     | TypeScript / [Express](https://expressjs.com/)                                             | [Node.js](https://nodejs.org), subscribes to NATS and streams game updates to players in real time with websockets                                                                                                                                     |
+| [Games SPA](services/games-spa)     | TypeScript / [React](https://reactjs.org/)                                                 | Game frontend using [Material UI](https://material-ui.com/), [styled components](https://styled-components.com/), [formik](https://github.com/formium/formik), [axios](https://github.com/axios/axios), and hosted via [NGINX](https://www.nginx.com/) |
 | [Lobbies](services/lobbies)         | C# / [ASP&#46;NET Core](https://docs.microsoft.com/en-us/aspnet/core/?view=aspnetcore-5.0) | Uses [SignalR](https://dotnet.microsoft.com/apps/aspnet/signalr) with a Redis backplane to stream updates to the SPA                                                                                                                                   |
-| [Lobbies SPA](services/lobbies-spa) | Typescript / [Angular](https://angular.io/)                                                | Built with [Angular Material](https://material.angular.io/) and [Flex Layout](https://github.com/angular/flex-layout), allows players to select their team                                                                                             |
+| [Lobbies SPA](services/lobbies-spa) | TypeScript / [Angular](https://angular.io/)                                                | Built with [Angular Material](https://material.angular.io/) and [Flex Layout](https://github.com/angular/flex-layout), allows players to select their team                                                                                             |
 | [Players](services/players)         | Python / [FastAPI](https://fastapi.tiangolo.com/)                                          | Handles player state with Redis, hosted via [uvicorn](https://www.uvicorn.org/)                                                                                                                                                                        |
-| [Players SPA](services/players-spa) | Typescript / React                                                                         | Allows players to set and update their nickname, hosted via NGINX                                                                                                                                                                                      |
+| [Players SPA](services/players-spa) | TypeScript / React                                                                         | Allows players to set and update their nickname, hosted via NGINX                                                                                                                                                                                      |
 | [Words](services/words)             | Go / gRPC                                                                                  | Provides different word lists to vary games                                                                                                                                                                                                            |
 
-### Install Helm Dependencies
+### Local development
 
+#### Start minikube
+
+```sh
+minikube start --feature-gates=GRPCContainerProbe=true
+```
+
+#### Install Helm Dependencies
+
+>\* Managed by Skaffold
 Current dependencies are:
 
 1. [Emissary Ingress](https://github.com/emissary-ingress/emissary)
 1. [NATS](https://nats.io/)
 1. [Redis](https://redis.io/) *
 
-\* Managed by Skaffold
-
 ```sh
 helm repo add datawire https://app.getambassador.io
 helm repo add nats https://nats-io.github.io/k8s/helm/charts/
 helm repo update
-kubectl apply -f https://app.getambassador.io/yaml/emissary/2.2.2/emissary-crds.yaml
+kubectl apply -f https://app.getambassador.io/yaml/emissary/3.0.0/emissary-crds.yaml
 helm install -n emissary --create-namespace emissary-ingress datawire/emissary-ingress
 helm install my-nats nats/nats
 ```
 
-### Startup services
+#### Startup services
 
 ```sh
 skaffold dev
 ```
 
-### Debugging nats
+#### Debugging nats
 
 ```sh
 kubectl exec -n default -it my-nats-box -- /bin/sh -l

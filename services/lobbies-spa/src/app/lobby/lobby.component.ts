@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { LobbiesService } from '../lobbies.service';
-import { Lobby } from '../lobby';
-import { PlayerService } from '../player.service';
+import { LobbiesService } from '../core/lobbies.service';
+import { Lobby } from '../core/lobby';
+import { PlayerService } from '../core/player.service';
 
 @Component({
   selector: 'app-lobby',
