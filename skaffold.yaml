@@ -1,4 +1,4 @@
-apiVersion: skaffold/v2beta26
+apiVersion: skaffold/v2beta29
 kind: Config
 metadata:
   name: default-ingress
@@ -7,25 +7,13 @@ deploy:
     manifests:
       - k8s/ingress.yaml
 ---
-apiVersion: skaffold/v2beta26
-kind: Config
-metadata:
-  name: games-redis
-deploy:
-  helm:
-    releases:
-      - name: games-redis
-        repo: https://charts.bitnami.com/bitnami
-        remoteChart: redis
-        setValues:
-          architecture: standalone
----
-apiVersion: skaffold/v2beta26
+apiVersion: skaffold/v2beta29
 kind: Config
 metadata:
   name: games
 requires:
-  - configs: [games-redis, words]
+  - configs:
+      - words
 build:
   artifacts:
     - image: games
@@ -37,30 +25,32 @@ deploy:
     manifests:
       - k8s/games.yaml
 ---
-apiVersion: skaffold/v2beta26
+apiVersion: skaffold/v2beta29
 kind: Config
 metadata:
   name: games-bff
 requires:
-  - configs: [games]
+  - configs:
+      - games
 build:
   artifacts:
     - image: games-bff
       context: services/games-bff
       buildpacks:
-        builder: "paketobuildpacks/builder:base"
+        builder: paketobuildpacks/builder:base
   local: {}
 deploy:
   kubectl:
     manifests:
       - k8s/games-bff.yaml
 ---
-apiVersion: skaffold/v2beta26
+apiVersion: skaffold/v2beta29
 kind: Config
 metadata:
   name: games-spa
 requires:
-  - configs: [games-bff]
+  - configs:
+      - games-bff
 build:
   artifacts:
     - image: games-spa
@@ -71,25 +61,10 @@ deploy:
     manifests:
       - k8s/games-spa.yaml
 ---
-apiVersion: skaffold/v2beta26
-kind: Config
-metadata:
-  name: lobbies-redis
-deploy:
-  helm:
-    releases:
-      - name: lobbies-redis
-        repo: https://charts.bitnami.com/bitnami
-        remoteChart: redis
-        setValues:
-          architecture: standalone
----
-apiVersion: skaffold/v2beta26
+apiVersion: skaffold/v2beta29
 kind: Config
 metadata:
   name: lobbies
-requires:
-  - configs: [lobbies-redis]
 build:
   artifacts:
     - image: lobbies
@@ -100,12 +75,13 @@ deploy:
     manifests:
       - k8s/lobbies.yaml
 ---
-apiVersion: skaffold/v2beta26
+apiVersion: skaffold/v2beta29
 kind: Config
 metadata:
   name: lobbies-spa
 requires:
-  - configs: [lobbies]
+  - configs:
+      - lobbies
 build:
   artifacts:
     - image: lobbies-spa
@@ -116,25 +92,10 @@ deploy:
     manifests:
       - k8s/lobbies-spa.yaml
 ---
-apiVersion: skaffold/v2beta26
-kind: Config
-metadata:
-  name: players-redis
-deploy:
-  helm:
-    releases:
-      - name: players-redis
-        repo: https://charts.bitnami.com/bitnami
-        remoteChart: redis
-        setValues:
-          architecture: standalone
----
-apiVersion: skaffold/v2beta26
+apiVersion: skaffold/v2beta29
 kind: Config
 metadata:
   name: players
-requires:
-  - configs: [players-redis]
 build:
   artifacts:
     - image: players
@@ -145,12 +106,13 @@ deploy:
     manifests:
       - k8s/players.yaml
 ---
-apiVersion: skaffold/v2beta26
+apiVersion: skaffold/v2beta29
 kind: Config
 metadata:
   name: players-spa
 requires:
-  - configs: [players]
+  - configs:
+      - players
 build:
   artifacts:
     - image: players-spa
@@ -161,7 +123,7 @@ deploy:
     manifests:
       - k8s/players-spa.yaml
 ---
-apiVersion: skaffold/v2beta26
+apiVersion: skaffold/v2beta29
 kind: Config
 metadata:
   name: words

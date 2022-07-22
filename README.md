@@ -43,20 +43,23 @@ minikube start --feature-gates=GRPCContainerProbe=true
 
 #### Install Helm Dependencies
 
->\* Managed by Skaffold
 Current dependencies are:
 
 1. [Emissary Ingress](https://github.com/emissary-ingress/emissary)
 1. [NATS](https://nats.io/)
-1. [Redis](https://redis.io/) *
+1. [Redis](https://redis.io/)
 
 ```sh
+helm repo add bitnami https://charts.bitnami.com/bitnami
 helm repo add datawire https://app.getambassador.io
 helm repo add nats https://nats-io.github.io/k8s/helm/charts/
 helm repo update
 kubectl apply -f https://app.getambassador.io/yaml/emissary/3.0.0/emissary-crds.yaml
 helm install -n emissary --create-namespace emissary-ingress datawire/emissary-ingress
 helm install my-nats nats/nats
+helm install games-redis bitnami/redis --set architecture=standalone
+helm install lobbies-redis bitnami/redis --set architecture=standalone
+helm install players-redis bitnami/redis --set architecture=standalone
 ```
 
 #### Startup services

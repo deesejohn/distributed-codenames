@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start": "node build/index.js",
+    "start": "npm run build && npm run serve",
     "dev": "nodemon index.ts",
     "build": "tsc",
     "build:proto": "./genproto.sh",
+    "serve": "node build/index.js",
     "test": "jest"
   },
   "author": "",
