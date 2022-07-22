@@ -2,7 +2,10 @@ import json
 import uuid
 
 from aioredis import Redis
+from fastapi import Depends
 from pydantic import BaseModel
+
+from .redis import get_redis_pool
 
 
 class PlayerRead(BaseModel):
@@ -15,7 +18,7 @@ class PlayerWrite(BaseModel):
 
 
 class PlayerService:
-    def __init__(self, redis: Redis) -> None:
+    def __init__(self, redis: Redis = Depends(get_redis_pool)) -> None:
         self.PLAYERS_PREFIX = "players:"
         self._redis = redis
 
