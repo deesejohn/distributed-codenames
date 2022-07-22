@@ -4,6 +4,7 @@ pkg/
 *.pyc
 *.swp
 *~
+.venv/
 .vscode/
 .vs/
 .idea
