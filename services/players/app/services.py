@@ -7,6 +7,8 @@ from pydantic import BaseModel
 
 from .redis import get_redis_pool
 
+PLAYERS_PREFIX = "players:"
+
 
 class PlayerRead(BaseModel):
     player_id: str
@@ -19,26 +21,23 @@ class PlayerWrite(BaseModel):
 
 class PlayerService:
     def __init__(self, redis: Redis = Depends(get_redis_pool)) -> None:
-        self.PLAYERS_PREFIX = "players:"
-        self._redis = redis
+        self.redis = redis
 
     async def create(self, player: PlayerWrite) -> str:
         player_id = str(uuid.uuid4())
-        await self._redis.set(
-            self.PLAYERS_PREFIX + player_id,
-            json.dumps({**player, "player_id": player_id}),
+        await self.redis.set(
+            PLAYERS_PREFIX + player_id,
+            json.dumps(dict(player) | {"player_id": player_id}),
         )
-        await self._redis.expire(
-            self.PLAYERS_PREFIX + player_id, 24 * 60 * 60  # 24 hours
-        )
+        await self.redis.expire(PLAYERS_PREFIX + player_id, 24 * 60 * 60)  # 24 hours
         return player_id
 
     async def read(self, player_id: str) -> PlayerRead:
-        player = await self._redis.get(self.PLAYERS_PREFIX + player_id)
+        player = await self.redis.get(PLAYERS_PREFIX + player_id)
         return json.loads(player)
 
     async def update(self, player_id: str, player: PlayerWrite) -> None:
-        await self._redis.set(
-            self.PLAYERS_PREFIX + player_id,
-            json.dumps(player),
+        await self.redis.set(
+            PLAYERS_PREFIX + player_id,
+            json.dumps(dict(player) | {"player_id": player_id}),
         )

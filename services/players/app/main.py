@@ -1,14 +1,21 @@
 import logging
-import os
 
 from fastapi import Depends, FastAPI, HTTPException, Response, status
+from pydantic import BaseSettings
 
 from .services import PlayerRead, PlayerService, PlayerWrite
+
+
+class AppConfiguration(BaseSettings):
+    host_prefix: str
+
+
+config = AppConfiguration()
 
 app = FastAPI(
     title="Players Service",
     description="",
-    root_path=os.getenv("HOST_PREFIX"),
+    root_path=config.host_prefix,
     redoc_url=None,
     version="2.5.0",
 )
@@ -22,7 +29,10 @@ class HealthCheckFilter(logging.Filter):
 logging.getLogger("uvicorn.access").addFilter(HealthCheckFilter())
 
 
-@app.get("/{player_id}", tags=["Players"], response_model=PlayerRead)
+players_tags = ["Players"]
+
+
+@app.get("/{player_id}", tags=players_tags, response_model=PlayerRead)
 async def get_player(
     player_id: str,
     player_service: PlayerService = Depends(PlayerService),
@@ -33,32 +43,33 @@ async def get_player(
     return player
 
 
-@app.put("/{player_id}", tags=["Players"], status_code=status.HTTP_204_NO_CONTENT)
+@app.put("/{player_id}", tags=players_tags, status_code=status.HTTP_204_NO_CONTENT)
 async def put_player(
     player_id: str,
     player: PlayerWrite,
     player_service: PlayerService = Depends(PlayerService),
 ):
-    await player_service.update(
-        player_id, {"player_id": player_id, "nickname": player.nickname}
-    )
+    await player_service.update(player_id, player)
     return Response(status_code=status.HTTP_204_NO_CONTENT)
 
 
-@app.post("/", tags=["Players"], response_model=str)
+@app.post("/", tags=players_tags, response_model=str)
 async def post_player(
     player: PlayerWrite,
     player_service: PlayerService = Depends(PlayerService),
 ):
-    player_id = await player_service.create({"nickname": player.nickname})
+    player_id = await player_service.create(player)
     return player_id
 
 
-@app.get("/health/live", tags=["Health"])
+health_tags = ["Health"]
+
+
+@app.get("/health/live", tags=health_tags)
 async def get_health_live():
     return Response(status_code=status.HTTP_204_NO_CONTENT)
 
 
-@app.get("/health/ready", tags=["Health"])
+@app.get("/health/ready", tags=health_tags)
 async def get_health_ready():
     return Response(status_code=status.HTTP_204_NO_CONTENT)
