@@ -1,11 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createTheme, ThemeProvider } from '@material-ui/core/styles';
-import { purple, teal } from '@material-ui/core/colors';
-import CssBaseline from '@material-ui/core/CssBaseline';
+import { purple, teal } from '@mui/material/colors';
+import CssBaseline from '@mui/material/CssBaseline';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import './index.css';
 
 const theme = createTheme({
   palette: {
@@ -15,7 +14,7 @@ const theme = createTheme({
     secondary: {
       main: teal[800],
     },
-    type: 'dark',
+    mode: 'dark',
   },
 });
 
