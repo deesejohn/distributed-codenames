@@ -1,9 +1,8 @@
 import React from 'react';
-import { Box, Container } from '@material-ui/core';
-import './App.css';
-import NicknameForm from './NicknameForm';
+import { Box, Container } from '@mui/material';
+import { NicknameForm } from './components';
 
-const App: React.FC = () => (
+const App = (): JSX.Element => (
   <Container maxWidth="sm">
     <Box
       alignItems="center"

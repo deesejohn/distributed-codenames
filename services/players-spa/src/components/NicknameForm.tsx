@@ -1,49 +1,12 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button/Button';
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      '& > *': {
-        margin: theme.spacing(1),
-      },
-    },
-  })
-);
+import { Button, TextField } from '@mui/material';
+import { createPlayer, updatePlayer } from '../api';
 
 const validationSchema = yup.object({
   nickname: yup.string().required('Please provide a nickname'),
 });
-
-const basePath = process.env.REACT_APP_PLAYERS_API || '/';
-
-const createPlayer = async (player: { nickname: string }): Promise<string> => {
-  const response = await fetch(basePath, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(player),
-  });
-  return (await response.json()) as string;
-};
-
-const updatePlayer = async (
-  playerId: string,
-  player: { nickname: string }
-): Promise<void> => {
-  await fetch(basePath + playerId, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(player),
-  });
-};
 
 const onSubmit = async (data: { nickname: string }) => {
   const playerId = document.cookie
@@ -69,8 +32,7 @@ const onSubmit = async (data: { nickname: string }) => {
   }
 };
 
-const NicknameForm: React.FC = () => {
-  const classes = useStyles();
+const NicknameForm = (): JSX.Element => {
   const { errors, handleChange, handleSubmit, touched, values } = useFormik({
     initialValues: {
       nickname: '',
@@ -79,7 +41,7 @@ const NicknameForm: React.FC = () => {
     onSubmit,
   });
   return (
-    <form className={classes.root} onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit}>
       <TextField
         fullWidth
         id="nickname"
@@ -90,6 +52,7 @@ const NicknameForm: React.FC = () => {
         error={touched.nickname && !!errors.nickname}
         helperText={touched.nickname && errors.nickname}
         variant="filled"
+        margin="normal"
       />
       <Button color="primary" fullWidth type="submit" variant="contained">
         Submit
