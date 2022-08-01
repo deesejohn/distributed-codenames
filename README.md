@@ -20,7 +20,7 @@ This project is a way for me to experiment, evaluate, and demo new technologies.
 
 ### Architecture
 
-![Architecture graph](/docs/img/distributed-codewords.png)
+![Architecture graph](/docs/img/architecture.svg)
 
 | Service                             | Language / Framework                                                                       | Notes                                                                                                                                                                                                                                                  |
 | ----------------------------------- | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
