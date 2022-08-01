@@ -17,7 +17,7 @@ export const updatePlayer = async (
   playerId: string,
   player: { nickname: string }
 ): Promise<void> => {
-  await fetch(basePath + playerId, {
+  await fetch(new URL(playerId, basePath), {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
