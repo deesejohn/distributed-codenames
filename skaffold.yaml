@@ -1,13 +1,14 @@
-apiVersion: skaffold/v2beta29
+apiVersion: skaffold/v3
 kind: Config
 metadata:
   name: default-ingress
+manifests:
+  rawYaml:
+    - k8s/ingress.yaml
 deploy:
-  kubectl:
-    manifests:
-      - k8s/ingress.yaml
+  kubectl: {}
 ---
-apiVersion: skaffold/v2beta29
+apiVersion: skaffold/v3
 kind: Config
 metadata:
   name: games
@@ -20,12 +21,13 @@ build:
       context: services/games
       ko: {}
   local: {}
+manifests:
+  rawYaml:
+    - k8s/games.yaml
 deploy:
-  kubectl:
-    manifests:
-      - k8s/games.yaml
+  kubectl: {}
 ---
-apiVersion: skaffold/v2beta29
+apiVersion: skaffold/v3
 kind: Config
 metadata:
   name: games-bff
@@ -36,15 +38,16 @@ build:
   artifacts:
     - image: games-bff
       context: services/games-bff
-      buildpacks:
-        builder: paketobuildpacks/builder:base
+      # buildpacks:
+      #   builder: paketobuildpacks/builder:base
   local: {}
+manifests:
+  rawYaml:
+    - k8s/games-bff.yaml
 deploy:
-  kubectl:
-    manifests:
-      - k8s/games-bff.yaml
+  kubectl: {}
 ---
-apiVersion: skaffold/v2beta29
+apiVersion: skaffold/v3
 kind: Config
 metadata:
   name: games-spa
@@ -56,12 +59,13 @@ build:
     - image: games-spa
       context: services/games-spa
   local: {}
+manifests:
+  rawYaml:
+    - k8s/games-spa.yaml
 deploy:
-  kubectl:
-    manifests:
-      - k8s/games-spa.yaml
+  kubectl: {}
 ---
-apiVersion: skaffold/v2beta29
+apiVersion: skaffold/v3
 kind: Config
 metadata:
   name: lobbies
@@ -70,12 +74,13 @@ build:
     - image: lobbies
       context: services/lobbies
   local: {}
+manifests:
+  rawYaml:
+    - k8s/lobbies.yaml
 deploy:
-  kubectl:
-    manifests:
-      - k8s/lobbies.yaml
+  kubectl: {}
 ---
-apiVersion: skaffold/v2beta29
+apiVersion: skaffold/v3
 kind: Config
 metadata:
   name: lobbies-spa
@@ -87,12 +92,13 @@ build:
     - image: lobbies-spa
       context: services/lobbies-spa
   local: {}
+manifests:
+  rawYaml:
+    - k8s/lobbies-spa.yaml
 deploy:
-  kubectl:
-    manifests:
-      - k8s/lobbies-spa.yaml
+  kubectl: {}
 ---
-apiVersion: skaffold/v2beta29
+apiVersion: skaffold/v3
 kind: Config
 metadata:
   name: players
@@ -101,12 +107,13 @@ build:
     - image: players
       context: services/players
   local: {}
+manifests:
+  rawYaml:
+    - k8s/players.yaml
 deploy:
-  kubectl:
-    manifests:
-      - k8s/players.yaml
+  kubectl: {}
 ---
-apiVersion: skaffold/v2beta29
+apiVersion: skaffold/v3
 kind: Config
 metadata:
   name: players-spa
@@ -118,12 +125,13 @@ build:
     - image: players-spa
       context: services/players-spa
   local: {}
+manifests:
+  rawYaml:
+    - k8s/players-spa.yaml
 deploy:
-  kubectl:
-    manifests:
-      - k8s/players-spa.yaml
+  kubectl: {}
 ---
-apiVersion: skaffold/v2beta29
+apiVersion: skaffold/v3
 kind: Config
 metadata:
   name: words
@@ -133,7 +141,8 @@ build:
       context: services/words
       ko: {}
   local: {}
+manifests:
+  rawYaml:
+    - k8s/words.yaml
 deploy:
-  kubectl:
-    manifests:
-      - k8s/words.yaml
+  kubectl: {}
