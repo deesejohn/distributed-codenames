@@ -54,7 +54,7 @@ helm repo add bitnami https://charts.bitnami.com/bitnami
 helm repo add datawire https://app.getambassador.io
 helm repo add nats https://nats-io.github.io/k8s/helm/charts/
 helm repo update
-kubectl apply -f https://app.getambassador.io/yaml/emissary/3.0.0/emissary-crds.yaml
+kubectl apply -f https://app.getambassador.io/yaml/emissary/3.3.0/emissary-crds.yaml
 helm install -n emissary --create-namespace emissary-ingress datawire/emissary-ingress
 helm install my-nats nats/nats
 helm install games-redis bitnami/redis --set architecture=standalone
