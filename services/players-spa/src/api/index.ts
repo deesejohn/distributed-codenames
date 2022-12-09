@@ -1,4 +1,7 @@
-export const basePath = process.env.REACT_APP_PLAYERS_API || '/';
+export const basePath = new URL(
+  process.env.REACT_APP_PLAYERS_API || '/',
+  window.location.href
+);
 
 export const createPlayer = async (player: {
   nickname: string;
