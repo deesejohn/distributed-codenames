@@ -3,6 +3,7 @@ import express, { Request, Response } from 'express';
 import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import GameClient from './client';
+import { natsConnection } from './subscriber';
 
 const options = {
   definition: {
@@ -271,9 +272,13 @@ app.get('/health/live', (_, res) => res.status(204).send());
  *       204:
  *         description: no content
  */
-app.get('/health/ready', (_, res) => res.status(204).send());
+app.get('/health/ready', (_, res, next) => {
+  natsConnection.then(() => res.status(204).send()).catch(err => next(err));
+});
 
 app.use((err: unknown, req: Request, res: Response) => {
+  // eslint-disable-next-line no-console
+  console.log(err);
   res.status(500).send({ error: 'An unknown error has occurred' });
 });
 
