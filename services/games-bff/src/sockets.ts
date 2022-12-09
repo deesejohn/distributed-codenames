@@ -1,10 +1,8 @@
-import { NatsConnection } from 'nats';
 import { URL } from 'url';
-import WebSocket, { Server } from 'ws';
-import GameClient from './client';
-import { Game } from '../genproto/games_pb';
+import { WebSocket, Server } from 'ws';
+import { subscribe } from './subscriber';
 
-const register = (wss: Server<WebSocket.WebSocket>, nc: NatsConnection) => {
+const register = (wss: Server<WebSocket>) => {
   wss.on('connection', (ws, req) => {
     (async () => {
       if (!req.url) {
@@ -15,13 +13,9 @@ const register = (wss: Server<WebSocket.WebSocket>, nc: NatsConnection) => {
       if (!gameId) {
         throw new Error('Missing required query parameter: game_id');
       }
-      const sub = nc.subscribe(`games.${gameId}`);
-      // Correct usage of the nats.js client based on their docs
-      // https://github.com/nats-io/nats.js/
       // eslint-disable-next-line no-restricted-syntax
-      for await (const m of sub) {
-        const game = Game.deserializeBinary(m.data).toObject();
-        ws.send(JSON.stringify(GameClient.mapGame(game)));
+      for await (const update of subscribe(gameId)) {
+        ws.send(JSON.stringify(update));
       }
       // eslint-disable-next-line no-console
     })().catch((error: unknown) => console.log(error));

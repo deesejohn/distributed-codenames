@@ -1,6 +1,8 @@
 import request from 'supertest';
 import app, { gameClient } from './app';
 
+jest.mock('nats');
+
 test('GET /:game_id/ Success', async () => {
   const id = 'somefakeid';
   const spy = jest.spyOn(gameClient, 'get').mockResolvedValue({
@@ -74,6 +76,6 @@ test('GET /health/live NoContent', async () => {
   await request(app).get(`/health/live`).expect(204);
 });
 
-test('GET /health/ready NoContent', async () => {
-  await request(app).get(`/health/ready`).expect(204);
+test('GET /health/ready InternalServerError', async () => {
+  await request(app).get(`/health/ready`).expect(500);
 });
