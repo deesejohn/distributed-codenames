@@ -48,7 +48,7 @@ export class LobbiesService {
     autoRedirect?: boolean
   ): Observable<Lobby> {
     return defer(() =>
-      new Observable<Lobby>(observer => {
+      new Observable<Lobby>((observer) => {
         const connection = new signalR.HubConnectionBuilder()
           .withUrl(`/api/lobbies/session?lobby_id=${lobbyId}`, {
             transport: HttpTransportType.WebSockets,
@@ -59,7 +59,7 @@ export class LobbiesService {
         connection.start();
         return () => connection.stop();
       }).pipe(
-        tap(lobby => {
+        tap((lobby) => {
           if (autoRedirect && !!lobby.game_id) {
             this.document.location.assign(`/games/${lobby.game_id}/`);
           }

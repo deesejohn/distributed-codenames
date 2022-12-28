@@ -4,13 +4,13 @@ import {
   ActivatedRouteSnapshot,
   CanActivate,
   RouterStateSnapshot,
-  UrlTree
+  UrlTree,
 } from '@angular/router';
 import { Observable } from 'rxjs';
 import { PlayerService } from './player.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class NicknameGuard implements CanActivate {
   constructor(
@@ -21,7 +21,8 @@ export class NicknameGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): Observable<boolean | UrlTree>
+  ):
+    | Observable<boolean | UrlTree>
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
@@ -33,5 +34,4 @@ export class NicknameGuard implements CanActivate {
     }
     return true;
   }
-
 }
