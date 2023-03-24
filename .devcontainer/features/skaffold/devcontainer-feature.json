@@ -1,0 +1,6 @@
+{
+    "name": "skaffold",
+    "id": "skaffold",
+    "version": "2.1.0",
+    "description": "Easy and Repeatable Kubernetes Development"
+}

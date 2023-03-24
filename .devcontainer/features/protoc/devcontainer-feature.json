@@ -1,0 +1,9 @@
+{
+    "name": "protoc",
+    "id": "protoc",
+    "version": "22.0",
+    "description": "Protocol Buffers - Google's data interchange format",
+    "installsAfter": [
+        "ghcr.io/devcontainers/features/go"
+    ]
+}
