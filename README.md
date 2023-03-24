@@ -8,14 +8,21 @@ This project is a way for me to experiment, evaluate, and demo new technologies.
 
 ### Required tools
 
+#### Running inside a [Development Container](https://containers.dev/) (see [.devcontainer](.devcontainer/))
+
+1. [VSCode](https://code.visualstudio.com/) or the [Dev Container CLI](https://github.com/devcontainers/cli)
+1. [Docker](https://www.docker.com/products/docker-desktop)
+
+#### Running natively
+
 1. [Docker](https://www.docker.com/products/docker-desktop)
 1. A local [Kubernetes](https://kubernetes.io/) environment v1.23+ with feature flag [GRPCContainerProbe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-a-grpc-liveness-probe)
    - (Recommended) [Minikube](https://minikube.sigs.k8s.io/docs/start/)
    - [Kind](https://kind.sigs.k8s.io/docs/user/quick-start/)
 1. [Helm](https://helm.sh/docs/intro/quickstart/)
 1. [Skaffold](https://skaffold.dev/docs/install/)
-1. [Pack](https://buildpacks.io/docs/tools/pack/) for [Cloud Native Buildpacks](https://buildpacks.io)
 1. [ko](https://github.com/google/ko) for building Go containers without docker
+1. (Optional) [Pack](https://buildpacks.io/docs/tools/pack/) for [Cloud Native Buildpacks](https://buildpacks.io)
 1. (Optional) Languages to run applications natively (see architecture table below)
 
 ### Architecture
@@ -54,7 +61,7 @@ helm repo add bitnami https://charts.bitnami.com/bitnami
 helm repo add datawire https://app.getambassador.io
 helm repo add nats https://nats-io.github.io/k8s/helm/charts/
 helm repo update
-kubectl apply -f https://app.getambassador.io/yaml/emissary/3.3.0/emissary-crds.yaml
+kubectl apply -f https://app.getambassador.io/yaml/emissary/3.5.1/emissary-crds.yaml
 helm install -n emissary --create-namespace emissary-ingress datawire/emissary-ingress
 helm install my-nats nats/nats
 helm install games-redis bitnami/redis --set architecture=standalone
