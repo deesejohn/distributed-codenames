@@ -4,16 +4,16 @@ import (
 	"context"
 	"encoding/json"
 	"log"
-	"math/rand"
 	"net"
 	"os"
 	"time"
 
 	game "github.com/deesejohn/distributed-codenames/src/games/game"
 	pb "github.com/deesejohn/distributed-codenames/src/games/genproto"
-	"github.com/go-redis/redis/v8"
 	nats "github.com/nats-io/nats.go"
+	"github.com/redis/go-redis/v9"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 	healthpb "google.golang.org/grpc/health/grpc_health_v1"
 	"google.golang.org/protobuf/proto"
 )
@@ -35,7 +35,6 @@ var (
 )
 
 func main() {
-	rand.Seed(time.Now().UTC().UnixNano())
 	natsURL = nats.DefaultURL
 	if value, ok := os.LookupEnv("NATS_HOST"); ok {
 		natsURL = "nats://" + value + ":4222"
@@ -170,7 +169,7 @@ func get(ctx context.Context, gameID string) *pb.Game {
 
 func getWords(ctx context.Context, category pb.Category) (
 	*pb.WordsResponse, error) {
-	conn, err := grpc.Dial(wordsAddr, grpc.WithInsecure(), grpc.WithBlock())
+	conn, err := grpc.Dial(wordsAddr, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}
