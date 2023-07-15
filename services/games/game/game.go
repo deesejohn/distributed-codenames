@@ -90,8 +90,7 @@ func New(hostID string, blueTeam []*pb.Player, redTeam []*pb.Player,
 	} else {
 		guessing = RedTeam
 	}
-	colors := randomColors(guessing)
-	board, key := generateBoard(words, colors)
+	board, key := generateBoard(words, guessing)
 	clue := &pb.Clue{
 		Word:   "",
 		Number: 0,
@@ -121,8 +120,7 @@ func PlayAgain(game *pb.Game, hostID string, words []string) error {
 		return errors.New("player is not the host")
 	}
 	game.Guessing = oppositeTeam(game.Guessing)
-	colors := randomColors(game.Guessing)
-	board, key := generateBoard(words, colors)
+	board, key := generateBoard(words, game.Guessing)
 	clue := &pb.Clue{
 		Word:   "",
 		Number: 0,
@@ -201,7 +199,8 @@ func gameOver(game *pb.Game) bool {
 	return game.Winner != ""
 }
 
-func generateBoard(words []string, colors []pb.Color) ([]*pb.Card, []*pb.Card) {
+func generateBoard(words []string, guessing string) ([]*pb.Card, []*pb.Card) {
+	colors := randomColors(guessing)
 	rand.Shuffle(len(words), func(i, j int) {
 		words[i], words[j] = words[j], words[i]
 	})
