@@ -1,8 +1,5 @@
-// For format details, see https://aka.ms/devcontainer.json. For config options, see the
-// README at: https://github.com/devcontainers/templates/tree/main/src/kubernetes-helm-minikube
 {
 	"name": "distributed-codenames",
-	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
 	"image": "mcr.microsoft.com/devcontainers/base:bullseye",
 	"features": {
 		"ghcr.io/devcontainers/features/docker-in-docker:2": {
@@ -33,18 +30,30 @@
 			"version": "latest"
 		}
 	},
-	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	"forwardPorts": [
 		80,
 		8080,
 		443
-	]
-	// Use 'postCreateCommand' to run commands after the container is created.
-	// "postCreateCommand": "kubectl version",
-	// Use 'postStartCommand' to run commands after the container is created like starting minikube.
-	// "postStartCommand": "nohup bash -c 'minikube start &' > minikube.log 2>&1",
-	// Configure tool-specific properties.
-	// "customizations": {},
-	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
-	// "remoteUser": "root"
+	],
+	"customizations": {
+		"vscode": {
+			"settings": {
+				"terminal.integrated.defaultProfile.linux": "bash",
+				"files.eol": "\n"
+			},
+			"extensions": [
+				"angular.ng-template",
+				"bierner.markdown-preview-github-styles",
+				"davidanson.vscode-markdownlint",
+				"eamodio.gitlens",
+				"editorconfig.editorconfig",
+				"esbenp.prettier-vscode",
+				"ms-kubernetes-tools.vscode-kubernetes-tools",
+				"ms-python.python",
+				"ms-python.vscode-pylance",
+				"redhat.vscode-yaml",
+				"zxh404.vscode-proto3"
+			]
+		}
+	}
 }
