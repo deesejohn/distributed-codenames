@@ -1,36 +1,41 @@
-apiVersion: getambassador.io/v3alpha1
-kind: Listener
-metadata:
-  name: emissary-ingress-listener-8080
-  namespace: emissary
-spec:
-  port: 8080
-  protocol: HTTP
-  securityModel: XFP
-  hostBinding:
-    namespace:
-      from: ALL
 ---
-apiVersion: getambassador.io/v3alpha1
-kind: Host
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: GatewayClass
 metadata:
-  name: default-host
+  name: eg
 spec:
-  hostname: "*"
-  mappingSelector:
-    matchLabels:
-      defaulthost: host
-  requestPolicy:
-    insecure:
-      action: Route
+  controllerName: gateway.envoyproxy.io/gatewayclass-controller
 ---
-apiVersion: getambassador.io/v3alpha1
-kind: Mapping
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: Gateway
 metadata:
-  name: root-mapping
-  labels:
-    defaulthost: host
+  name: eg
 spec:
-  prefix: /
-  service: lobbies-spa
-  prefix_redirect: /lobbies
+  gatewayClassName: eg
+  listeners:
+    - name: http
+      protocol: HTTP
+      port: 80
+      allowedRoutes:
+        namespaces:
+          from: Same
+---
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: HTTPRoute
+metadata:
+  name: http-filter-redirect
+spec:
+  parentRefs:
+    - name: eg
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      filters:
+        - type: RequestRedirect
+          requestRedirect:
+            path:
+              type: ReplaceFullPath
+              replaceFullPath: /lobbies
+            statusCode: 302

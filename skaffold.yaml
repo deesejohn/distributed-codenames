@@ -7,11 +7,11 @@ manifests:
     - k8s/ingress.yaml
 deploy:
   kubectl: {}
-portForward:
-- resourceType: service
-  resourceName: emissary-ingress
-  namespace: emissary
-  port: 80
+# portForward:
+# - resourceType: service
+#   resourceName: envoy-contour
+#   namespace: projectcontour
+#   port: 80
 ---
 apiVersion: skaffold/v3
 kind: Config

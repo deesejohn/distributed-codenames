@@ -32,7 +32,7 @@ spec:
             - name: HOST_PREFIX
               value: "/api/games"
             - name: NATS_HOST
-              value: "my-nats"
+              value: "nats"
 ---
 apiVersion: v1
 kind: Service
@@ -47,14 +47,24 @@ spec:
       targetPort: 8000
   type: ClusterIP
 ---
-apiVersion: getambassador.io/v2
-kind: Mapping
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: HTTPRoute
 metadata:
-  name: games-bff-mapping
-  labels:
-    defaulthost: host
+  name: games-bff-route
 spec:
-  prefix: /api/games/
-  service: games-bff
-  allow_upgrade:
-    - websocket
+  parentRefs:
+    - name: eg
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /api/games/
+      filters:
+        - type: URLRewrite
+          urlRewrite:
+            path:
+              type: ReplacePrefixMatch
+              replacePrefixMatch: /
+      backendRefs:
+        - name: games-bff
+          port: 80

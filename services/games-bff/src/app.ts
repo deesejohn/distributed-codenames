@@ -3,7 +3,7 @@ import express, { Request, Response } from 'express';
 import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import GameClient from './client';
-import { natsConnection } from './subscriber';
+import { connection as natsConnection } from './subscriber';
 
 const options = {
   definition: {

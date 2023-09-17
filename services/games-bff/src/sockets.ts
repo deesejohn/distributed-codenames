@@ -1,8 +1,8 @@
 import { URL } from 'url';
-import { WebSocket, Server } from 'ws';
+import { WebSocketServer } from 'ws';
 import { subscribe } from './subscriber';
 
-const register = (wss: Server<WebSocket>) => {
+const register = (wss: WebSocketServer) => {
   wss.on('connection', (ws, req) => {
     (async () => {
       if (!req.url) {

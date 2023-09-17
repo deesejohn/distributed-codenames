@@ -34,12 +34,24 @@ spec:
       targetPort: 8080
   type: ClusterIP
 ---
-apiVersion: getambassador.io/v3alpha1
-kind: Mapping
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: HTTPRoute
 metadata:
-  name: games-spa-mapping
-  labels:
-    defaulthost: host
+  name: games-spa-route
 spec:
-  prefix: /games
-  service: games-spa
+  parentRefs:
+    - name: eg
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /games
+      filters:
+        - type: URLRewrite
+          urlRewrite:
+            path:
+              type: ReplacePrefixMatch
+              replacePrefixMatch: /
+      backendRefs:
+        - name: games-spa
+          port: 80
