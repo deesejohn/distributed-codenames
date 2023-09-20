@@ -1,13 +1,16 @@
 import React from 'react';
-import { useFormik } from 'formik';
-import { number, object, SchemaOf, string } from 'yup';
-import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import TextField from '@material-ui/core/TextField';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  TextField,
+} from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { Clue } from '../../types';
 
@@ -19,12 +22,21 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const validationSchema: SchemaOf<Clue> = object({
-  word: string().required('A word is required'),
-  number: number()
-    .min(1, 'At least one guess is required')
-    .required('At least one guess is required'),
+const helperText = {
+  numberRequired: 'At least one guess is required',
+  wordRequired: 'You must submit a word',
+};
+const schema = z.object({
+  word: z.string({ required_error: helperText.wordRequired }),
+  number: z.coerce
+    .number({
+      required_error: helperText.numberRequired,
+      invalid_type_error: helperText.numberRequired,
+    })
+    .min(1, { message: helperText.numberRequired }),
 });
+
+type HintDialogSchema = z.infer<typeof schema>;
 
 interface HintDialogProps {
   handleClose: () => void;
@@ -38,14 +50,12 @@ const HintDialog = ({
   open,
 }: HintDialogProps): JSX.Element => {
   const { formField } = useStyles();
-  const { errors, handleChange, handleSubmit, touched, values } = useFormik({
-    initialValues: {
-      word: '',
-      number: 0,
-    },
-    validationSchema,
-    onSubmit: (clue: Clue) => handleHint(clue),
+  const { control, handleSubmit } = useForm<HintDialogSchema>({
+    resolver: zodResolver(schema),
   });
+  const onSubmit: SubmitHandler<HintDialogSchema> = async data => {
+    await handleHint(data);
+  };
   return (
     <Dialog
       open={open}
@@ -57,31 +67,58 @@ const HintDialog = ({
         <DialogContentText>
           Give a hint and the number of words on the board it relates to
         </DialogContentText>
-        <form onSubmit={handleSubmit}>
-          <TextField
-            fullWidth
-            id="word"
+        <form
+          onSubmit={event => {
+            event.preventDefault();
+            handleSubmit(onSubmit)(event).catch(() => {});
+          }}
+        >
+          <Controller
             name="word"
-            label="Word"
-            value={values.word}
-            onChange={handleChange}
-            error={touched.word && !!errors.word}
-            helperText={touched.number && !!errors.number && errors.number}
-            variant="filled"
-            className={formField}
+            control={control}
+            render={({
+              field: { disabled, name, onBlur, onChange, ref, value },
+              fieldState: { error },
+            }) => (
+              <TextField
+                disabled={disabled}
+                name={name}
+                onBlur={onBlur}
+                onChange={onChange}
+                ref={ref}
+                value={value}
+                error={!!error}
+                helperText={!!error && error.message}
+                label="Word"
+                fullWidth
+                variant="filled"
+                className={formField}
+              />
+            )}
           />
-          <TextField
-            fullWidth
-            id="number"
+          <Controller
             name="number"
-            label="Number"
-            type="number"
-            value={values.number}
-            onChange={handleChange}
-            error={touched.number && !!errors.number}
-            helperText={touched.number && !!errors.number && errors.number}
-            variant="filled"
-            className={formField}
+            control={control}
+            render={({
+              field: { disabled, name, onBlur, onChange, ref, value },
+              fieldState: { error },
+            }) => (
+              <TextField
+                disabled={disabled}
+                name={name}
+                onBlur={onBlur}
+                onChange={onChange}
+                ref={ref}
+                value={value}
+                error={!!error}
+                helperText={!!error && error.message}
+                label="Number"
+                fullWidth
+                variant="filled"
+                className={formField}
+                type="number"
+              />
+            )}
           />
           <Box
             alignItems="center"

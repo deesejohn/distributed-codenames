@@ -51,7 +51,7 @@ interface HintProps {
   team: string;
 }
 const Hint = ({ clue, team }: HintProps): JSX.Element => (
-  <Grid container justify="center" spacing={2}>
+  <Grid container justifyContent="center" spacing={2}>
     <Grid item>
       <Card>
         <CardContent>
