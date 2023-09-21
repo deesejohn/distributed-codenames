@@ -1,5 +1,5 @@
 import { Card, CardContent, Grid, Typography } from '@mui/material';
-import { Clue } from '../../types';
+import { Clue } from '../types';
 
 const HintWaiting = (): JSX.Element => (
   <Grid item>

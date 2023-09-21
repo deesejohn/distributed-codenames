@@ -3,15 +3,22 @@ import { Clue, Game } from '../types';
 
 const apiClient = axios.create({ baseURL: '/api/games/' });
 
-export const get = async (gameId: string): Promise<Game> => {
-  const response = await apiClient.get<Game>(`${gameId}/`);
-  return response.data;
+export const get = async (gameId: string): Promise<Game | null> => {
+  try {
+    const response = await apiClient.get<Game>(`${gameId}/`);
+    return response.data;
+  } catch (error) {
+    if (error instanceof axios.AxiosError && error.status === 404) {
+      return null;
+    }
+    throw error;
+  }
 };
 
 export const guess = async (
   gameId: string,
   playerId: string,
-  cardCd: string
+  cardCd: string,
 ): Promise<void> => {
   await apiClient.post(`${gameId}/guess`, {
     player_id: playerId,
@@ -22,7 +29,7 @@ export const guess = async (
 export const hint = async (
   gameId: string,
   playerId: string,
-  clue: Clue
+  clue: Clue,
 ): Promise<void> => {
   await apiClient.post(`${gameId}/hint`, {
     player_id: playerId,
@@ -33,7 +40,7 @@ export const hint = async (
 
 export const playAgain = async (
   gameId: string,
-  playerId: string
+  playerId: string,
 ): Promise<void> => {
   await apiClient.post(`${gameId}/play_again`, {
     player_id: playerId,

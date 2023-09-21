@@ -8,10 +8,10 @@ import {
   Button,
 } from '@mui/material';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useEffect } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
-
-import { Clue } from '../../types';
+import { Clue } from '../types';
 
 const helperText = {
   numberRequired: 'At least one guess is required',
@@ -40,12 +40,22 @@ const HintDialog = ({
   handleClose,
   open,
 }: HintDialogProps): JSX.Element => {
-  const { control, handleSubmit } = useForm<HintDialogSchema>({
+  const {
+    control,
+    formState: { isSubmitSuccessful },
+    handleSubmit,
+    reset,
+  } = useForm<HintDialogSchema>({
     resolver: zodResolver(schema),
   });
   const onSubmit: SubmitHandler<HintDialogSchema> = async data => {
     await handleHint(data);
   };
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset();
+    }
+  }, [isSubmitSuccessful, reset]);
   return (
     <Dialog
       open={open}
