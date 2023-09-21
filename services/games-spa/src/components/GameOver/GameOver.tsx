@@ -1,6 +1,5 @@
-import React, { useCallback } from 'react';
-import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
+import { Box, Button } from '@mui/material';
+import { useCallback } from 'react';
 
 interface GameOverProps {
   playAgain: () => Promise<void>;

@@ -1,5 +1,5 @@
-import React, { useCallback } from 'react';
-import Box from '@material-ui/core/Box';
+import { useCallback } from 'react';
+import { Box } from '@mui/material';
 import { Card } from '../../types';
 import {
   BlackCard,
@@ -16,7 +16,12 @@ const Content = ({
   label: string;
   revealed: boolean;
 }): JSX.Element => (
-  <Box component="div" visibility={revealed ? 'hidden' : 'shown'}>
+  <Box
+    component="div"
+    sx={
+      revealed ? { opacity: '0.5', textDecoration: 'line-through' } : undefined
+    }
+  >
     {label}
   </Box>
 );

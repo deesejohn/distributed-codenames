@@ -1,6 +1,4 @@
-import styled from 'styled-components';
-import Button from '@material-ui/core/Button';
-import { useTheme } from '@material-ui/core/styles';
+import { styled, Button, useTheme } from '@mui/material';
 
 const colors = {
   blue: '#25769f',
@@ -14,6 +12,7 @@ export const HiddenCard = styled(Button)``;
 export const BlackCard = styled(Button)`
   background: ${colors.dark};
   background: linear-gradient(135deg, ${colors.dark}, black);
+  color: white;
   &:disabled {
     color: white;
   }
@@ -29,6 +28,7 @@ export const BlueCard = styled(Button)`
         ${colors.blue},
         ${palette.secondary.dark}
       );
+      color: white;
       &:disabled { color: white; }
   `;
   }}
@@ -44,6 +44,7 @@ export const RedCard = styled(Button)`
         ${colors.red},
         ${palette.primary.dark}
       );
+      color: white;
       &:disabled { color: white; }
   `;
   }}

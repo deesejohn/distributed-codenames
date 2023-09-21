@@ -1,26 +1,17 @@
-import React from 'react';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
 import {
-  Box,
-  Button,
   Dialog,
+  DialogTitle,
   DialogContent,
   DialogContentText,
-  DialogTitle,
   TextField,
-} from '@material-ui/core';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import { Clue } from '../../types';
+  Box,
+  Button,
+} from '@mui/material';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { z } from 'zod';
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    formField: {
-      margin: theme.spacing(1),
-    },
-  })
-);
+import { Clue } from '../../types';
 
 const helperText = {
   numberRequired: 'At least one guess is required',
@@ -49,7 +40,6 @@ const HintDialog = ({
   handleClose,
   open,
 }: HintDialogProps): JSX.Element => {
-  const { formField } = useStyles();
   const { control, handleSubmit } = useForm<HintDialogSchema>({
     resolver: zodResolver(schema),
   });
@@ -92,7 +82,7 @@ const HintDialog = ({
                 label="Word"
                 fullWidth
                 variant="filled"
-                className={formField}
+                margin="normal"
               />
             )}
           />
@@ -115,8 +105,8 @@ const HintDialog = ({
                 label="Number"
                 fullWidth
                 variant="filled"
-                className={formField}
                 type="number"
+                margin="normal"
               />
             )}
           />

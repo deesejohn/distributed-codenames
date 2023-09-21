@@ -1,15 +1,12 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import Box from '@material-ui/core/Box';
-import Container from '@material-ui/core/Container';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import Button from '@material-ui/core/Button';
+import { CircularProgress, Button, Container, Box } from '@mui/material';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import './App.css';
-import { Card, Clue, Game } from './types';
 import { get, guess, hint, playAgain, skip } from './api/games.api';
 import Board from './components/Board/Board';
 import GameOver from './components/GameOver/GameOver';
 import Hint from './components/Hint/Hint';
 import HintDialog from './components/HintDialog/HintDialog';
+import { Card, Clue, Game } from './types';
 
 const route = window.location.pathname.split('/');
 const gameId = route[2];
@@ -50,7 +47,7 @@ const handleSkip = () => {
 
 const sessionUrl = new URL(
   `/api/games/session?game_id=${gameId}`,
-  window.location.href
+  window.location.href,
 );
 sessionUrl.protocol = sessionUrl.protocol.replace('http', 'ws');
 
@@ -78,7 +75,7 @@ const Content = ({ game }: { game: Game | null }): JSX.Element => {
   const isSpymaster = useMemo(
     () =>
       [game?.blue_team_spymaster, game?.red_team_spymaster].includes(playerId),
-    [game]
+    [game],
   );
 
   const isSpymasterGuessing = useMemo(() => {
@@ -94,7 +91,7 @@ const Content = ({ game }: { game: Game | null }): JSX.Element => {
 
   const board: Card[] = useMemo(
     () => (isSpymaster ? game?.key : game?.board) || [],
-    [game, isSpymaster]
+    [game, isSpymaster],
   );
 
   const onTeam = useMemo(() => {
