@@ -1,7 +1,6 @@
 import json
 import uuid
-
-from aioredis import Redis
+import redis.asyncio as Redis
 from fastapi import Depends
 from pydantic import BaseModel
 

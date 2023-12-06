@@ -1,4 +1,4 @@
-from aioredis import from_url, Redis
+import redis.asyncio as redis
 from pydantic import BaseSettings
 
 
@@ -9,12 +9,11 @@ class RedisConfiguration(BaseSettings):
 
 config = RedisConfiguration()
 
+pool = redis.ConnectionPool.from_url(f"redis://{config.redis_host}", password=config.redis_password)
 
-async def get_redis_pool(
-    host: str = config.redis_host, password: str = config.redis_password
-) -> Redis:
-    pool = await from_url(f"redis://{host}", password=password)
+async def get_redis_pool() -> redis.Redis:
+    client = await redis.Redis.from_pool(pool)
     try:
-        yield pool
+        yield client
     finally:
-        await pool.close()
+        await client.close()
