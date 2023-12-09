@@ -4,20 +4,18 @@ using Microsoft.Extensions.Caching.Distributed;
 
 namespace lobbies.api.Repositories
 {
-    public class RedisLobbyRepository : ILobbyRepository
+    public class RedisLobbyRepository(IDistributedCache cache) : ILobbyRepository
     {
-        private readonly IDistributedCache _cache;
-
-        public RedisLobbyRepository(IDistributedCache cache)
-        {
-            _cache = cache ?? throw new ArgumentNullException(nameof(cache));
-        }
+        private readonly IDistributedCache _cache = cache ?? throw new ArgumentNullException(nameof(cache));
 
         public async Task<Lobby?> GetAsync(string lobbyId, CancellationToken cancellationToken = default)
         {
-            return JsonSerializer.Deserialize<Lobby>(
-                await _cache.GetStringAsync(lobbyId, cancellationToken)
-            );
+            var lobby = await _cache.GetStringAsync(lobbyId, cancellationToken);
+            if (lobby == null)
+            {
+                return null;
+            }
+            return JsonSerializer.Deserialize<Lobby>(lobby);
         }
 
         public async Task UpdateAsync(string lobbyId, Lobby lobby, CancellationToken cancellationToken = default)

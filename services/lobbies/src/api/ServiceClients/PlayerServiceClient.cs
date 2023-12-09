@@ -3,14 +3,9 @@ using lobbies.api.Models;
 
 namespace lobbies.api.ServiceClients
 {
-    public class PlayerServiceClient : IPlayerServiceClient
+    public class PlayerServiceClient(HttpClient client) : IPlayerServiceClient
     {
-        private readonly HttpClient _client;
-
-        public PlayerServiceClient(HttpClient client)
-        {
-            _client = client ?? throw new ArgumentNullException(nameof(client));
-        }
+        private readonly HttpClient _client = client ?? throw new ArgumentNullException(nameof(client));
 
         public async Task<Player?> GetAsync(string playerId, CancellationToken cancellationToken = default)
         {

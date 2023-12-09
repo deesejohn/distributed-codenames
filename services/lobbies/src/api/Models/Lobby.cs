@@ -8,7 +8,7 @@ namespace lobbies.api.Models
         public string? Id { get; init; }
 
         [JsonPropertyName("host_id")]
-        public string? HostId { get; set; }
+        public string? HostId { get; init; }
 
         [JsonPropertyName("blue_team")]
         public IEnumerable<Player>? BlueTeam { get; init; }

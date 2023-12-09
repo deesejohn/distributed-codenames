@@ -7,16 +7,10 @@ namespace lobbies.api.Controllers
 {
     [ApiController]
     [Route("")]
-    public class LobbiesController : ControllerBase
+    public class LobbiesController(LobbyService lobbyService, IPlayerServiceClient playerService) : ControllerBase
     {
-        private readonly LobbyService _lobbyService;
-        private readonly IPlayerServiceClient _playerService;
-
-        public LobbiesController(LobbyService lobbyService, IPlayerServiceClient playerService)
-        {
-            _lobbyService = lobbyService ?? throw new ArgumentNullException(nameof(lobbyService));
-            _playerService = playerService ?? throw new ArgumentNullException(nameof(playerService));
-        }
+        private readonly LobbyService _lobbyService = lobbyService ?? throw new ArgumentNullException(nameof(lobbyService));
+        private readonly IPlayerServiceClient _playerService = playerService ?? throw new ArgumentNullException(nameof(playerService));
 
         [HttpGet("/{lobbyId}")]
         [ProducesResponseType(typeof(Lobby), 200)]

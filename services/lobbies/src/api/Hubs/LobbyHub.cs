@@ -4,19 +4,13 @@ using Microsoft.AspNetCore.SignalR;
 
 namespace lobbies.api.Hubs
 {
-    public class LobbyHub : Hub
+    public class LobbyHub(LobbyService lobbyService, IPlayerServiceClient playerService) : Hub
     {
         public const string LOBBY_UPDATED = "LobbyUpdated";
-        private readonly LobbyService _lobbyService;
-        private readonly IPlayerServiceClient _playerService;
-
-        public LobbyHub(LobbyService lobbyService, IPlayerServiceClient playerService)
-        {
-            _lobbyService = lobbyService
-                ?? throw new ArgumentNullException(nameof(lobbyService));
-            _playerService = playerService
-                ?? throw new ArgumentNullException(nameof(playerService));
-        }
+        private readonly LobbyService _lobbyService = lobbyService
+            ?? throw new ArgumentNullException(nameof(lobbyService));
+        private readonly IPlayerServiceClient _playerService = playerService
+            ?? throw new ArgumentNullException(nameof(playerService));
 
         public override async Task OnConnectedAsync()
         {

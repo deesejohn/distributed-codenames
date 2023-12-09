@@ -5,22 +5,15 @@ using static protos.GamesService;
 
 namespace lobbies.api.Services
 {
-    public class LobbyService
+    public class LobbyService(
+        GamesServiceClient gamesService,
+        IHubContext<LobbyHub> lobbyHub,
+        ILobbyRepository repo
+    )
     {
-        private readonly GamesServiceClient _gamesService;
-        private readonly IHubContext<LobbyHub> _lobbyHub;
-        private readonly ILobbyRepository _repo;
-
-        public LobbyService(
-            GamesServiceClient gamesService,
-            IHubContext<LobbyHub> lobbyHub,
-            ILobbyRepository repo
-        )
-        {
-            _gamesService = gamesService ?? throw new ArgumentNullException(nameof(gamesService));
-            _lobbyHub = lobbyHub ?? throw new ArgumentNullException(nameof(lobbyHub));
-            _repo = repo ?? throw new ArgumentNullException(nameof(repo));
-        }
+        private readonly GamesServiceClient _gamesService = gamesService ?? throw new ArgumentNullException(nameof(gamesService));
+        private readonly IHubContext<LobbyHub> _lobbyHub = lobbyHub ?? throw new ArgumentNullException(nameof(lobbyHub));
+        private readonly ILobbyRepository _repo = repo ?? throw new ArgumentNullException(nameof(repo));
 
         public Task<Lobby?> GetAsync(string lobbyId, CancellationToken cancellationToken = default)
         {
@@ -49,6 +42,10 @@ namespace lobbies.api.Services
             {
                 throw new Exception($"Unable to add player: lobby {lobbyId} not found");
             }
+            if (player.Id == null)
+            {
+                throw new Exception($"Unable to add player: lobby {lobbyId} player id null");
+            }
             if (lobby.BlueTeam == null || lobby.BlueTeam.Any(IsPlayer(player.Id)))
             {
                 return;
@@ -72,7 +69,11 @@ namespace lobbies.api.Services
             {
                 throw new Exception($"Unable to change team: lobby {lobbyId} not found");
             }
-            var (blueTeam, redTeam) = lobby.BlueTeam.Any(IsPlayer(player.Id))
+            if (lobby.BlueTeam == null || lobby.RedTeam == null)
+            {
+                throw new Exception($"Unable to change team: lobby {lobbyId} has invalid teams");
+            }
+            var (blueTeam, redTeam) = lobby.BlueTeam.Any(IsPlayer(player.Id!))
                 ? (lobby.BlueTeam.Where(p => p.Id != player.Id)
                 , lobby.RedTeam.Append(player))
                 : (lobby.BlueTeam.Append(player)
