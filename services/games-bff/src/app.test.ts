@@ -1,7 +1,8 @@
 import request from 'supertest';
+import { NatsConnection } from 'nats';
 import app, { gameClient } from './app';
 
-jest.mock('nats');
+jest.mock<Promise<NatsConnection>>('./subscriber');
 
 test('GET /:game_id/ Success', async () => {
   const id = 'somefakeid';
@@ -22,14 +23,14 @@ test('GET /:game_id/ Success', async () => {
     winner: '',
   });
   await request(app).get(`/${id}/`).expect(200);
-  expect(spy).toBeCalled();
+  expect(spy).toHaveBeenCalled();
 });
 
 test('GET /:game_id/ NotFound', async () => {
   const id = 'somefakeid';
   const spy = jest.spyOn(gameClient, 'get').mockResolvedValue(null);
   await request(app).get(`/${id}/`).expect(404);
-  expect(spy).toBeCalled();
+  expect(spy).toHaveBeenCalled();
 });
 
 test('POST /:game_id/guess NoContent', async () => {
@@ -39,7 +40,7 @@ test('POST /:game_id/guess NoContent', async () => {
     .post(`/${id}/guess`)
     .send({ player_id: 'ziggy-stardust', card_id: 'id' })
     .expect(204);
-  expect(spy).toBeCalled();
+  expect(spy).toHaveBeenCalled();
 });
 
 test('POST /:game_id/hint NoContent', async () => {
@@ -49,7 +50,7 @@ test('POST /:game_id/hint NoContent', async () => {
     .post(`/${id}/hint`)
     .send({ player_id: 'ziggy-stardust', number: 1, word: 'test' })
     .expect(204);
-  expect(spy).toBeCalled();
+  expect(spy).toHaveBeenCalled();
 });
 
 test('POST /:game_id/play_again NoContent', async () => {
@@ -59,7 +60,7 @@ test('POST /:game_id/play_again NoContent', async () => {
     .post(`/${id}/play_again`)
     .send({ player_id: 'ziggy-stardust' })
     .expect(204);
-  expect(spy).toBeCalled();
+  expect(spy).toHaveBeenCalled();
 });
 
 test('POST /:game_id/skip NoContent', async () => {
@@ -69,7 +70,7 @@ test('POST /:game_id/skip NoContent', async () => {
     .post(`/${id}/skip`)
     .send({ player_id: 'ziggy-stardust' })
     .expect(204);
-  expect(spy).toBeCalled();
+  expect(spy).toHaveBeenCalled();
 });
 
 test('GET /health/live NoContent', async () => {
@@ -77,5 +78,5 @@ test('GET /health/live NoContent', async () => {
 });
 
 test('GET /health/ready InternalServerError', async () => {
-  await request(app).get(`/health/ready`).expect(500);
+  await request(app).get(`/health/ready`).expect(503);
 });

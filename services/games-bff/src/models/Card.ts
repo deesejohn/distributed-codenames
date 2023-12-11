@@ -1,22 +1,10 @@
-/**
- * @openapi
- * components:
- *   schemas:
- *     card:
- *       type: object
- *       properties:
- *         card_id:
- *           type: string
- *         label:
- *           type: string
- *         color:
- *           type: number
- *         revealed:
- *           type: boolean
- */
-export interface Card {
-  card_id: string;
-  label: string;
-  color: number;
-  revealed: boolean;
-}
+import { z } from 'zod';
+
+export const CardSchema = z.object({
+  card_id: z.string(),
+  label: z.string(),
+  color: z.number(),
+  revealed: z.boolean(),
+});
+
+export type Card = z.infer<typeof CardSchema>;

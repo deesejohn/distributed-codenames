@@ -1,16 +1,8 @@
-/**
- * @openapi
- * components:
- *   schemas:
- *     clue:
- *       type: object
- *       properties:
- *         word:
- *           type: string
- *         number:
- *           type: number
- */
-export interface Clue {
-  word: string;
-  number: number;
-}
+import { z } from 'zod';
+
+export const ClueSchema = z.object({
+  word: z.string(),
+  number: z.number(),
+});
+
+export type Clue = z.infer<typeof ClueSchema>;

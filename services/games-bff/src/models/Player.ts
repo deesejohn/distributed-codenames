@@ -1,16 +1,8 @@
-/**
- * @openapi
- * components:
- *   schemas:
- *     player:
- *       type: object
- *       properties:
- *         player_id:
- *           type: string
- *         nickname:
- *           type: string
- */
-export interface Player {
-  player_id: string;
-  nickname: string;
-}
+import { z } from 'zod';
+
+export const PlayerSchema = z.object({
+  player_id: z.string(),
+  nickname: z.string(),
+});
+
+export type Player = z.infer<typeof PlayerSchema>;
