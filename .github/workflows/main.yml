@@ -9,17 +9,15 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           path: "distributed-codenames"
       - name: Setup Go
         uses: actions/setup-go@v4
         with:
-          go-version-file: "$GITHUB_WORKSPACE/distributed-codenames/go.work"
+          go-version-file: $GITHUB_WORKSPACE/distributed-codenames/go.work
       - name: Setup Ko
         uses: imjasonh/setup-ko@v0.6
-      - name: Setup Pack
-        uses: buildpacks/github-actions/setup-pack@v4.4.0
       - name: Setup Skaffold
         run: |
           curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64 && \
@@ -45,7 +43,7 @@ jobs:
           path: ~/.skaffold/
           key: ${{ steps.cache-skaffold-restore.outputs.cache-primary-key }}
       - name: Checkout cluster
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           path: "distributed-codenames-cluster"
           repository: "deesejohn/distributed-codenames-cluster"
