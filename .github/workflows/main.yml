@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          path: "distributed-codenames"
+          path: $GITHUB_WORKSPACE/distributed-codenames
       - name: Setup Go
         uses: actions/setup-go@v4
         with:
@@ -45,8 +45,8 @@ jobs:
       - name: Checkout cluster
         uses: actions/checkout@v4
         with:
-          path: "distributed-codenames-cluster"
-          repository: "deesejohn/distributed-codenames-cluster"
+          path: $GITHUB_WORKSPACE/distributed-codenames-cluster
+          repository: deesejohn/distributed-codenames-cluster
           token: ${{ secrets.CLUSTER_PAT }}
       - name: Commit manifests
         run: |
