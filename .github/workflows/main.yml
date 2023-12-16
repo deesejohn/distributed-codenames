@@ -13,17 +13,23 @@ jobs:
         with:
           path: "distributed-codenames"
       - name: Setup Go
-        uses: actions/setup-go@v2
+        uses: actions/setup-go@v4
         with:
-          go-version: "^1.17.5"
+          go-version-file: "$GITHUB_WORKSPACE/distributed-codenames/go.work"
       - name: Setup Ko
         uses: imjasonh/setup-ko@v0.6
       - name: Setup Pack
         uses: buildpacks/github-actions/setup-pack@v4.4.0
-      - name: Install Skaffold
+      - name: Setup Skaffold
         run: |
           curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64 && \
           sudo install skaffold /usr/local/bin/
+      - name: Restore Skaffold cache
+        id: cache-skaffold-restore
+        uses: actions/cache/restore@v3
+        with:
+          path: ~/.skaffold/
+          key: ${{ runner.os }}-skaffold
       - name: Render manifests
         run: |
           cd $GITHUB_WORKSPACE/distributed-codenames
@@ -32,6 +38,12 @@ jobs:
             --digest-source='local' \
             --output $GITHUB_WORKSPACE/manifests.yaml \
             --offline=true
+      - name: Save Skaffold cache
+        id: cache-skaffold-save
+        uses: actions/cache/save@v3
+        with:
+          path: ~/.skaffold/
+          key: ${{ steps.cache-skaffold-restore.outputs.cache-primary-key }}
       - name: Checkout cluster
         uses: actions/checkout@v2
         with:
