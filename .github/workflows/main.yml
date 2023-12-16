@@ -47,8 +47,9 @@ jobs:
       - name: Create release
         env:
           GH_TOKEN: ${{ github.token }}
+        working-directory: src
         run: |
-          gh release create $GITHUB_SHA --generate-notes manifests.yaml
+          gh release create $GITHUB_SHA --generate-notes ../manifests.yaml
       - name: Checkout cluster
         uses: actions/checkout@v4
         with:
