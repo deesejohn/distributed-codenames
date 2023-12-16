@@ -11,11 +11,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          path: $GITHUB_WORKSPACE/distributed-codenames
+          path: src
       - name: Setup Go
         uses: actions/setup-go@v4
         with:
-          go-version-file: $GITHUB_WORKSPACE/distributed-codenames/go.work
+          go-version-file: src/go.work
       - name: Setup Ko
         uses: imjasonh/setup-ko@v0.6
       - name: Setup Skaffold
@@ -28,13 +28,15 @@ jobs:
         with:
           path: ~/.skaffold/
           key: ${{ runner.os }}-skaffold
+      - name: Docker login
+        run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
       - name: Render manifests
+        working-directory: src
         run: |
-          cd $GITHUB_WORKSPACE/distributed-codenames
-          echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
-          skaffold render --default-repo=ghcr.io/deesejohn \
+          skaffold render \
+            --default-repo=ghcr.io/deesejohn \
             --digest-source='local' \
-            --output $GITHUB_WORKSPACE/manifests.yaml \
+            --output ../manifests.yaml \
             --offline=true
       - name: Save Skaffold cache
         id: cache-skaffold-save
@@ -45,13 +47,13 @@ jobs:
       - name: Checkout cluster
         uses: actions/checkout@v4
         with:
-          path: $GITHUB_WORKSPACE/distributed-codenames-cluster
+          path: cluster
           repository: deesejohn/distributed-codenames-cluster
           token: ${{ secrets.CLUSTER_PAT }}
       - name: Commit manifests
+        working-directory: cluster
         run: |
-          cd $GITHUB_WORKSPACE/distributed-codenames-cluster
-          mv $GITHUB_WORKSPACE/manifests.yaml releases/manifests.yaml
+          mv ../manifests.yaml releases/manifests.yaml
           git config user.name github-actions
           git config user.email github-actions@github.com
           git checkout -b release/$GITHUB_SHA
