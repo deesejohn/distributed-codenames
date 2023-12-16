@@ -17,7 +17,7 @@ jobs:
         with:
           go-version-file: src/go.work
       - name: Setup Ko
-        uses: imjasonh/setup-ko@v0.6
+        uses: ko-build/setup-ko@v0.6
       - name: Setup Skaffold
         run: |
           curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64 && \
@@ -44,6 +44,9 @@ jobs:
         with:
           path: ~/.skaffold/
           key: ${{ steps.cache-skaffold-restore.outputs.cache-primary-key }}
+      - name: Create release
+        run: |
+          gh release create $GITHUB_SHA --generate-notes manifests.yaml
       - name: Checkout cluster
         uses: actions/checkout@v4
         with:
