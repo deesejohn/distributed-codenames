@@ -1,4 +1,4 @@
-apiVersion: skaffold/v3
+apiVersion: skaffold/v4beta8
 kind: Config
 metadata:
   name: default-ingress
@@ -7,13 +7,8 @@ manifests:
     - k8s/ingress.yaml
 deploy:
   kubectl: {}
-# portForward:
-# - resourceType: service
-#   resourceName: envoy-contour
-#   namespace: projectcontour
-#   port: 80
 ---
-apiVersion: skaffold/v3
+apiVersion: skaffold/v4beta8
 kind: Config
 metadata:
   name: games
@@ -25,14 +20,15 @@ build:
     - image: games
       context: services/games
       ko: {}
-  local: {}
+  local:
+    concurrency: 0
 manifests:
   rawYaml:
     - k8s/games.yaml
 deploy:
   kubectl: {}
 ---
-apiVersion: skaffold/v3
+apiVersion: skaffold/v4beta8
 kind: Config
 metadata:
   name: games-bff
@@ -43,16 +39,15 @@ build:
   artifacts:
     - image: games-bff
       context: services/games-bff
-      # buildpacks:
-      #   builder: paketobuildpacks/builder:base
-  local: {}
+  local:
+    concurrency: 0
 manifests:
   rawYaml:
     - k8s/games-bff.yaml
 deploy:
   kubectl: {}
 ---
-apiVersion: skaffold/v3
+apiVersion: skaffold/v4beta8
 kind: Config
 metadata:
   name: games-spa
@@ -63,14 +58,15 @@ build:
   artifacts:
     - image: games-spa
       context: services/games-spa
-  local: {}
+  local:
+    concurrency: 0
 manifests:
   rawYaml:
     - k8s/games-spa.yaml
 deploy:
   kubectl: {}
 ---
-apiVersion: skaffold/v3
+apiVersion: skaffold/v4beta8
 kind: Config
 metadata:
   name: lobbies
@@ -78,14 +74,15 @@ build:
   artifacts:
     - image: lobbies
       context: services/lobbies
-  local: {}
+  local:
+    concurrency: 0
 manifests:
   rawYaml:
     - k8s/lobbies.yaml
 deploy:
   kubectl: {}
 ---
-apiVersion: skaffold/v3
+apiVersion: skaffold/v4beta8
 kind: Config
 metadata:
   name: lobbies-spa
@@ -96,14 +93,15 @@ build:
   artifacts:
     - image: lobbies-spa
       context: services/lobbies-spa
-  local: {}
+  local:
+    concurrency: 0
 manifests:
   rawYaml:
     - k8s/lobbies-spa.yaml
 deploy:
   kubectl: {}
 ---
-apiVersion: skaffold/v3
+apiVersion: skaffold/v4beta8
 kind: Config
 metadata:
   name: players
@@ -111,14 +109,15 @@ build:
   artifacts:
     - image: players
       context: services/players
-  local: {}
+  local:
+    concurrency: 0
 manifests:
   rawYaml:
     - k8s/players.yaml
 deploy:
   kubectl: {}
 ---
-apiVersion: skaffold/v3
+apiVersion: skaffold/v4beta8
 kind: Config
 metadata:
   name: players-spa
@@ -129,14 +128,15 @@ build:
   artifacts:
     - image: players-spa
       context: services/players-spa
-  local: {}
+  local:
+    concurrency: 0
 manifests:
   rawYaml:
     - k8s/players-spa.yaml
 deploy:
   kubectl: {}
 ---
-apiVersion: skaffold/v3
+apiVersion: skaffold/v4beta8
 kind: Config
 metadata:
   name: words
@@ -145,7 +145,8 @@ build:
     - image: words
       context: services/words
       ko: {}
-  local: {}
+  local:
+    concurrency: 0
 manifests:
   rawYaml:
     - k8s/words.yaml
