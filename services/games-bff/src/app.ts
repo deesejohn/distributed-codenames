@@ -79,11 +79,11 @@ const router = s.router(contract, {
     },
   },
   health: {
-    // eslint-disable-next-line @typescript-eslint/require-await
-    getHealthLive: async () => ({
-      status: 204,
-      body: null,
-    }),
+    getHealthLive: async () =>
+      Promise.resolve({
+        status: 204,
+        body: null,
+      }),
     getHealthReady: async () => {
       if (await natsConnection) {
         return {
