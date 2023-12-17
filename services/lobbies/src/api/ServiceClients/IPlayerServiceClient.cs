@@ -1,9 +1,8 @@
 using lobbies.api.Models;
 
-namespace lobbies.api.ServiceClients
+namespace lobbies.api.ServiceClients;
+
+public interface IPlayerServiceClient
 {
-    public interface IPlayerServiceClient
-    {
-        Task<Player?> GetAsync(string playerId, CancellationToken cancellationToken = default);
-    }
+    Task<Player?> GetAsync(string playerId, CancellationToken cancellationToken = default);
 }

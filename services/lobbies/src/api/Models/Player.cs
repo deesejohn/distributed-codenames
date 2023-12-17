@@ -1,13 +1,17 @@
 using System.Text.Json.Serialization;
 
-namespace lobbies.api.Models
-{
-    public record Player
-    {
-        [JsonPropertyName("player_id")]
-        public string? Id { get; init; }
+namespace lobbies.api.Models;
 
-        [JsonPropertyName("nickname")]
-        public string? Nickname { get; init; }
+public record Player(
+    [property: JsonPropertyName("player_id")] string Id,
+
+    [property: JsonPropertyName("nickname")] string Nickname
+)
+{
+    public virtual bool Equals(Player? other)
+    {
+        return other is not null && Id == other.Id;
     }
+
+    public override int GetHashCode() => Id.GetHashCode();
 }

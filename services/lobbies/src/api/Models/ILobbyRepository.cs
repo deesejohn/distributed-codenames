@@ -1,8 +1,7 @@
-namespace lobbies.api.Models
+namespace lobbies.api.Models;
+
+public interface ILobbyRepository
 {
-    public interface ILobbyRepository
-    {
-        Task<Lobby?> GetAsync(string lobbyId, CancellationToken cancellationToken = default);
-        Task UpdateAsync(string lobbyId, Lobby lobby, CancellationToken cancellationToken = default);
-    }
+    Task<Lobby?> GetAsync(string lobbyId, CancellationToken cancellationToken = default);
+    Task UpdateAsync(string lobbyId, Lobby lobby, CancellationToken cancellationToken = default);
 }
