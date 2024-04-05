@@ -1,4 +1,4 @@
-apiVersion: skaffold/v4beta8
+apiVersion: skaffold/v4beta9
 kind: Config
 metadata:
   name: default-ingress
@@ -8,7 +8,7 @@ manifests:
 deploy:
   kubectl: {}
 ---
-apiVersion: skaffold/v4beta8
+apiVersion: skaffold/v4beta9
 kind: Config
 metadata:
   name: games
@@ -28,7 +28,7 @@ manifests:
 deploy:
   kubectl: {}
 ---
-apiVersion: skaffold/v4beta8
+apiVersion: skaffold/v4beta9
 kind: Config
 metadata:
   name: games-bff
@@ -47,7 +47,7 @@ manifests:
 deploy:
   kubectl: {}
 ---
-apiVersion: skaffold/v4beta8
+apiVersion: skaffold/v4beta9
 kind: Config
 metadata:
   name: games-spa
@@ -66,7 +66,7 @@ manifests:
 deploy:
   kubectl: {}
 ---
-apiVersion: skaffold/v4beta8
+apiVersion: skaffold/v4beta9
 kind: Config
 metadata:
   name: lobbies
@@ -82,7 +82,7 @@ manifests:
 deploy:
   kubectl: {}
 ---
-apiVersion: skaffold/v4beta8
+apiVersion: skaffold/v4beta9
 kind: Config
 metadata:
   name: lobbies-spa
@@ -101,7 +101,7 @@ manifests:
 deploy:
   kubectl: {}
 ---
-apiVersion: skaffold/v4beta8
+apiVersion: skaffold/v4beta9
 kind: Config
 metadata:
   name: players
@@ -117,7 +117,7 @@ manifests:
 deploy:
   kubectl: {}
 ---
-apiVersion: skaffold/v4beta8
+apiVersion: skaffold/v4beta9
 kind: Config
 metadata:
   name: players-spa
@@ -136,7 +136,7 @@ manifests:
 deploy:
   kubectl: {}
 ---
-apiVersion: skaffold/v4beta8
+apiVersion: skaffold/v4beta9
 kind: Config
 metadata:
   name: words

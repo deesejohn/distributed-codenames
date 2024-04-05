@@ -45,7 +45,9 @@ This project is a way for me to experiment, evaluate, and demo new technologies.
 #### Start minikube
 
 ```sh
-minikube start
+minikube start --profile codenames
+skaffold config set --global local-cluster true
+eval $(minikube -p codenames docker-env)
 ```
 
 #### Install Helm Dependencies
