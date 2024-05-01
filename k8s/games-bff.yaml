@@ -47,7 +47,7 @@ spec:
       targetPort: 8000
   type: ClusterIP
 ---
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: games-bff-route

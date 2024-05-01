@@ -62,7 +62,7 @@ Current dependencies are:
 helm repo add bitnami https://charts.bitnami.com/bitnami
 helm repo add nats https://nats-io.github.io/k8s/helm/charts/
 helm repo update
-helm install envoy-gateway oci://docker.io/envoyproxy/gateway-helm --version v0.6.0 -n envoy-gateway-system --create-namespace
+helm install envoy-gateway oci://docker.io/envoyproxy/gateway-helm --version v1.0.1 -n envoy-gateway-system --create-namespace
 helm install nats nats/nats
 helm install games-redis bitnami/redis --set architecture=standalone
 helm install lobbies-redis bitnami/redis --set architecture=standalone
