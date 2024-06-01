@@ -23,12 +23,12 @@ spec:
             - name: NATS_HOST
               value: "nats"
             - name: REDIS_HOST
-              value: "games-redis-master"
+              value: "games-db-valkey-master"
             - name: REDIS_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: games-redis
-                  key: redis-password
+                  name: games-db-valkey
+                  key: valkey-password
             - name: WORDS_ADDRESS
               value: "words:50051"
 ---

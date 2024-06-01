@@ -36,12 +36,12 @@ spec:
             - name: PLAYERS_HOST
               value: "http://players"
             - name: REDIS_HOST
-              value: "lobbies-redis-master"
+              value: "lobbies-db-valkey-master"
             - name: REDIS_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: lobbies-redis
-                  key: redis-password
+                  name: lobbies-db-valkey
+                  key: valkey-password
 ---
 apiVersion: v1
 kind: Service

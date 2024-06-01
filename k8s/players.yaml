@@ -28,12 +28,12 @@ spec:
             - name: HOST_PREFIX
               value: "/api/players"
             - name: REDIS_HOST
-              value: "players-redis-master"
+              value: "players-db-valkey-master"
             - name: REDIS_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: players-redis
-                  key: redis-password
+                  name: players-db-valkey
+                  key: valkey-password
 ---
 apiVersion: v1
 kind: Service

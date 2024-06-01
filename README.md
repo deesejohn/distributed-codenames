@@ -31,12 +31,12 @@ This project is a way for me to experiment, evaluate, and demo new technologies.
 
 | Service                             | Language / Framework                              | Notes                                                                                                                                                                                                                                       |
 | ----------------------------------- | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [Games](services/games)             | Go / [gRPC](https://grpc.io/)                     | Handles game logic, stores state in [Redis](https://redis.io/) and publishes updates to [NATS](https://nats.io/)                                                                                                                            |
+| [Games](services/games)             | Go / [gRPC](https://grpc.io/)                     | Handles game logic, stores state in [Valkey](https://valkey.io/) and publishes updates to [NATS](https://nats.io/)                                                                                                                          |
 | [Games BFF](services/games-bff)     | TypeScript / [Express](https://expressjs.com/)    | [ts-rest](https://ts-rest.com/), [Node.js](https://nodejs.org), subscribes to NATS and streams game updates to players in real time with websockets                                                                                         |
 | [Games SPA](services/games-spa)     | TypeScript / [React](https://reactjs.org/)        | Game frontend build with [Vite](https://vitejs.dev/), [Material UI](https://material-ui.com/), [React Hook Form](https://www.react-hook-form.com/), [axios](https://github.com/axios/axios), and hosted via [NGINX](https://www.nginx.com/) |
-| [Lobbies](services/lobbies)         | C# / [ASP&#46;NET](https://dotnet.microsoft.com)  | Uses [SignalR](https://dotnet.microsoft.com/apps/aspnet/signalr) with a Redis backplane to stream updates to the SPA                                                                                                                        |
+| [Lobbies](services/lobbies)         | C# / [ASP&#46;NET](https://dotnet.microsoft.com)  | Uses [SignalR](https://dotnet.microsoft.com/apps/aspnet/signalr) with a Valkey backplane to stream updates to the SPA                                                                                                                       |
 | [Lobbies SPA](services/lobbies-spa) | TypeScript / [Angular](https://angular.io/)       | Built with [Angular Material](https://material.angular.io/) and [tailwindcss](https://tailwindcss.com/), allows players to select their team                                                                                                |
-| [Players](services/players)         | Python / [FastAPI](https://fastapi.tiangolo.com/) | Handles player state with Redis, hosted via [uvicorn](https://www.uvicorn.org/)                                                                                                                                                             |
+| [Players](services/players)         | Python / [FastAPI](https://fastapi.tiangolo.com/) | Handles player state with Valkey, hosted via [uvicorn](https://www.uvicorn.org/)                                                                                                                                                            |
 | [Players SPA](services/players-spa) | TypeScript / React                                | Allows players to set and update their nickname, built with [formik](https://github.com/formium/formik) hosted via NGINX                                                                                                                    |
 | [Words](services/words)             | Go / gRPC                                         | Provides different word lists to vary games                                                                                                                                                                                                 |
 
@@ -56,17 +56,16 @@ Current dependencies are:
 
 1. [Envoy Gateway](https://github.com/envoyproxy/gateway)
 1. [NATS](https://nats.io/)
-1. [Redis](https://redis.io/)
+1. [Valkey](https://valkey.io/) (Redis fork)
 
 ```sh
-helm repo add bitnami https://charts.bitnami.com/bitnami
 helm repo add nats https://nats-io.github.io/k8s/helm/charts/
 helm repo update
 helm install envoy-gateway oci://docker.io/envoyproxy/gateway-helm --version v1.0.1 -n envoy-gateway-system --create-namespace
 helm install nats nats/nats
-helm install games-redis bitnami/redis --set architecture=standalone
-helm install lobbies-redis bitnami/redis --set architecture=standalone
-helm install players-redis bitnami/redis --set architecture=standalone
+helm install games-db oci://registry-1.docker.io/bitnamicharts/valkey --set architecture=standalone
+helm install lobbies-db oci://registry-1.docker.io/bitnamicharts/valkey --set architecture=standalone
+helm install players-db oci://registry-1.docker.io/bitnamicharts/valkey --set architecture=standalone
 ```
 
 #### Startup services

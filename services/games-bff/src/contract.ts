@@ -10,7 +10,7 @@ const gamesContract = c.router({
     path: `/:game_id/`,
     responses: {
       200: GameSchema,
-      404: null,
+      404: c.noBody(),
     },
     summary: 'Get a game by id',
   },
@@ -18,7 +18,7 @@ const gamesContract = c.router({
     method: 'POST',
     path: '/:game_id/guess',
     responses: {
-      204: null,
+      204: c.noBody(),
     },
     body: z.object({
       player_id: z.string(),
@@ -30,7 +30,7 @@ const gamesContract = c.router({
     method: 'POST',
     path: '/:game_id/hint',
     responses: {
-      204: null,
+      204: c.noBody(),
     },
     body: z.object({
       player_id: z.string(),
@@ -43,7 +43,7 @@ const gamesContract = c.router({
     method: 'POST',
     path: '/:game_id/play_again',
     responses: {
-      204: null,
+      204: c.noBody(),
     },
     body: z.object({
       player_id: z.string(),
@@ -54,7 +54,7 @@ const gamesContract = c.router({
     method: 'POST',
     path: '/:game_id/skip',
     responses: {
-      204: null,
+      204: c.noBody(),
     },
     body: z.object({
       player_id: z.string(),
@@ -68,7 +68,7 @@ const healthContract = c.router({
     method: 'GET',
     path: `/health/live`,
     responses: {
-      204: null,
+      204: c.noBody(),
     },
     summary: 'Liveness check',
   },
@@ -76,8 +76,8 @@ const healthContract = c.router({
     method: 'GET',
     path: `/health/ready`,
     responses: {
-      204: null,
-      503: null,
+      204: c.noBody(),
+      503: c.noBody(),
     },
     summary: 'Readiness check',
   },

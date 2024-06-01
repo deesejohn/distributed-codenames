@@ -35,7 +35,6 @@ const router = s.router(contract, {
       if (!game) {
         return {
           status: 404,
-          body: null,
         };
       }
       return {
@@ -50,7 +49,7 @@ const router = s.router(contract, {
       await gameClient.guess(game_id, player_id, card_id);
       return {
         status: 204,
-        body: null,
+        body: undefined,
       };
     },
     postGameHint: async ({
@@ -60,21 +59,21 @@ const router = s.router(contract, {
       await gameClient.hint(game_id, player_id, { number, word });
       return {
         status: 204,
-        body: null,
+        body: undefined,
       };
     },
     postGamePlayAgain: async ({ params: { game_id }, body: { player_id } }) => {
       await gameClient.playAgain(game_id, player_id);
       return {
         status: 204,
-        body: null,
+        body: undefined,
       };
     },
     postGameSkip: async ({ params: { game_id }, body: { player_id } }) => {
       await gameClient.skipTurn(game_id, player_id);
       return {
         status: 204,
-        body: null,
+        body: undefined,
       };
     },
   },
@@ -82,18 +81,17 @@ const router = s.router(contract, {
     getHealthLive: async () =>
       Promise.resolve({
         status: 204,
-        body: null,
+        body: undefined,
       }),
     getHealthReady: async () => {
       if (await natsConnection) {
         return {
           status: 204,
-          body: null,
+          body: undefined,
         };
       }
       return {
         status: 503,
-        body: null,
       };
     },
   },
