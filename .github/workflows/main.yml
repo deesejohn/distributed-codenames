@@ -50,19 +50,3 @@ jobs:
         working-directory: src
         run: |
           gh release create "release-$(git rev-parse --short HEAD)" --generate-notes ../manifests.yaml
-      - name: Checkout cluster
-        uses: actions/checkout@v4
-        with:
-          path: cluster
-          repository: deesejohn/distributed-codenames-cluster
-          token: ${{ secrets.CLUSTER_PAT }}
-      - name: Commit manifests
-        working-directory: cluster
-        run: |
-          mv ../manifests.yaml releases/manifests.yaml
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git checkout -b release/$GITHUB_SHA
-          git add releases/manifests.yaml
-          git commit -m "rendered manifests"
-          git push -u origin release/$GITHUB_SHA
