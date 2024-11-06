@@ -13,9 +13,7 @@ jobs:
         with:
           path: src
       - name: Setup Go
-        uses: actions/setup-go@v4
-        with:
-          go-version-file: src/go.work
+        uses: actions/setup-go@v5
       - name: Setup Ko
         uses: ko-build/setup-ko@v0.6
       - name: Setup Skaffold
