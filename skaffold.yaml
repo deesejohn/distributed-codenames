@@ -99,15 +99,15 @@ deploy:
 apiVersion: skaffold/v4beta10
 kind: Config
 metadata:
-  name: players
+  name: players-api
 build:
   artifacts:
-    - image: players
-      context: services/players
+    - image: players-api
+      context: services/players-api
   local: {}
 manifests:
   rawYaml:
-    - k8s/players.yaml
+    - k8s/players-api.yaml
 deploy:
   kubectl: {}
 ---

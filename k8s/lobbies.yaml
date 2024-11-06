@@ -34,7 +34,7 @@ spec:
             - name: HOST_PREFIX
               value: "/api/lobbies"
             - name: PLAYERS_HOST
-              value: "http://players"
+              value: "http://players-api"
             - name: REDIS_HOST
               value: "lobbies-db-valkey-master"
             - name: REDIS_PASSWORD

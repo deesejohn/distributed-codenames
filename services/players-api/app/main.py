@@ -1,7 +1,7 @@
 import logging
 
 from fastapi import Depends, FastAPI, HTTPException, Response, status
-from pydantic import BaseSettings
+from pydantic_settings import BaseSettings
 
 from .services import PlayerRead, PlayerService, PlayerWrite
 

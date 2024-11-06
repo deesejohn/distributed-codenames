@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: players
+  name: players-api
 spec:
   selector:
     matchLabels:
-      app: players
+      app: players-api
   template:
     metadata:
       labels:
-        app: players
+        app: players-api
     spec:
       containers:
         - name: server
-          image: players
+          image: players-api
           ports:
             - containerPort: 8080
           livenessProbe:
@@ -38,10 +38,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: players
+  name: players-api
 spec:
   selector:
-    app: players
+    app: players-api
   ports:
     - name: http
       port: 80
@@ -66,5 +66,5 @@ spec:
               type: ReplacePrefixMatch
               replacePrefixMatch: /
       backendRefs:
-        - name: players
+        - name: players-api
           port: 80
