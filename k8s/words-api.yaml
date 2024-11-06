@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: words
+  name: words-api
 spec:
   selector:
     matchLabels:
-      app: words
+      app: words-api
   template:
     metadata:
       labels:
-        app: words
+        app: words-api
     spec:
       containers:
         - name: server
-          image: words
+          image: words-api
           ports:
             - containerPort: 50051
           livenessProbe:
@@ -23,11 +23,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: words
+  name: words-api
 spec:
   type: ClusterIP
   selector:
-    app: words
+    app: words-api
   ports:
     - name: grpc
       port: 50051

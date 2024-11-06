@@ -11,19 +11,19 @@ deploy:
 apiVersion: skaffold/v4beta10
 kind: Config
 metadata:
-  name: games
+  name: games-api
 requires:
   - configs:
-      - words
+      - words-api
 build:
   artifacts:
-    - image: games
-      context: services/games
+    - image: games-api
+      context: services/games-api
       ko: {}
   local: {}
 manifests:
   rawYaml:
-    - k8s/games.yaml
+    - k8s/games-api.yaml
 deploy:
   kubectl: {}
 ---
@@ -117,7 +117,7 @@ metadata:
   name: players-spa
 requires:
   - configs:
-      - players
+      - players-api
 build:
   artifacts:
     - image: players-spa
@@ -132,15 +132,15 @@ deploy:
 apiVersion: skaffold/v4beta10
 kind: Config
 metadata:
-  name: words
+  name: words-api
 build:
   artifacts:
-    - image: words
-      context: services/words
+    - image: words-api
+      context: services/words-api
       ko: {}
   local: {}
 manifests:
   rawYaml:
-    - k8s/words.yaml
+    - k8s/words-api.yaml
 deploy:
   kubectl: {}

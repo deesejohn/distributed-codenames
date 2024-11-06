@@ -28,7 +28,7 @@ spec:
             initialDelaySeconds: 5
           env:
             - name: GAMES_HOST
-              value: "games:50051"
+              value: "games-api:50051"
             - name: HOST_PREFIX
               value: "/api/games"
             - name: NATS_HOST

@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: games
+  name: games-api
 spec:
   selector:
     matchLabels:
-      app: games
+      app: games-api
   template:
     metadata:
       labels:
-        app: games
+        app: games-api
     spec:
       containers:
         - name: server
-          image: games
+          image: games-api
           ports:
             - containerPort: 50051
           livenessProbe:
@@ -30,16 +30,16 @@ spec:
                   name: games-db-valkey
                   key: valkey-password
             - name: WORDS_ADDRESS
-              value: "words:50051"
+              value: "words-api:50051"
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: games
+  name: games-api
 spec:
   type: ClusterIP
   selector:
-    app: games
+    app: games-api
   ports:
     - name: grpc
       port: 50051
