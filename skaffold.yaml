@@ -33,7 +33,7 @@ metadata:
   name: games-bff
 requires:
   - configs:
-      - games
+      - games-api
 build:
   artifacts:
     - image: games-bff
@@ -66,15 +66,15 @@ deploy:
 apiVersion: skaffold/v4beta10
 kind: Config
 metadata:
-  name: lobbies
+  name: lobbies-api
 build:
   artifacts:
-    - image: lobbies
-      context: services/lobbies
+    - image: lobbies-api
+      context: services/lobbies-api
   local: {}
 manifests:
   rawYaml:
-    - k8s/lobbies.yaml
+    - k8s/lobbies-api.yaml
 deploy:
   kubectl: {}
 ---
@@ -84,7 +84,7 @@ metadata:
   name: lobbies-spa
 requires:
   - configs:
-      - lobbies
+      - lobbies-api
 build:
   artifacts:
     - image: lobbies-spa

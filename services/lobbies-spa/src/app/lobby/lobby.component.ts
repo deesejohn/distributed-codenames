@@ -40,8 +40,8 @@ export class LobbyComponent {
   }
 
   teamsAreBothTwoPus = (lobby: Lobby) =>
-    lobby.blue_team.length >= 2 && lobby.red_team.length >= 2;
+    (lobby.blue_team?.length ?? 0) >= 2 && (lobby.red_team?.length ?? 0) >= 2;
 
   teamsAreEven = (lobby: Lobby) =>
-    lobby.blue_team.length === lobby.red_team.length;
+    lobby.blue_team?.length === lobby.red_team?.length;
 }

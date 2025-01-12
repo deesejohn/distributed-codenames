@@ -11,6 +11,9 @@ trim_trailing_whitespace = true
 [*.cs]
 indent_size = 4
 
+[*.g.cs]
+dotnet_diagnostic.CS8981.severity = none
+
 [go.mod,go.sum,*.go]
 indent_size = 4
 indent_style = tab

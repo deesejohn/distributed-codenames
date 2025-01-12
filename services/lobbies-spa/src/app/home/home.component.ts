@@ -18,6 +18,6 @@ export class HomeComponent implements OnInit {
   createLobby(): void {
     this.lobbiesService
       .createLobby()
-      .subscribe((lobbyId) => this.router.navigateByUrl('/' + lobbyId));
+      .subscribe((lobby) => this.router.navigateByUrl('/' + lobby.lobby_id));
   }
 }

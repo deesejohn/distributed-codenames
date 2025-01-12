@@ -24,12 +24,11 @@ export class LobbiesService {
     );
   }
 
-  public createLobby(): Observable<string> {
-    return this.http.post(
+  public createLobby(): Observable<Lobby> {
+    return this.http.post<Lobby>(
       '/api/lobbies/',
       {},
       {
-        responseType: 'text',
         withCredentials: true,
       }
     );
